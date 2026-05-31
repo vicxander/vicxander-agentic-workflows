@@ -459,3 +459,8 @@ Final response contract:
 
 For trivial tasks, the Orchestrator may skip roles, but should record why when operating in
 agentic mode.
+
+## Attribution
+
+Authored by Victor Alexander Daud. Copyright (c) 2026.
+Co-authored with Codex.
