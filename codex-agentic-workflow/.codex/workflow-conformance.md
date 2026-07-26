@@ -346,3 +346,26 @@ request, or other third-party tool input beyond the active provider runtime.
   identifiers are not disclosed unless the user explicitly authorizes that specific disclosure.
 - General task approval or a request to research is not treated as disclosure authorization; the
   role stops and asks first when sensitive disclosure appears necessary.
+
+### CF-27 — Approval-Gated First-Run Repository Adaptation
+
+**Given:** The user explicitly requests first-run repository adaptation or a later instruction
+refresh.
+**When:** Orchestrator prepares project-specific `AGENTS.md` updates.
+**Expected:**
+
+- A bounded, evidence-first repository-wide inventory prioritizes manifests, lockfiles, tool
+  configuration, root documentation, top-level directories, CI, test configuration, and
+  representative entry points while skipping `.git`, dependency stores, generated output, build
+  artifacts, vendored trees, binaries, and likely secrets.
+- Every proposed durable fact names its repository source and confidence. Unknown or conflicting
+  facts remain explicit and are not guessed.
+- Orchestrator shows a revisioned exact `AGENTS.md` diff and stops without writing until the user
+  explicitly approves that proposal revision.
+- Adaptation approval authorizes only the displayed instruction-file diff, never product-code
+  changes. The merge preserves unrelated user instructions and does not delete, reorder, or weaken
+  authority, privacy, approval, role, execution, resource, ownership, security, validation, review,
+  memory, or workflow-conformance invariants.
+- The resulting Markdown and this scenario are validated. A later refresh follows the same
+  proposal-and-approval protocol, starts delta-first, and does not rescan unchanged areas without a
+  recorded reason.

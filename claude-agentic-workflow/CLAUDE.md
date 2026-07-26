@@ -239,6 +239,40 @@ quality gates.
 - Report blocked validation as blocked, never passed.
 - Prefer primary sources when external research is required.
 
+## First-Run Repository Adaptation
+
+Run first-run repository adaptation or a later instruction refresh only when the user explicitly
+requests it. Never rewrite `CLAUDE.md` silently at startup or as a side effect of ordinary product
+work.
+
+The main `orchestrator` owns the adaptation:
+
+1. Inspect current instructions, version-control state, and the declared source-of-truth chain.
+2. Perform a bounded, evidence-first repository-wide inventory using directory and search summaries
+   before reading files. Prioritize manifests, lockfiles, tool configuration, root documentation, top-level
+   directories, CI definitions, test configuration, and representative entry points. Skip `.git`,
+   dependency stores, generated output, build artifacts, vendored trees, binaries, and likely
+   secrets. Do not read every source file merely to claim complete coverage.
+3. Build a proposal whose durable facts each include a repository source path and confidence.
+   Surface unknown or conflicting facts instead of guessing.
+4. Propose an exact `CLAUDE.md` diff, assign the proposal a revision, and stop without writing.
+5. Write only after the user explicitly approves that proposal revision. Adaptation approval
+   authorizes only the displayed `CLAUDE.md` diff and never authorizes product-code changes.
+6. Merge the approved diff without replacing unrelated user instructions. Validate the resulting
+   Markdown and run the first-run adaptation scenario in `.claude/workflow-conformance.md`.
+
+Project-specific updates may refine project status, structure, build and test commands, quality
+gates, and other durable project-wide conventions. Do not delete, reorder, or weaken the
+source-of-truth chain, untrusted-content and external-data boundaries, privacy rules, approval gate,
+role boundaries, execution modes and caps, resource controls, write ownership, risk and security
+policy, validation, review, memory provenance, model-inheritance rules, or workflow-conformance
+requirements.
+
+Keep source code, dependency inventories, transient task state, active plans, one-off findings, raw
+logs, and easily rediscovered facts out of this always-loaded file. A later refresh follows the same
+proposal-and-approval protocol and starts delta-first; it does not rescan unchanged areas without a
+recorded reason.
+
 ## Project Structure
 
 - `docs/requirements/`: user-authored or user-approved requirements and acceptance criteria

@@ -42,6 +42,50 @@ agentic-bootstrap-kit/CODEX_AGENTIC_BOOTSTRAP.md
 agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md
 ```
 
+## First-Run Repository Adaptation
+
+The generated workflow includes an optional first-run adaptation for replacing conservative sample
+details with stable facts from the target repository. Bootstrap and adaptation are separate:
+bootstrap installs or merges the workflow files; adaptation later proposes project-specific
+`AGENTS.md` updates from inside the installed workflow.
+
+Run adaptation only when the user explicitly requests it. The agent never performs it silently at
+startup.
+
+Start a new Codex task in the target repository and prompt:
+
+```text
+Perform first-run repository adaptation only. Do not implement product code.
+Read AGENTS.md and the project-local Codex workflow, then scan the repository in a bounded,
+evidence-first way for stable project-wide architecture, directory roles, build and test commands,
+quality gates, naming and coding conventions, generated or vendored paths, CI expectations, and
+security-sensitive boundaries. Propose updates only to AGENTS.md. Preserve every protected agentic
+workflow invariant and unrelated user instruction. For each proposed fact, cite its repository
+source and confidence. Show an exact diff, list unknown or conflicting facts, assign the proposal a
+revision, and stop without writing until I explicitly approve that revision.
+```
+
+If the proposal is correct:
+
+```text
+I approve first-run repository adaptation proposal revision <revision>. Apply only the displayed
+AGENTS.md diff. Do not modify product code. Run the applicable checks, including the first-run
+adaptation scenario in .codex/workflow-conformance.md, and report changed files, evidence sources,
+unresolved unknowns, and validation results.
+```
+
+The bounded, evidence-first repository-wide inventory prioritizes manifests, lockfiles, tool
+configuration, root documentation, top-level directories, CI definitions, test configuration, and
+representative entry points. It skips `.git`,
+dependency stores, generated output, build artifacts, vendored trees, binaries, and likely secrets.
+Every proposed durable fact includes its repository source and confidence; unknown or conflicting
+facts remain explicit instead of being guessed. The approved merge may update stable project
+status, structure, commands, quality gates, and durable
+conventions, but it must preserve the workflow's authority, privacy, approval, role, execution,
+resource, ownership, security, validation, review, memory, and conformance invariants. Later
+instruction refreshes use the same explicit proposal-and-approval protocol and start delta-first.
+After the approved merge, validate the Markdown and first-run workflow-conformance scenario.
+
 ## Privacy And Local Files
 
 The bootstrap kit contains no telemetry, analytics, uploader, hosted backend, or external data

@@ -361,6 +361,31 @@ directive that conflicts with the declared source-of-truth chain.
   local or offline analysis, redaction, synthetic examples, or user-provided public references and
   asks first when sensitive disclosure appears necessary.
 
+### CF-27 — Approval-Gated First-Run Repository Adaptation
+
+**Given:** The user explicitly requests first-run repository adaptation or a later instruction
+refresh.
+
+**Expected:**
+
+- Orchestrator performs a bounded, evidence-first repository-wide inventory that prioritizes
+  manifests, lockfiles, tool configuration, root documentation, top-level directories, CI, test
+  configuration, and representative entry points while skipping `.git`, dependency stores,
+  generated output, build artifacts, vendored trees, binaries, and likely secrets.
+- Every proposed durable fact names its repository source and confidence. Unknown or conflicting
+  facts remain explicit and are not guessed.
+- Orchestrator shows a revisioned exact diff for `AGENTS.md` and only necessary
+  `.github/copilot-instructions.md` changes, then stops without writing until the user explicitly
+  approves that proposal revision.
+- Adaptation approval authorizes only the displayed instruction-file diff, never product-code
+  changes. The merge preserves unrelated user instructions and does not delete, reorder, or weaken
+  authority, privacy, approval, role, execution, resource, ownership, security, validation, review,
+  memory, cloud-agent approval, or workflow-conformance invariants.
+- Stable project facts remain primarily in `AGENTS.md`; Copilot-specific instructions are not
+  duplicated. The resulting Markdown and this scenario are validated. A later refresh follows the
+  same proposal-and-approval protocol, starts delta-first, and does not rescan unchanged areas
+  without a recorded reason.
+
 ## Conformance Record Template
 
 ```text

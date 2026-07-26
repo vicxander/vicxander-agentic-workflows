@@ -121,6 +121,23 @@ When the user asks to initialize agentic mode from this file:
        when the target uses a different license.
 16. Finish by reporting the bootstrap mode, created or updated files, and the next recommended
     prompt.
+17. Generate a first-run repository-adaptation policy and prompt in the workflow.
+    - Adaptation runs only on an explicit user request and never silently at startup.
+    - Orchestrator performs a bounded, evidence-first repository-wide inventory that prioritizes
+      manifests, lockfiles, tool configuration, root documentation, top-level directories, CI,
+      test configuration, and representative entry points while skipping `.git`, dependencies,
+      generated output, build artifacts, vendored trees, binaries, and likely secrets.
+    - Every proposed durable fact names its repository source and confidence; unknown or conflicting
+      facts remain explicit.
+    - Orchestrator shows a revisioned exact `AGENTS.md` diff and stops before writing. Only explicit
+      user approval of that proposal revision permits the merge. Adaptation approval authorizes
+      only the displayed instruction-file changes; it never authorizes product-code changes.
+    - Approved updates merge stable project status, structure, commands, quality gates, and
+      conventions without deleting, reordering, or weakening authority, privacy, approval, role,
+      execution, resource, ownership, security, validation, review, memory, or conformance
+      invariants.
+    - Later instruction refreshes follow the same protocol, start delta-first, and do not rescan
+      unchanged areas without a recorded reason.
 
 ## Target File Tree
 
@@ -177,7 +194,7 @@ If that file is unavailable, create equivalent files using these rules:
 
 - `AGENTS.md` defines durable project-wide instructions for agents, including project status,
   source-of-truth order, coding rules, project structure, commands, quality gates, and maintenance
-  rules.
+  rules. It also defines the explicit, approval-gated first-run repository-adaptation protocol.
 - `THIRD_PARTY_NOTICES.md` preserves Victor Alexander Daud's copyright and the complete MIT
   permission and warranty notice without replacing the target project's `LICENSE`.
 - `docs/requirements/README.md` explains that this folder stores user-authored or user-approved

@@ -223,6 +223,26 @@ Text outside Expected.
         )
         self.assertNotIn("Appendix", sections["CF-01"])
 
+    def test_first_run_adaptation_requires_the_approval_stop(self) -> None:
+        path = validator.ROOT / "codex-agentic-workflow" / "AGENTS.md"
+        sections = validator.markdown_h2_sections(
+            path.read_text(encoding="utf-8"),
+            r"First-Run Repository Adaptation",
+        )
+        self.assertEqual(len(sections), 1)
+        self.assertTrue(
+            validator.first_run_adaptation_contract_complete(sections[0])
+        )
+
+        unsafe = sections[0].replace(
+            "stop without writing",
+            "write the proposed diff immediately",
+            1,
+        )
+        self.assertFalse(validator.first_run_adaptation_contract_complete(unsafe))
+        validator.check_first_run_adaptation_contract("fixture", unsafe)
+        self.assert_error_contains("approval before instruction write")
+
     def test_indented_scenario_labels_are_not_authoritative(self) -> None:
         fixture = """\
 ### CF-01 — Indented Labels

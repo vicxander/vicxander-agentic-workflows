@@ -113,6 +113,51 @@ The installed paths must look like:
 5. Dry-run relevant scenarios from `.github/WORKFLOW-CONFORMANCE.md`, especially approval,
    sequential fallback, write leases, retry limits, privacy, and mandatory security coverage.
 
+## First-Run Repository Adaptation
+
+After activation, optionally adapt `AGENTS.md` and, only when provider-specific guidance requires
+it, `.github/copilot-instructions.md`. Keep stable project facts primarily in `AGENTS.md`; do not
+duplicate them into both files.
+
+Orchestrator performs a bounded repository-wide inventory of manifests, lockfiles, tool
+configuration, root documentation, top-level directories, CI definitions, test configuration, and
+representative entry points. It skips `.git`, dependency stores, generated output, build artifacts,
+vendored trees, binaries, and likely secrets. Each proposed fact includes a repository source path
+and confidence; unknown or conflicting facts are not guessed.
+
+The adaptation may refine project status, structure, commands, quality gates, and durable
+conventions. It must not delete, reorder, or weaken the source-of-truth chain, untrusted-content and
+external-data boundaries, privacy rules, approval gate, role boundaries, execution modes and caps,
+resource controls, write ownership, risk and security policy, validation, review, memory
+provenance, cloud-agent approval behavior, or conformance requirements. Keep source code, transient
+state, active plans, raw logs, and easily rediscovered facts out of always-loaded instructions.
+
+Select the `orchestrator` custom agent and prompt:
+
+```text
+Perform first-run repository adaptation only. Do not implement product code.
+Read AGENTS.md, .github/copilot-instructions.md, and .github/AGENTIC-WORKFLOW.md, then scan the
+repository in a bounded, evidence-first way for stable project-wide architecture, directory roles,
+build and test commands, quality gates, naming and coding conventions, generated or vendored paths,
+CI expectations, and security-sensitive boundaries. Propose updates to AGENTS.md and only necessary
+provider-specific updates to .github/copilot-instructions.md. Preserve every protected agentic
+workflow invariant and unrelated user instruction. For each proposed fact, cite its repository
+source and confidence. Show an exact diff, list unknown or conflicting facts, assign the proposal a
+revision, and stop without writing until I explicitly approve that revision.
+```
+
+After reviewing the proposal, apply it with:
+
+```text
+I approve first-run repository adaptation proposal revision <revision>. Apply only the displayed
+instruction-file diff. Do not modify product code. Run the applicable checks, including the
+first-run adaptation scenario in .github/WORKFLOW-CONFORMANCE.md, and report changed files, evidence
+sources, unresolved unknowns, and validation results.
+```
+
+An approved adaptation authorizes only the displayed instruction-file diff. Later refreshes use the
+same proposal-and-approval protocol, start delta-first, and run only when explicitly requested.
+
 ## Choose An Execution Mode
 
 For `Lite`, `Standard`, and `Full`, both options use the same custom agents and approval gate.
@@ -363,7 +408,7 @@ docs/
   closeout contracts.
 - `.github/WORKFLOW-CONFORMANCE.md` supplies routing, approval, scheduling, validation, privacy,
   untrusted-content, and calibration scenarios with expected outcomes. The current suite contains
-  26 scenarios.
+  27 scenarios.
 - `docs/` separates user intent, implementation plans, and user-provided evidence.
 - `.github/agent-memory/` provides lightweight repository-managed continuity; it is not automatic
   Copilot session storage.

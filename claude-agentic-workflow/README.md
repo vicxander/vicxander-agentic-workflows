@@ -115,6 +115,52 @@ The installed paths must look like:
 5. Review the applicable scenarios in `.claude/workflow-conformance.md`. Preserve the file as an
    upgrade and regression checklist, and record runtime limitations as `Blocked`, not passed.
 
+## First-Run Repository Adaptation
+
+After activation, optionally adapt `CLAUDE.md` to the target repository before starting product
+work. This is a controlled merge and does not enable Claude Code to rewrite its governing
+instructions automatically.
+
+The `orchestrator` performs a bounded repository-wide inventory of manifests, lockfiles, tool
+configuration, root documentation, top-level directories, CI definitions, test configuration, and
+representative entry points. It skips `.git`, dependency stores, generated output, build artifacts,
+vendored trees, binaries, and likely secrets. It records proposed facts with repository source paths
+and confidence. Unknown or conflicting facts remain explicit and unresolved instead of being
+guessed.
+
+Project-specific updates may refine project status, structure, commands, quality gates, and durable
+conventions in `CLAUDE.md`. The adaptation must not delete, reorder, or weaken the source-of-truth
+chain, untrusted-content and external-data boundaries, privacy rules, approval gate, role
+boundaries, execution modes and caps, resource controls, write ownership, risk and security policy,
+validation, review, memory provenance, model-inheritance rules, or conformance requirements. Keep
+source code, transient state, active plans, raw logs, and easily rediscovered facts out of
+always-loaded instructions.
+
+Start `claude --agent orchestrator` and prompt:
+
+```text
+Perform first-run repository adaptation only. Do not implement product code.
+Read CLAUDE.md and .claude/AGENTIC-WORKFLOW.md, then scan the repository in a bounded,
+evidence-first way for stable project-wide architecture, directory roles, build and test commands,
+quality gates, naming and coding conventions, generated or vendored paths, CI expectations, and
+security-sensitive boundaries. Propose updates only to CLAUDE.md. Preserve every protected agentic
+workflow invariant and unrelated user instruction. For each proposed fact, cite its repository
+source and confidence. Show an exact diff, list unknown or conflicting facts, assign the proposal a
+revision, and stop without writing until I explicitly approve that revision.
+```
+
+After reviewing the proposal, apply it with:
+
+```text
+I approve first-run repository adaptation proposal revision <revision>. Apply only the displayed
+CLAUDE.md diff. Do not modify product code. Run the applicable checks, including the first-run
+adaptation scenario in .claude/workflow-conformance.md, and report changed files, evidence sources,
+unresolved unknowns, and validation results.
+```
+
+An approved adaptation authorizes only the displayed instruction-file diff. Later refreshes use the
+same proposal-and-approval protocol, start delta-first, and run only when explicitly requested.
+
 ## Choose An Execution Mode
 
 For `Lite`, `Standard`, and `Full`, both options preserve the same named roles and approval gate.
@@ -282,7 +328,7 @@ circuit prevents repeated commands and Coder/Tester loops without a new hypothes
 `.claude/workflow-conformance.md` contains behavioral scenarios for all 22 controls plus the
 existing route, approval, concurrency, and privacy invariants. Use it after material workflow
 changes; it is intentionally project-local and contains no telemetry.
-The current suite contains 29 scenarios.
+The current suite contains 30 scenarios.
 
 ## What Is Included
 

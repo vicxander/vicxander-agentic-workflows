@@ -577,6 +577,62 @@ EXTERNAL_TOOL_DATA_CONTRACT_PATTERNS = {
     ),
 }
 
+FIRST_RUN_ADAPTATION_CONTRACT_PATTERNS = {
+    "explicit user trigger": (
+        r"(?:only when|after) (?:the )?user explicitly (?:requests?|approves?)|"
+        r"explicit(?:ly)?(?: user)? request"
+    ),
+    "bounded repository-wide inventory": (
+        r"bounded.{0,140}(?:repository-wide|repo-wide).{0,140}(?:inventory|scan)"
+    ),
+    "evidence-first discovery": r"evidence-first",
+    "high-value discovery sources": (
+        r"(?=.*manifests?)(?=.*lockfiles?)(?=.*(?:CI|continuous integration))"
+        r"(?=.*test\s+configuration)(?=.*representative entry points?)"
+    ),
+    "scan exclusions": (
+        r"(?=.*\.git)(?=.*dependenc)(?=.*generated)(?=.*build\s+artifacts?)"
+        r"(?=.*vendored)(?=.*binaries)(?=.*secrets)"
+    ),
+    "fact provenance": (
+        r"(?:(?:proposed durable facts?|proposed facts?|each proposed fact|durable facts?).{0,200}"
+        r"(?:repository )?source(?: path)?.{0,140}confidence|"
+        r"(?:repository )?source(?: path)?.{0,140}confidence.{0,200}"
+        r"(?:proposed )?durable fact)"
+    ),
+    "unknown and conflict handling": (
+        r"unknown.{0,140}conflicting.{0,180}"
+        r"(?:not guessed|instead of guessing|remain explicit|unresolved)"
+    ),
+    "revisioned exact diff": (
+        r"(?:revisioned exact|exact .{0,80}diff.{0,100}(?:proposal )?revision)"
+    ),
+    "approval before instruction write": (
+        r"(?=.*(?:(?:stop|stops).*(?:without|before) writing|"
+        r"no instruction file is changed))"
+        r"(?=.*(?:explicitly\s+approves?|explicit\s+(?:user\s+)?approval))"
+    ),
+    "instruction-only authorization": (
+        r"(?:(?:only the displayed|apply only the displayed).{0,100}"
+        r"(?:instruction-file|AGENTS\.md|CLAUDE\.md) (?:diff|changes).{0,220}"
+        r"(?:never|does not|no).{0,120}product[- ]code|"
+        r"adaptation approval.{0,160}(?:never authorizes?|does not authorize).{0,80}"
+        r"product[- ]code)"
+    ),
+    "protected workflow invariants": (
+        r"(?=.*(?:preserve|preserves|keeps|does not delete|do not delete|"
+        r"must not delete|without deleting))"
+        r"(?=.*(?:workflow.{0,20}invariants?|authority|source-of-truth))"
+        r"(?=.*(?:validation|review))(?=.*(?:memory|conformance))"
+    ),
+    "post-merge validation": (
+        r"(?:validate|validation).{0,160}(?:first-run adaptation )?"
+        r"(?:scenario|workflow-conformance|Markdown)|"
+        r"run.{0,220}(?:first-run adaptation )?(?:scenario|workflow-conformance)"
+    ),
+    "delta-first refresh": r"(?:later )?refresh.{0,180}delta-first",
+}
+
 LICENSE_NOTICE_CONTRACT_PATTERNS = {
     "creator attribution": r"Victor Alexander Daud",
     "MIT permission-notice retention": (
@@ -659,12 +715,18 @@ EMBEDDED_CONFORMANCE_SCENARIOS = {
         r"sensitive identifiers.{0,220}(?:specific disclosure|explicitly authorizes)."
         r"{0,220}(?:task approval|research request).{0,100}not disclosure authorization"
     ),
+    "WF-28": (
+        r"(?=.*first-run repository adaptation)(?=.*bounded)(?=.*evidence-first)"
+        r"(?=.*source)(?=.*confidence)(?=.*revisioned exact)(?=.*AGENTS\.md)"
+        r"(?=.*without writing)(?=.*explicitly approves)(?=.*product-code)"
+        r"(?=.*preserve)(?=.*workflow invariant)(?=.*delta-first)"
+    ),
 }
 
 PROVIDER_SCENARIO_COUNTS = {
-    "codex": ("CF", 26),
-    "github-copilot": ("CF", 26),
-    "claude": ("C", 29),
+    "codex": ("CF", 27),
+    "github-copilot": ("CF", 27),
+    "claude": ("C", 30),
 }
 
 PROVIDER_UNTRUSTED_CONTENT_SCENARIOS = {
@@ -677,6 +739,12 @@ PROVIDER_EXTERNAL_TOOL_DATA_SCENARIOS = {
     "codex": "CF-26",
     "github-copilot": "CF-26",
     "claude": "C-29",
+}
+
+PROVIDER_FIRST_RUN_ADAPTATION_SCENARIOS = {
+    "codex": "CF-27",
+    "github-copilot": "CF-27",
+    "claude": "C-30",
 }
 
 PROVIDER_PRIVACY_SCENARIOS = {
@@ -785,6 +853,7 @@ CLAUDE_COVERAGE_MAP = (
     ),
     ("Untrusted-content boundary", ("C-28",)),
     ("External-tool data minimization", ("C-29",)),
+    ("Approval-gated first-run repository adaptation", ("C-30",)),
 )
 
 PROVIDER_BASE_SCENARIOS = {
@@ -1685,6 +1754,7 @@ TARGET_AGENTS_POLICY_HEADINGS = (
     "Execution Modes",
     "Adaptive Work Routing And Efficiency",
     "Resource Governance",
+    "First-Run Repository Adaptation",
     "Risk And Security",
     "Definition Of Done",
 )
@@ -2652,6 +2722,23 @@ def check_external_tool_data_contract(
         check(False, f"{label} contains {contradiction}")
 
 
+def first_run_adaptation_contract_complete(text: str) -> bool:
+    """Return whether text defines the complete guarded instruction-adaptation flow."""
+    return all(
+        re.search(pattern, text, re.DOTALL | re.IGNORECASE) is not None
+        for pattern in FIRST_RUN_ADAPTATION_CONTRACT_PATTERNS.values()
+    )
+
+
+def check_first_run_adaptation_contract(label: str, text: str) -> None:
+    """Require bounded discovery, revision approval, protected merges, and validation."""
+    for contract, pattern in FIRST_RUN_ADAPTATION_CONTRACT_PATTERNS.items():
+        check(
+            re.search(pattern, text, re.DOTALL | re.IGNORECASE) is not None,
+            f"{label} first-run repository adaptation lacks {contract}",
+        )
+
+
 def check_notice_file(label: str, text: str) -> None:
     """Require a self-contained MIT notice suitable for copied workflow material."""
     for contract in ("document title", "project name"):
@@ -3000,6 +3087,12 @@ def check_provider_conformance(name: str, label: str, text: str) -> None:
         sections.get(external_tool_id, ""),
     )
 
+    adaptation_id = PROVIDER_FIRST_RUN_ADAPTATION_SCENARIOS[name]
+    check_first_run_adaptation_contract(
+        f"{label} scenario {adaptation_id}",
+        sections.get(adaptation_id, ""),
+    )
+
     retry_id = mapping["retry circuit breakers"]
     for contract, pattern in RETRY_CONTRACT_PATTERNS.items():
         check(
@@ -3082,7 +3175,7 @@ def privacy_contradictions(text: str) -> list[str]:
         rf"(?:[.!?;]+(?:\s+|$)|\s*,?\s+\b(?:but|however|except)\b\s+|"
         rf"\s*,?\s+\b(?:and|while|whereas|yet)\b\s+(?={predicate_start})|"
         rf",\s*(?={predicate_start})|"
-        rf"\n[ \t]*\n+|\n(?=[ \t]*(?:[-*][ \t]+|#{{1,6}}[ \t]+|\|)))",
+        rf"\n[ \t]*\n+|\n(?=[ \t]*(?:(?:[-*]|\d+\.)[ \t]+|#{{1,6}}[ \t]+|\|)))",
         text,
         flags=re.IGNORECASE,
     )
@@ -3102,6 +3195,15 @@ def privacy_contradictions(text: str) -> list[str]:
                 and re.search(
                     r"(?:\b(?:raw|large|full|workflow|command|or|and)\s+|,\s*)$",
                     clause[max(0, action.start() - 20) : action.start()],
+                    re.IGNORECASE,
+                )
+                is not None
+            )
+            and not (
+                action.group(0).lower().startswith("stor")
+                and re.search(
+                    r"\b(?:dependency|package|artifact|cache)\s+$",
+                    clause[max(0, action.start() - 24) : action.start()],
                     re.IGNORECASE,
                 )
                 is not None
@@ -3638,6 +3740,41 @@ def check_provider(name: str, config: dict[str, object]) -> None:
     )
     check_activation_prompts(f"{name} README", readme)
     check_external_tool_data_contract(f"{name}: README", readme)
+    check_first_run_adaptation_contract(f"{name}: README", readme)
+    primary_instruction = {
+        "codex": "AGENTS.md",
+        "github-copilot": "AGENTS.md",
+        "claude": "CLAUDE.md",
+    }[name]
+    check_first_run_adaptation_contract(
+        f"{name}: {primary_instruction}",
+        read_text(provider_root / primary_instruction),
+    )
+    if name == "github-copilot":
+        copilot_instructions = read_text(
+            provider_root / ".github/copilot-instructions.md"
+        )
+        for contract, pattern in (
+            ("explicit maintenance operation", r"explicit.{0,80}approval-gated"),
+            ("no silent rewrite", r"never rewrite.{0,100}silently"),
+            ("evidence-first inventory", r"bounded.{0,80}evidence-first inventory"),
+            ("revisioned exact diff", r"revisioned exact diff"),
+            ("approval before write", r"stop before writing.{0,100}approved"),
+            ("product-code exclusion", r"no product-code changes"),
+            ("conformance validation", r"first-run adaptation scenario"),
+        ):
+            check(
+                re.search(
+                    pattern,
+                    copilot_instructions,
+                    re.DOTALL | re.IGNORECASE,
+                )
+                is not None,
+                (
+                    "github-copilot: .github/copilot-instructions.md first-run "
+                    f"adaptation lacks {contract}"
+                ),
+            )
     authority = next(iter(dict(config["entrypoints"]).values()))
     for document_label, document in (
         ("README", readme),
@@ -4548,6 +4685,10 @@ def check_embedded_conformance(label: str, conformance: str) -> None:
         f"{label} row WF-27",
         rows.get("WF-27", ""),
     )
+    check_first_run_adaptation_contract(
+        f"{label} row WF-28",
+        rows.get("WF-28", ""),
+    )
     failure_values = [
         normalize_failure_class(value)
         for value in re.findall(r"`([^`]+)`", rows.get("WF-17", ""))
@@ -4665,6 +4806,13 @@ def check_bootstrap_templates() -> None:
     skill_target = ".agents/skills/SKILL-TEMPLATE.md"
     if skill_target in targets:
         check_frontmatter_text(f"embedded target {skill_target}", targets[skill_target][1])
+
+    agents_target = "AGENTS.md"
+    if agents_target in targets:
+        check_first_run_adaptation_contract(
+            "embedded AGENTS.md",
+            targets[agents_target][1],
+        )
 
     plan_target = "docs/implementation-plans/IP-TEMPLATE.md"
     if plan_target in targets:
@@ -4910,6 +5058,7 @@ def check_bootstrap_templates() -> None:
         check_safety_invariants(document_label, document)
         check_untrusted_content_contract(document_label, document)
         check_external_tool_data_contract(document_label, document)
+        check_first_run_adaptation_contract(document_label, document)
         check(
             "--bootstrap-target" in document,
             f"{document_label} lacks the target-scoped validator command",
@@ -5100,6 +5249,10 @@ def check_bootstrap_target(target_root: Path) -> list[Path]:
             core,
             contradiction_text=core_contradictions,
         )
+        check_first_run_adaptation_contract(
+            "bootstrap target AGENTS.md",
+            agents_text,
+        )
         check_core_default_contract(
             "bootstrap target core instructions",
             core_default_text,
@@ -5251,6 +5404,7 @@ def check_repository_metadata() -> None:
     )
     check_untrusted_content_contract("top-level README", root_readme)
     check_external_tool_data_contract("top-level README", root_readme)
+    check_first_run_adaptation_contract("top-level README", root_readme)
     for notice_contract, pattern in LICENSE_NOTICE_CONTRACT_PATTERNS.items():
         check(
             re.search(pattern, root_readme, re.DOTALL | re.IGNORECASE) is not None,

@@ -35,6 +35,10 @@ class SecurityContractValidatorTests(unittest.TestCase):
             "Refrain from logging secrets.",
             "Never record prompts, source content, secrets, personal data, or raw logs.",
             "The product stores personal data in the customer database.",
+            (
+                "Perform a bounded inventory. Skip dependency stores, generated "
+                "output, and likely secrets."
+            ),
         )
         for statement in safe:
             with self.subTest(statement=statement):

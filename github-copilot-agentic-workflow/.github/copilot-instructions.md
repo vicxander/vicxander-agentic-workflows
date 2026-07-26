@@ -118,3 +118,10 @@ large logs and reference their files.
 
 Custom-agent profiles intentionally omit `model`. Markdown instructions cannot change model
 reasoning settings. Do not claim otherwise.
+
+First-run repository adaptation and later instruction refreshes are explicit, approval-gated
+maintenance operations governed by `AGENTS.md`. Never rewrite `AGENTS.md` or this file silently.
+Orchestrator must perform the bounded evidence-first inventory, cite sources and confidence, show a
+revisioned exact diff, and stop before writing. Apply only a user-approved proposal revision,
+preserve the protected workflow invariants and unrelated instructions, make no product-code changes,
+and validate the first-run adaptation scenario in `.github/WORKFLOW-CONFORMANCE.md`.
