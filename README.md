@@ -4,7 +4,7 @@ Reusable, adaptive, approval-gated agentic workflows for Codex, GitHub Copilot, 
 
 Created and maintained by **Victor Alexander Daud**.
 
-Workflow contract version: 1.0.0
+Workflow contract version: 2.0.0
 
 ## Overview
 
