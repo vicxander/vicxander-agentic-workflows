@@ -10,6 +10,16 @@ be implemented.
 ## Rules
 
 - Architect creates or updates plans here for non-trivial agentic implementation work.
+- Record `Specification mode: Native` or `OpenSpec`; omitted means `Native`.
+- In OpenSpec mode, apply `.agents/skills/vaw-openspec/SKILL.md` and record exactly one selected
+  active change. `Auto` is valid only when exactly one non-archived change exists; ambiguity is
+  `Unclear requirement`, not a guess.
+- Bind the plan revision and approval to the OpenSpec change ID, schema/profile, material artifact
+  paths and hashes, deterministic aggregate fingerprint, and criterion mapping. A material change
+  invalidates approval/evidence, increments the revision, and returns the plan to `Proposed`.
+- VAW remains sole authority. Architect explore/propose/update is planning-only; Coder apply needs
+  a named `In Progress` plan and lease; verify never replaces Tester/Reviewer; only Orchestrator may
+  sync/archive after Definition of Done and all gates.
 - Architect records `Sequential` or `Parallel`; `Parallel` plans identify independent work,
   dependency boundaries, and non-overlapping ownership.
 - Parallel plans record automatic allocation, the global maximum, optional Coder, Tester, and
@@ -61,3 +71,10 @@ be implemented.
 
 Prefer the `IP-0001-short-title.md` pattern for new plans. Keep IDs stable after creation and use
 status updates instead of renaming active plans.
+
+## Templates
+
+- `IP-LITE-TEMPLATE.md`: compact Native `Lite` plans for Small, Low-risk work.
+- `IP-TEMPLATE.md`: general full plan envelope for Native or extended work.
+- `IP-OPENSPEC-TEMPLATE.md`: OpenSpec-bound plans with artifact fingerprint, lifecycle mapping,
+  telemetry/privacy, invalidation, and sync/archive gates.

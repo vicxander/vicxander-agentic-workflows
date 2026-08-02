@@ -31,6 +31,10 @@ class StructureContractTests(unittest.TestCase):
 
 - Requested workflow depth: Auto
 
+## Specification Mode
+
+- Specification mode: Native
+
 ## Efficiency And Budget Controls
 
 - Efficiency profile: Balanced
@@ -571,12 +575,12 @@ Classify every failure before retry:
                 "Return proposed splits to Orchestrator.",
                 "no nested delegation",
             ),
-            (
-                "orchestrator",
-                "active same-role workers to stop",
-                "same-role workers to remain active",
-                "same-role worker quiescence",
-            ),
+                (
+                    "orchestrator",
+                    "every active same-role worker has stopped",
+                    "every active same-role worker remains active",
+                    "same-role worker quiescence",
+                ),
             (
                 "reviewer",
                 "transient or generated",

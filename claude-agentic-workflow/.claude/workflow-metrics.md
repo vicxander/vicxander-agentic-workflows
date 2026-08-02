@@ -37,6 +37,12 @@ may process this project file under their own policies when it is in context.
 - Work class:
 - Local metrics: On
 - Workflow route:
+- Specification mode:
+- OpenSpec change selected: Yes/No/Not applicable
+- OpenSpec CLI version observed: Not measured/Not applicable
+- OpenSpec artifact fingerprint changed after approval: Yes/No/Not applicable
+- OpenSpec verification result: Passed/Failed/Blocked/Skipped/Not applicable
+- OpenSpec sync/archive outcome: Completed/Deferred/Blocked/Not applicable
 - Requested workflow depth:
 - Risk:
 - Efficiency profile:
@@ -74,6 +80,9 @@ may process this project file under their own policies when it is in context.
 - Execution-mode fallback:
 - Final outcome:
 - Final confidence:
+
+Never record an OpenSpec change ID, artifact path, artifact content, repository identifier, raw CLI
+output, or fingerprint value here. These fields are metadata-only classifications.
 
 ## Entries
 

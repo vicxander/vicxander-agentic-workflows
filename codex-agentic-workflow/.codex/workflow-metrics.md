@@ -37,6 +37,12 @@ no uploader, automatic export, or author-operated collection service.
 
 - Work class:
 - Local metrics: On
+- Specification mode:
+- OpenSpec selection method:
+- OpenSpec change ID (non-sensitive identifier only):
+- OpenSpec fingerprint freshness (status only):
+- OpenSpec lifecycle actions (counts/status only):
+- OpenSpec process telemetry opt-out:
 - Workflow route:
 - Requested workflow depth:
 - Risk:
@@ -81,6 +87,9 @@ no uploader, automatic export, or author-operated collection service.
 - Final outcome:
 - Final confidence:
 - Calibration note:
+
+Do not record OpenSpec artifact bodies, file contents, private identifiers, CLI output, or raw
+manifests here. Native-mode entries use `Not applicable` for OpenSpec fields.
 
 ## Entries
 

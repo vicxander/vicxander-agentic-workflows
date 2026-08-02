@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use VicXander Agentic Workflows, please cite Victor Alexander Daud using these metadata."
 title: "VicXander Agentic Workflows"
-abstract: "Reusable, adaptive, approval-gated agentic workflow definitions for Codex, GitHub Copilot, and Claude Code."
+abstract: "Reusable, adaptive, approval-gated agentic workflow definitions for Codex, GitHub Copilot, and Claude Code, with optional OpenSpec compatibility."
 type: software
 version: "2.5.0"
 date-released: 2026-07-26
@@ -17,3 +17,4 @@ keywords:
   - "Claude Code"
   - "multi-agent coordination"
   - "implementation planning"
+  - "OpenSpec compatibility"

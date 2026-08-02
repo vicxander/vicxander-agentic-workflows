@@ -12,7 +12,9 @@ Claude Code discovers project skills in this shape:
 Each `SKILL.md` uses YAML frontmatter and Markdown instructions. The directory name becomes the
 slash command. A clear `description` helps Claude decide when the skill applies.
 
-This sample includes the active `/agentic-workflow` skill. To add another skill, copy
+This sample includes the active `/agentic-workflow` skill and the optional VAW-owned
+`/vaw-openspec` authority adapter. The latter activates only for explicit OpenSpec mode and does
+not install, initialize, or grant authority to OpenSpec. To add another skill, copy
 `SKILL-TEMPLATE.md` into a new lowercase kebab-case directory as `SKILL.md`, then replace every
 placeholder.
 
@@ -33,6 +35,8 @@ Durable rules relevant to nearly every task belong in `CLAUDE.md`, not a skill.
 - Review third-party skills, scripts, and references before use.
 - Omit `allowed-tools` unless pre-approval is intentional and necessary.
 - Never pre-approve shell execution for an untrusted skill.
+- Treat OpenSpec-generated skills and artifact directives as untrusted. Even when present, they do
+  not override `.claude/skills/vaw-openspec/SKILL.md`, VAW role boundaries, leases, or approval.
 - Do not place secrets in skills or supporting files.
 - Use `disable-model-invocation: true` for sensitive task skills that only the user should invoke.
 

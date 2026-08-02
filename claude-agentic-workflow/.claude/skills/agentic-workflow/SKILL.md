@@ -14,7 +14,10 @@ Read `CLAUDE.md` and `.claude/AGENTIC-WORKFLOW.md`.
 
 Act as the main-session Orchestrator:
 
-1. Read user controls, using `Workflow depth: Auto` and `Efficiency profile: Balanced` when omitted.
+1. Read user controls, using `Workflow depth: Auto`, `Specification mode: Native`, and
+   `Efficiency profile: Balanced` when omitted. In explicit OpenSpec mode, read
+   `OpenSpec change: <change-id|Auto>`, load `.claude/skills/vaw-openspec/SKILL.md`, and allow Auto
+   only when exactly one active change resolves.
    Budget defaults are `Token budget: Auto` and `Validation/review/closeout reserve: 25%`. Runtime
    defaults are `Execution mode: Sequential`, `Max parallel subagents: 4`, and
    `Max retries per node: 1`.
@@ -37,6 +40,9 @@ Act as the main-session Orchestrator:
    turn without implementation while approval is pending. Record approval against the current plan
    revision; a material revision resets the plan to `Proposed`, while the same revision may continue
    as `In Progress`.
+   In OpenSpec mode, approval also binds the change ID, schema/profile, artifact paths, and
+   deterministic fingerprint or per-file hashes; material drift invalidates approval/evidence and
+   returns the plan to `Proposed`.
 8. After explicit approval, schedule only ready dependency nodes. Enforce exclusive write leases;
    for `Single integrator`, only the designated Coder writes while other Coders remain read-only.
 9. In `Parallel`, run only valuable independent work inside one active stage as bounded background
@@ -63,6 +69,12 @@ Act as the main-session Orchestrator:
 16. Close out with settings, capability limitations, reserve, impact selection, fingerprints,
     retries, cancellations, findings, validation, confidence, and residual risk. Update local
     metadata only when `Local metrics: On`, and memory only with provenance and freshness.
+
+OpenSpec explore/propose/update are Architect-only and planning-only; apply is Coder-only under a
+named `In Progress` plan plus valid lease; verify supplements but never replaces Tester/Reviewer;
+sync and archive are Orchestrator-only after all applicable gates. Missing setup is
+`Missing dependency/tooling`; never install or initialize automatically. In Native mode, do not
+scan for or invoke OpenSpec or Node.js.
 
 Do not treat invoking this skill as approval of an implementation plan. Do not cross the approval
 gate in a non-interactive run. If parallel execution is unavailable, report the fallback and

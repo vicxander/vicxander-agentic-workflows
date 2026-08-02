@@ -40,3 +40,4 @@ implementation, validation, and review evidence.
 ## Notes
 
 - Links, references, or context.
+- OpenSpec mapping (optional; selected change/spec section only, not authority):

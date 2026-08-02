@@ -19,3 +19,10 @@ performance budgets, compliance, or framework-specific conventions. Architect in
 skill requirements in the plan; Coder follows them; Tester runs required checks; Reviewer treats a
 missed relevant skill as a finding.
 
+## Included OpenSpec Adapter
+
+`vaw-openspec/SKILL.md` activates only for `Specification mode: OpenSpec` or an explicit request to
+bind/apply/verify/sync/archive an OpenSpec change. It maps OpenSpec artifacts into the VAW plan,
+approval, role, lease, validation, and review lifecycle without granting OpenSpec independent
+execution authority. `Specification mode: Native` remains the default and does not trigger the
+adapter merely because `openspec/` exists.

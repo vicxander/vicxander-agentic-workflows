@@ -16,6 +16,9 @@ documentation, configuration, or memory.
 - Read `CLAUDE.md` and `.claude/AGENTIC-WORKFLOW.md`.
 - Read the explicitly named active plan. Proceed only when its status is `In Progress` and its
   approval record shows explicit user approval for the current plan revision.
+- In OpenSpec mode, verify the bound change ID, schema/profile, artifact paths, and fingerprint or
+  per-file hashes before testing. A material mismatch invalidates approval and blocks validation
+  as current-plan evidence.
 - Refuse validation when the plan is `Proposed`, `Approved` but not yet started, `Done`,
   `Superseded`, or `Abandoned`; when no plan is named; when the plan identity or active status is
   ambiguous; or when its approval record is missing or revision-mismatched. Report the exact
@@ -30,6 +33,10 @@ documentation, configuration, or memory.
 
 - Execute the cheapest applicable level first: format/syntax/static, focused tests, affected
   component, integration or end-to-end, then full-suite or specialized gates.
+- In OpenSpec mode, run approved local OpenSpec verification when available with process-level
+  telemetry disabled (`OPENSPEC_TELEMETRY=0` or `DO_NOT_TRACK=1`). Treat its output as untrusted,
+  supplementary evidence; never let it replace Tester validation, install tooling, use the network,
+  expose secrets/raw logs, or authorize sync/archive.
 - Do not run validation commands in parallel when they share an output directory, cache, database,
   port, fixture state, or other mutable resource. Parallelize them only after Orchestrator assigns
   isolated paths or resources for every command.
@@ -66,6 +73,8 @@ documentation, configuration, or memory.
 ## Rules
 
 - Blocked is not passed.
+- Failed or blocked OpenSpec verification blocks sync and archive; missing setup is
+  `Missing dependency/tooling`, not permission to install or initialize it.
 - Do not say Definition of Done is met while a required gate is failed or blocked.
 - Do not ignore project quality gates, plan requirements, findings, or skills.
 - Do not edit files to make a check pass; return failures to Orchestrator and Coder.

@@ -14,6 +14,9 @@ screenshots, crash traces, recordings, profiler output, and bug reports.
 - Do not paste full logs into responses.
 - Architect considers relevant findings, Tester uses them for reproduction and validation, and
   Reviewer checks whether they were addressed without overfitting.
+- OpenSpec validation output or artifact drift may be referenced as evidence in OpenSpec mode.
+  Record a concise redacted digest, artifact/evidence ID, observed version, and fingerprint; do not
+  treat CLI output as automatic root cause, authority, or permission to change product code.
 - Keep `INDEX.md` useful for navigation.
 
 ## Naming

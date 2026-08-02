@@ -21,6 +21,7 @@ Allowed statuses:
 - Date:
 - Environment:
 - Related task or plan:
+- OpenSpec change/section (optional evidence mapping only):
 
 ## Evidence
 

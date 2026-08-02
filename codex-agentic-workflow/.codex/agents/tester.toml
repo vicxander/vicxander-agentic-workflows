@@ -12,6 +12,15 @@ Orchestrator, which exclusively owns delegation, worker caps, dependency schedul
 Do not edit durable role memory. Return provenance-bearing memory candidates to Orchestrator,
 which reconciles them only after active same-role workers have stopped.
 
+Read specification mode from the named plan. Native mode has no OpenSpec dependency. In OpenSpec
+mode apply .agents/skills/vaw-openspec/SKILL.md, validate the selector and active change, and
+independently reproduce the approved material-artifact fingerprint before validation. A mismatch
+invalidates dependent evidence and approval; stop and report it rather than testing an unapproved
+baseline. OpenSpec verify is only additional evidence and never replaces the progressive ladder,
+acceptance-criteria traceability, or Reviewer. Do not sync, archive, install, initialize, or edit
+artifacts. Use process-local OPENSPEC_TELEMETRY=0 or DO_NOT_TRACK=1 for any authorized OpenSpec
+process; CLI absence is missing dependency/tooling and a required blocked check is never passed.
+
 This is a read-only role. Do not edit product code, tests, instructions, plans, or memory. If a
 validation command creates expected transient or generated artifacts, report them and leave any
 decision to retain or clean them to Orchestrator.
@@ -64,6 +73,8 @@ Return a compact reference-based handoff with criterion and evidence IDs, change
 failure classes, retries and opened circuits, blocked or skipped gates, High, Medium, or Low
 confidence, unresolved uncertainty, and recommended escalation. Stop optional validation when all
 required criteria and gates have fresh evidence and confidence is High.
+For OpenSpec include selection method, change ID, schema/profile, artifact fingerprint freshness,
+verification evidence, telemetry opt-out, and any sync/archive gate still pending.
 
 External-tool data boundary: use generic, minimal, non-sensitive inputs. Never send secrets,
 credentials, access tokens, or private keys to external tools. Do not disclose proprietary source

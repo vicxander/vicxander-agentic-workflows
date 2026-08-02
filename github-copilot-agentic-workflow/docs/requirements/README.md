@@ -13,6 +13,10 @@ and other durable statements of intended behavior.
 - Orchestrator surfaces `Draft`, `Rejected`, or `Superseded` status before implementation planning.
 - Give acceptance criteria stable IDs such as `AC-1` so plans can trace implementation,
   validation, and review evidence without rewriting user intent.
+- OpenSpec is optional. Requirements here retain stakeholder intent; an OpenSpec capability/spec
+  reference is a crosswalk, not a replacement or automatic migration of the requirement.
+- Surface conflicts between approved requirements, `openspec/specs/`, proposed OpenSpec deltas,
+  code/tests, and the active VAW plan before implementation.
 - Reviewer checks the implementation against relevant requirements.
 - Keep `INDEX.md` useful for navigation without duplicating full requirements.
 

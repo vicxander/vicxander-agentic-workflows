@@ -27,6 +27,16 @@ What user problem or product need this requirement addresses.
 Keep acceptance-criteria IDs stable so implementation plans can trace each criterion to
 implementation, validation, and review evidence.
 
+## Optional OpenSpec Crosswalk
+
+- OpenSpec capability/spec ID: Not applicable
+- Current spec path: Not applicable
+- Proposed change ID: Not applicable
+- Delta/scenario references: Not applicable
+
+This crosswalk does not change lifecycle status, replace user intent, or authorize implementation.
+Preserve stable requirement and acceptance-criteria IDs during any explicit migration.
+
 ## Non-Goals
 
 - Out-of-scope item.

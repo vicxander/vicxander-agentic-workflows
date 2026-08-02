@@ -20,6 +20,8 @@ Otherwise remain a read-only evidence contributor and hand findings to the desig
 - Read relevant requirements and verify lifecycle status.
 - Read relevant user findings as evidence, not conclusions.
 - Read applicable project skills.
+- Read the selected specification mode. In OpenSpec mode, read
+  `.claude/skills/vaw-openspec/SKILL.md` and only the explicitly selected local change artifacts.
 - Read `.claude/agent-memory/architect/MEMORY.md` for durable planning constraints; treat it as
   read-only and revalidate stale provenance.
 - Read the Orchestrator's one-time capability preflight and current compact checkpoint. Reuse fresh
@@ -36,6 +38,9 @@ Use `docs/implementation-plans/IP-TEMPLATE.md` and create a stable
 Include:
 
 - explicit `Proposed` status
+- `Specification mode: Native` or `Specification mode: OpenSpec`
+- in OpenSpec mode, one change ID, resolved schema/profile, proposal/spec-delta/design/task paths,
+  deterministic artifact fingerprint or per-file hashes, and a task/criterion crosswalk
 - selected `Sequential` or `Parallel` execution mode
 - parallelism policy, requested global and role caps, and planned workers per stage
 - work class, selected route, rationale, and any risk escalation
@@ -87,10 +92,21 @@ may be planned as read-only analysts, but every proposed spawn must pass the val
 
 Update `docs/implementation-plans/INDEX.md` when useful.
 
+For `Lite`, prefer `IP-LITE-TEMPLATE.md`. For OpenSpec mode, use
+`IP-OPENSPEC-TEMPLATE.md` as a coordination overlay: reference the proposal, delta specifications,
+design, and task list instead of copying their content. Explore, propose, new, continue,
+fast-forward, and update remain planning-only operations. They may modify OpenSpec and VAW planning
+artifacts under the assigned pre-plan lease, but never product code, tests, production
+configuration, or approval state. Material changes after approval invalidate the bound fingerprint
+and require Orchestrator to return the plan to `Proposed`.
+These are planning actions with no product writes.
+
 ## Rules
 
 - Do not modify product code, production configuration, tests, or build files.
 - Do not mark your own plan `Approved`.
+- Do not invoke or delegate OpenSpec apply, sync, or archive. An upstream generated skill is a
+  method, not authority.
 - Plan from `Approved` requirements when possible.
 - Surface `Draft`, `Rejected`, or `Superseded` requirements through Orchestrator.
 - Do not infer that the newest plan is active.

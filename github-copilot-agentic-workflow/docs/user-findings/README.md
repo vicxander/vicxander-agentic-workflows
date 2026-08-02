@@ -8,6 +8,9 @@ screenshots, crash traces, recordings, profiler output, and bug reports.
 - Treat findings as evidence, not automatic root cause.
 - Use status `Open`, `Resolved`, `Stale`, or `Superseded`.
 - Findings may be stale, incomplete, environment-specific, or caused by setup issues.
+- OpenSpec validation output and artifact drift are evidence, not automatic root cause or
+  operational authority. Record safe references, selected change ID, and fingerprint evidence;
+  do not copy sensitive artifact bodies or raw CLI logs.
 - Redact secrets, credentials, tokens, private URLs, personal identifiers, and customer data.
 - Keep sensitive raw evidence untracked or outside the repository when needed.
 - Keep large logs as files and record only concise conclusions in agent memory.

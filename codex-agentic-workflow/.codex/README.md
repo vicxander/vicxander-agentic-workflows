@@ -68,9 +68,12 @@ disclosure appears necessary, stop and ask first.
 8. Read primary project guidance if it exists.
 9. If the user asks for agentic mode, read `.codex/agents/README.md`; Codex discovers the native
    role TOML files and applicable skills under `.agents/skills/`.
-10. Read implementation plans only when the user references one or session notes identify one as
+10. Assume `Specification mode: Native` when omitted. When OpenSpec is explicitly selected, read
+    `.agents/skills/vaw-openspec/SKILL.md` and resolve exactly one safe active change before
+    planning. The presence of `openspec/` does not activate the adapter.
+11. Read implementation plans only when the user references one or session notes identify one as
    active.
-11. Treat stale or invalidated memory as a hypothesis until current evidence confirms it.
+12. Treat stale or invalidated memory as a hypothesis until current evidence confirms it.
 
 ## Agentic Mode
 
@@ -80,6 +83,18 @@ or Reviewer.
 
 In agentic implementation work:
 
+- Orchestrator assumes `Specification mode: Native` when omitted. Native mode performs no OpenSpec
+  install, init, command, network, telemetry, or artifact mutation.
+- OpenSpec mode requires `OpenSpec change: <change-id|Auto>` and the native VAW adapter. Auto is
+  accepted only for exactly one active non-archived change; otherwise planning is blocked as
+  unclear requirement.
+- VAW remains sole authority: Architect owns planning-only explore/propose/update, Coder alone may
+  apply under a matching `In Progress` plan/fingerprint/lease, verify never replaces Tester and
+  Reviewer, and only Orchestrator may sync/archive after all gates.
+- A material OpenSpec artifact, selection, schema/profile, interpretation, or criterion-mapping
+  change invalidates approval/evidence and returns a revisioned plan to `Proposed`.
+- VAW is telemetry-free. Authorized OpenSpec processes use process-local
+  `OPENSPEC_TELEMETRY=0` or `DO_NOT_TRACK=1`; missing tooling is reported, never installed.
 - Orchestrator reads the requested execution mode and parallelism caps and defaults to `Sequential`.
 - Orchestrator classifies work and selects `Direct`, `Lite`, `Standard`, or `Full`, with risk able
   to escalate but never weaken the route.
@@ -138,6 +153,8 @@ In agentic implementation work:
 - Put Architect-generated plans in `docs/implementation-plans/`.
 - Put user-provided validation evidence in `docs/user-findings/`.
 - Put optional project-local skills in `.agents/skills/<skill-name>/SKILL.md`.
+- Put the optional OpenSpec adapter in `.agents/skills/vaw-openspec/SKILL.md`; keep actual current
+  specs and proposed changes in `openspec/`, not in `.codex/` memory.
 - Put durable project-wide instructions in `AGENTS.md`.
 - Do not duplicate implementation plans outside `docs/implementation-plans/`.
 - Do not duplicate code facts that can be inspected directly.

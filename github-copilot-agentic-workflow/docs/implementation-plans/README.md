@@ -5,6 +5,22 @@ This folder stores Architect-generated implementation plans.
 ## Rules
 
 - Architect creates a plan here for non-trivial agentic implementation work.
+- Record `Specification mode: Native` or `Specification mode: OpenSpec`; default to `Native`.
+  Native mode needs neither OpenSpec nor Node.js and does no OpenSpec-specific discovery.
+- Select `IP-LITE-TEMPLATE.md` for Small/Lite work, `IP-OPENSPEC-TEMPLATE.md` for an OpenSpec
+  coordination overlay, and `IP-TEMPLATE.md` for Standard/Full work or when the full coordination
+  surface is needed.
+- In OpenSpec mode, bind exactly one change. `OpenSpec change: Auto` is valid only when exactly one
+  active change resolves; ambiguity is `Unclear requirement`.
+- Reference OpenSpec proposal, specification-delta, design, and task artifacts rather than
+  duplicating their bodies. Record schema/profile, paths, fingerprint/hashes, CLI version when
+  observed, task/criterion crosswalk, sync/archive state, and invalidation conditions.
+- VAW remains the sole approval and execution authority. Explore/propose/update is Architect-only
+  planning, apply is Coder-only under a named `In Progress` plan and lease, verify cannot replace
+  Tester or Reviewer, and only Orchestrator may sync/archive after all gates pass.
+- Approval covers both plan revision and artifact fingerprint. Material artifact drift invalidates
+  approval and dependent evidence, increments the revision, returns status to `Proposed`, and
+  repeats the gate.
 - Architect records `Sequential` or `Parallel`; `Parallel` plans identify independent work,
   dependency boundaries, and non-overlapping ownership.
 - Parallel plans record automatic allocation, the global maximum, optional Coder, Tester, and
@@ -70,3 +86,6 @@ This folder stores Architect-generated implementation plans.
 
 Prefer `IP-0001-short-title.md`, keep its ID stable, and update its lifecycle status instead of
 renaming it.
+
+Disabling OpenSpec mode does not delete or migrate `openspec/` data. Never install, initialize,
+update, sync, archive, or access the network as a template-selection side effect.

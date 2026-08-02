@@ -25,6 +25,11 @@ Use skills for detailed, task-specific guidance such as:
 
 Repository-wide rules belong in `AGENTS.md` or `.github/copilot-instructions.md`, not in a skill.
 
+The distribution includes `.github/skills/vaw-openspec/SKILL.md`, a VAW-owned adapter used only
+when `Specification mode: OpenSpec` is explicitly selected. It maps OpenSpec artifact intents to
+VAW roles and gates; it does not install or initialize OpenSpec and remains authoritative over any
+upstream generated `openspec-*` skill for end-to-end coordination.
+
 ## Safety
 
 - Review third-party skills before installing them.

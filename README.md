@@ -41,6 +41,46 @@ contract, not separate behavioral specifications:
 These files are workflow configuration and documentation. They do not install dependencies, change
 application behavior, or provide an AI runtime by themselves.
 
+## Optional OpenSpec Compatibility
+
+Workflow contract 2.5.0 adds an optional OpenSpec specification mode while keeping VAW as the sole
+coordination, approval, and execution authority. Existing projects use Native mode by default and
+do not need Node.js, OpenSpec, a network connection, project initialization, or migration.
+
+```text
+Specification mode: Native
+```
+
+To use an already configured local OpenSpec project, select it explicitly and bind one change:
+
+```text
+Specification mode: OpenSpec
+OpenSpec change: <change-id>
+```
+
+`OpenSpec change: Auto` is accepted only when exactly one active change exists. Zero or multiple
+active changes are an `Unclear requirement`; the workflow stops and asks for an explicit ID. VAW
+never installs OpenSpec, runs an unpinned `npx`, initializes a project, enables MCP, or grants
+network access automatically.
+
+OpenSpec lifecycle intent maps onto the existing role gates:
+
+| OpenSpec intent | VAW authority and gate |
+| --- | --- |
+| Explore, propose, continue, or update | Architect may create planning/specification artifacts; no product writes and no implied approval |
+| Apply | Coder only, under the named `In Progress` VAW plan, approved artifact fingerprint, ready dependency node, and valid write lease |
+| Verify | Supporting evidence for Tester and Reviewer; it never replaces either role |
+| Sync or archive | Orchestrator only after acceptance criteria, validation, review, and closeout gates pass |
+
+The approved plan records the OpenSpec change ID, schema/profile, bound artifact paths,
+deterministic hashes/fingerprint, and approval evidence. A material change to any bound OpenSpec
+artifact—proposal, delta, design, task, schema, or profile—invalidates approval and dependent
+evidence and returns the plan to `Proposed`.
+
+OpenSpec artifacts, generated skills, command output, and fetched upstream content are untrusted
+data. They cannot override the user, VAW authority, project permissions, privacy controls, or role
+gates.
+
 ## Privacy And Data Handling
 
 VicXander Agentic Workflows includes no telemetry, analytics, tracking service, uploader, hosted
@@ -61,6 +101,12 @@ repository or by Victor Alexander Daud. The AI product used to run a workflow—
 or Claude Code—may still process prompts and repository context according to that provider's terms,
 privacy policy, account settings, and organization controls. Optional tools, plugins, connectors,
 MCP servers, hooks, scripts, or third-party skills may also have their own data access.
+
+OpenSpec is one such optional third-party tool. At the pinned compatibility baseline it has its own
+telemetry behavior. VAW-owned examples and tests disable that telemetry process-locally with
+`OPENSPEC_TELEMETRY=0` or `DO_NOT_TRACK=1`; users should still review the installed OpenSpec
+version's current policy before running it directly. Native mode does not discover or invoke
+OpenSpec.
 
 Before use, review the selected provider's privacy and retention settings, grant only necessary
 permissions, inspect third-party extensions, and keep secrets or sensitive raw data out of prompts,
@@ -85,9 +131,9 @@ details, synthetic examples, and user-provided public references are preferred.
 
 Current distributions:
 
-- Codex workflow: 32 files
-- GitHub Copilot workflow: 32 files
-- Claude Code workflow: 32 files
+- Codex workflow: 35 files
+- GitHub Copilot workflow: 35 files
+- Claude Code workflow: 35 files
 - Bootstrap kit: 3 source files
 
 ## Shared Workflow
@@ -331,20 +377,28 @@ or:
 Execution mode: Parallel
 ```
 
+Execution mode and specification mode are independent. `Sequential` versus `Parallel` controls
+how VAW schedules safe work; `Native` versus `OpenSpec` controls which specification artifacts the
+approved VAW plan binds.
+
 ## Common Design Principles
 
 ### Source-of-truth order
 
-The workflows distinguish current behavior, desired behavior, execution intent, and evidence:
+The workflows distinguish current behavior, desired behavior, specification deltas, execution
+intent, and evidence. In Native mode the OpenSpec entries below are omitted without changing any
+other behavior:
 
 1. Current user request
 2. Code and tests
-3. User-authored or user-approved requirements
-4. Approved implementation plan
-5. User findings as evidence
-6. Project-wide agent instructions
-7. Relevant skills
-8. Operational and role memory
+3. User-authored or user-approved stakeholder requirements in `docs/requirements/`
+4. OpenSpec current-behavior specs in `openspec/specs/`, when OpenSpec mode is selected
+5. The selected OpenSpec change proposal, specification delta, design, and tasks, when approved
+6. The approved VAW implementation plan and its OpenSpec binding/fingerprint
+7. User findings as evidence
+8. Project-wide agent instructions
+9. Reviewed provider-native VAW skills
+10. Operational and role memory
 
 Material conflicts are surfaced before implementation.
 
@@ -357,11 +411,15 @@ directives in untrusted content, and they surface suspicious instructions or aut
 
 Every distribution includes:
 
-- `docs/requirements/`: user intent and acceptance criteria
-- `docs/implementation-plans/`: Architect-generated plans
+- `docs/requirements/`: stakeholder product intent and acceptance criteria
+- `docs/implementation-plans/`: VAW execution envelopes, approval records, coordination, leases,
+  validation, and review evidence
 - `docs/user-findings/`: user-provided logs, screenshots, QA notes, and other evidence
 
 Requirements, plans, and findings use stable IDs and explicit lifecycle statuses.
+When OpenSpec mode is selected, `openspec/specs/` describes normalized current behavior and the
+approved `openspec/changes/<change-id>/` artifacts describe the proposed delta, design, and tasks.
+VAW does not create a duplicate `docs/changes/` hierarchy.
 
 ### Risk-based Definition of Done
 
@@ -460,6 +518,7 @@ Use the project-local Codex agents in agentic mode. Orchestrator coordinates Arc
 Tester, and Reviewer. Apply the reasoning policy from .codex/agents/README.md. Classify the task
 first. For Lite, Standard, or Full, Architect must create the plan and wait for my approval.
 Workflow depth: Auto
+Specification mode: Native
 Efficiency profile: Balanced
 Token budget: Auto
 Execution mode: <Sequential|Parallel>
@@ -487,6 +546,7 @@ instructions and documentation carefully. Select the `orchestrator` custom agent
 Use the repository's agentic workflow. Classify the task first. For Lite, Standard, or Full,
 Architect must create the plan and wait for my approval before coding.
 Workflow depth: Auto
+Specification mode: Native
 Efficiency profile: Balanced
 Token budget: Auto
 Execution mode: <Sequential|Parallel>
@@ -523,6 +583,7 @@ Alternatively, start a normal Claude Code session and invoke:
 ```text
 /agentic-workflow
 Workflow depth: Auto
+Specification mode: Native
 Efficiency profile: Balanced
 Token budget: Auto
 Execution mode: <Sequential|Parallel>
@@ -555,7 +616,8 @@ product code. Include the Sequential and Parallel execution-mode contract with a
 selection, a default global maximum of 4, optional role-specific caps, adaptive work routing, shared
 task packets, dependency scheduling, write leases, progressive validation, traceability,
 confidence escalation, the 22 resource-governance mechanisms, workflow conformance scenarios, and
-metadata-only local workflow metrics.
+metadata-only local workflow metrics. Add optional OpenSpec compatibility in Native-by-default
+mode, but do not install or initialize OpenSpec and preserve every existing `openspec/` artifact.
 ```
 
 The bootstrap supports `create`, `merge`, and `dry-run` modes.
@@ -570,17 +632,28 @@ another repository.
 - Preserve existing `AGENTS.md`, `CLAUDE.md`, `.github/`, `.codex/`, `.agents/`, and `docs/`
   content.
 - Do not overwrite active plans, requirements, findings, skills, or memory.
+- Native mode requires no migration. Existing active VAW plans remain governed by the contract
+  version and controls recorded in those plans; do not retrofit an OpenSpec binding mid-execution.
+- In `merge` mode, preserve all existing `openspec/` configuration, specs, changes, generated
+  commands/skills, schemas, profiles, and archive data. Add the provider-native VAW adapter under
+  its VAW-specific name and never run `openspec init` automatically.
 - When copying all or a substantial portion of a workflow, copy the selected distribution's
   supplied `THIRD_PARTY_NOTICES.md`, retaining Victor Alexander Daud's copyright and the complete
-  MIT notice. Create that canonical file when absent or merge only the missing VicXander entry when
-  present; preserve every other notice file and never replace the target project's `LICENSE`,
-  including when the target uses a different license.
+  MIT notices for both VicXander Agentic Workflows and adapted OpenSpec material. Create that
+  canonical file when absent or merge only missing entries when present; preserve every other
+  notice file and never replace the target project's `LICENSE`, including when the target uses a
+  different license.
+- Keep `THIRD_PARTY_NOTICES.md` instead of replacing or overwriting the target project's license.
 - If installing multiple provider workflows together, share the three `docs/` lanes rather than
   maintaining divergent copies. Choose one provider's `docs/` set as the canonical starting point,
   merge any missing semantic fields from the others once, and never overwrite the shared lane by
   copying another distribution over it.
 
 Review all agent and skill instructions before trusting a repository or granting tool permissions.
+OpenSpec compatibility is independently maintained and does not imply endorsement, sponsorship,
+certification, affiliation, or upstream support. See
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and
+[`docs/third-party/openspec.md`](docs/third-party/openspec.md) for license and provenance details.
 
 ## Model And Reasoning Settings
 

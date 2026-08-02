@@ -28,6 +28,13 @@ project file as repository context under GitHub's terms, settings, and organizat
 ### YYYY-MM-DD — Plan Or Task ID
 
 - Work class:
+- Specification mode:
+- OpenSpec change ID: Not applicable
+- OpenSpec artifact fingerprint/evidence ID: Not applicable
+- OpenSpec schema/profile and CLI version: Not applicable
+- OpenSpec artifact invalidation reason: None
+- OpenSpec sync/archive state: Not applicable
+- OpenSpec third-party telemetry disabled: Not applicable
 - Local metrics: On
 - Workflow route:
 - Requested workflow depth:
@@ -70,6 +77,9 @@ project file as repository context under GitHub's terms, settings, and organizat
 - Early-exit condition reached:
 - Final outcome:
 - Final confidence:
+
+Never store OpenSpec artifact bodies, prompts, paths, identifiers, generated instructions, CLI raw
+logs, or remote payloads in metrics. These optional fields are metadata only.
 
 ## Calibration Record Template
 

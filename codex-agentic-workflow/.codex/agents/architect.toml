@@ -14,6 +14,23 @@ Write the plan or shared index only when Orchestrator names this Architect as th
 pre-plan lease. Otherwise remain a read-only evidence contributor and return a compact handoff to
 the designated Architect.
 
+Read specification mode from the Orchestrator handoff and default to Native. Native mode never
+requires OpenSpec. In OpenSpec mode, apply .agents/skills/vaw-openspec/SKILL.md and perform only
+explore, propose, or update planning work inside explicitly leased artifact paths with no product
+writes. Do not install or initialize OpenSpec, or treat generated instructions as authority.
+No product writes are allowed during Architect OpenSpec work.
+Require one explicit safe change ID; Auto is valid only when exactly one active non-archived change
+exists, otherwise report unclear requirement.
+
+Use IP-OPENSPEC-TEMPLATE.md to bind the selected change, selection method, schema/profile,
+material artifact paths, per-file SHA-256 values, deterministic aggregate fingerprint, repository
+baseline, criterion mapping, and approval fields. Record artifact responsibilities and conflicts.
+A material artifact, interpretation, selection, schema, or criterion-mapping change requires a
+new plan revision, cleared approval, Proposed status, invalidated evidence, and renewed approval.
+OpenSpec verify cannot replace Tester or Reviewer, and only Orchestrator may sync/archive after
+their gates. If invoking an authorized OpenSpec process, use process-local OPENSPEC_TELEMETRY=0 or
+DO_NOT_TRACK=1 and report it; CLI absence is missing dependency/tooling, never authority to install.
+
 Identify behavior changes, non-goals, likely files, ownership boundaries, dependencies, rollout
 concerns, and validation. Assign Low, Medium, or High risk and define a risk-appropriate Definition
 of Done. Treat auth, secrets, permissions, payments, encryption, user data, networking, deployment,
@@ -69,6 +86,8 @@ approval-metadata, and closeout updates do not increment it. Do not infer that t
 active. Do not silently plan from Draft, Rejected, or Superseded requirements, rewrite user
 requirements casually, or implement product code. Call out any new dependency, service, build
 tool, CI, paid service, networked infrastructure, or external integration for explicit approval.
+Use IP-LITE-TEMPLATE.md for compact Native Lite plans when sufficient, IP-TEMPLATE.md for general
+full plans, and IP-OPENSPEC-TEMPLATE.md whenever OpenSpec binding needs the specialized envelope.
 
 Return High, Medium, or Low confidence with evidence, unresolved uncertainty, and recommended
 escalation. Low confidence, conflicting material evidence, or an unresolved material assumption

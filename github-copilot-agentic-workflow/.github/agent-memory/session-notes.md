@@ -7,6 +7,14 @@ Use this file for concise continuity across active or recent tasks.
 - Date: 2026-07-25
 - Task: GitHub Copilot agentic workflow initialized
 - Workflow contract version: 2.5.0
+- Specification mode: Native
+- OpenSpec change ID: Not applicable
+- OpenSpec schema/profile: Not applicable
+- OpenSpec CLI version: Not observed
+- OpenSpec artifact fingerprint: Not applicable
+- OpenSpec artifact state: Not applicable
+- OpenSpec sync/archive state: Not applicable
+- OpenSpec artifact invalidation reason: None
 - Requested workflow depth: Not applicable
 - Work class: Not applicable
 - Workflow route: Not applicable
@@ -49,6 +57,8 @@ Use this file for concise continuity across active or recent tasks.
   - `.github/agents/` contains the native custom-agent profiles.
   - `.github/agent-memory/workflow-metrics.md` is an optional local metadata-only workflow log.
   - `.github/WORKFLOW-CONFORMANCE.md` contains behavioral workflow scenarios.
+  - OpenSpec support is optional; Native mode is the default and performs no OpenSpec-specific
+    discovery.
   - No implementation plan revision has been approved.
 - Next step:
   - Wait for the user to choose a task.

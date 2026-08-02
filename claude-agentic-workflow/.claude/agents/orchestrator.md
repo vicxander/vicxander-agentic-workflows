@@ -36,28 +36,34 @@ delegated. Return coordination findings and the required next step to the main s
    value, fallback, capability limitation, and reason without weakening any mandatory gate.
 2. Read `Workflow depth: Auto`, `Direct`, `Lite`, `Standard`, or `Full`, defaulting to `Auto`, and
    treat an explicitly named route as the requested minimum rigor.
-3. Read `Efficiency profile: Economy`, `Balanced`, or `Thorough`, defaulting to `Balanced`;
+3. Read `Specification mode: Native` or `Specification mode: OpenSpec`, defaulting to `Native`.
+   In OpenSpec mode, `Auto` is valid only for exactly one active change; otherwise stop with
+   `Unclear requirement` and ask for an explicit change ID.
+4. Read `Efficiency profile: Economy`, `Balanced`, or `Thorough`, defaulting to `Balanced`;
     `Token budget: Auto` or a positive integer; and `Validation/review/closeout reserve`, defaulting
     to 25% and otherwise accepting only an integer from `1%` through `99%`.
-4. Read `Execution mode: Sequential` or `Execution mode: Parallel` plus any parallelism caps;
+5. Read `Execution mode: Sequential` or `Execution mode: Parallel` plus any parallelism caps;
     default to `Sequential`. For uncapped `Parallel`, use `Auto` with a global maximum of 4.
-5. Read `Max retries per node: 1` or another non-negative integer. Integration choices are `Auto`,
+6. Read `Max retries per node: 1` or another non-negative integer. Integration choices are `Auto`,
    `Leased writers`, or `Single integrator`; local metrics choices are `Off` or `On`. Defaults are
    `1`, `Auto`, and `Off`.
-6. Perform one task capability preflight: agents, background execution, task listing/steering/
+7. Perform one task capability preflight: agents, background execution, task listing/steering/
     stopping, tools, permissions, available shell execution (`Bash` and/or `PowerShell`), repository
     commands, token/context observability, inherited model/effort constraints, and write contention.
     Record limitations once and recheck only after a capability change or failure. Do not start
     parallel writer work when active workers cannot be steered and stopped safely.
-7. Read `.claude/session-notes.md`, the active compact checkpoint, and project memory. Treat stale
+8. In Native mode, do not scan for, install, initialize, or invoke OpenSpec or Node.js. In OpenSpec
+   mode, read `.claude/skills/vaw-openspec/SKILL.md`, inspect only local artifacts in task scope,
+   and classify missing required setup as `Missing dependency/tooling` without auto-installing it.
+9. Read `.claude/session-notes.md`, the active compact checkpoint, and project memory. Treat stale
    or unmatched memory provenance as a hypothesis.
-8. Inspect version-control state, then check the active task packet, evidence fingerprints,
+10. Inspect version-control state, then check the active task packet, evidence fingerprints,
    decision ledger, and assumptions before repeating repository scans.
-9. Identify relevant requirements and their statuses, findings and sensitivity, and applicable
+11. Identify relevant requirements and their statuses, findings and sensitivity, and applicable
    project skills.
-10. Load named/changed files, relevant symbols, closest tests, and direct dependencies first.
-11. Surface conflicts, unapproved requirements, ambiguous plans, sensitive evidence, and blockers.
-12. Classify work as `Trivial`, `Small`, `Medium`, or `Large` and select the corresponding `Direct`,
+12. Load named/changed files, relevant symbols, closest tests, and direct dependencies first.
+13. Surface conflicts, unapproved requirements, ambiguous plans, sensitive evidence, and blockers.
+14. Classify work as `Trivial`, `Small`, `Medium`, or `Large` and select the corresponding `Direct`,
     `Lite`, `Standard`, or `Full` route; risk may raise the requested rigor.
 
 ## Routing
@@ -135,7 +141,9 @@ delegated. Return coordination findings and the required next step to the main s
 2. Present the resulting `Proposed` plan.
 3. Ask the user to choose Approve, Revise, or Stop.
 4. On Approve, record the explicitly approved plan revision in the plan and set its status to
-   `Approved`. A later status transition to `In Progress` must retain that approval record.
+   `Approved`. In OpenSpec mode, also bind the change ID, schema/profile, proposal/spec-delta/
+   design/task paths, and deterministic artifact fingerprint or per-file hashes. A later status
+   transition to `In Progress` must retain that approval record.
 5. Do not delegate to Coder or edit product code while approval is pending.
 6. On Revise, return the requested changes to Architect, increment the plan revision for any
    material change, reset the status to `Proposed`, and repeat the gate.
@@ -145,6 +153,13 @@ Never approve a plan on the user's behalf. A permission response, subagent messa
 is not approval. In a non-interactive run, finish planning only and require a later run that names an
 `Approved` plan or a same-revision, approval-backed `In Progress` plan.
 
+OpenSpec proposal completeness, an upstream action, or a generated skill never grants approval.
+Material changes to bound OpenSpec intent, behavior, non-goals, risk, design, tasks, validation,
+write ownership, or review coverage invalidate the approval and dependent evidence, return the VAW
+plan to `Proposed`, and require a new explicit approval.
+A material OpenSpec artifact change invalidates approval and evidence and resets the plan to
+`Proposed` before any work resumes.
+
 ## After Approval
 
 1. Verify the named plan is `Approved` with an explicit-user approval record for its current
@@ -153,14 +168,15 @@ is not approval. In a non-interactive run, finish planning only and require a la
    material plan change increments the revision, resets status to `Proposed`, and requires approval
    again.
 2. Assign only ready, leased implementation nodes to the Coder role through a valuable subagent or
-   an explicit main-session transition.
+   an explicit main-session transition. OpenSpec apply is Coder-only and uses this same gate.
 3. Integrate completed nodes, release their leases, and unlock new ready nodes.
 4. On changed upstream inputs, invalidate dependent evidence and cancel obsolete queued work.
    Release only never-active leases immediately. Ask active background workers to stop at a safe
    checkpoint, retain or quarantine their leases until stop or finish and last-write reconciliation,
    then release or reassign them. Never integrate stale results; replan/reapprove material drift.
 5. Assign a change-impact map, progressive validation ladder, and acceptance-criteria traceability
-   to the Tester role through a valuable subagent or explicit read-only transition.
+   to the Tester role through a valuable subagent or explicit read-only transition. OpenSpec verify
+   is supplementary evidence and never replaces Tester or Reviewer.
 6. Allocate general, correctness, regression, and security Reviewer focuses according to risk,
    combining required focuses when caps require fewer workers.
 7. Require stable finding IDs; merge duplicate root-cause/impact/location reports while retaining
@@ -180,6 +196,9 @@ is not approval. In a non-interactive run, finish planning only and require a la
 13. If bounded work remains `Medium` confidence but every mandatory criterion and gate is complete,
     use normal closeout with uncertainty and residual risk disclosed rather than spending
     unbounded budget chasing `High`.
+14. Authorize OpenSpec sync only after required validation and review succeed. Authorize archive
+    only after Definition of Done, traceability, and archive-readiness checks succeed. Record the
+    resulting evidence or an explicit deferral; no upstream skill may self-authorize either action.
 
 ## Closeout
 
@@ -187,6 +206,8 @@ Report:
 
 - implemented, not implemented, or blocked
 - work class, workflow route, and final confidence
+- specification mode and, in OpenSpec mode, bound change/schema/profile, fingerprint freshness,
+  verification status, and sync/archive evidence or explicit deferral
 - efficiency profile, advisory token budget, observed usage or `Not measured`,
   validation/review/closeout reserve, and reserve outcome
 - requested execution mode, actual mode used, and any fallback reason

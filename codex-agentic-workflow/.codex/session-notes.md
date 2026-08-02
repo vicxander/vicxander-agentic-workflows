@@ -7,6 +7,14 @@ Use this file for short continuity notes across active or recent tasks.
 - Date:
 - Task:
 - Workflow contract version: 2.5.0
+- Specification mode:
+- OpenSpec change:
+- OpenSpec selection method:
+- OpenSpec schema/profile:
+- OpenSpec artifact fingerprint:
+- OpenSpec artifact freshness:
+- OpenSpec lifecycle action:
+- OpenSpec process telemetry opt-out:
 - Requested workflow depth:
 - Work class:
 - Workflow route:
@@ -55,6 +63,14 @@ Use this file for short continuity notes across active or recent tasks.
 
 - Date: 2026-07-25
 - Task: Agentic workflow initialized
+- Specification mode: Native
+- OpenSpec change: Not applicable
+- OpenSpec selection method: Not applicable
+- OpenSpec schema/profile: Not applicable
+- OpenSpec artifact fingerprint: Not applicable
+- OpenSpec artifact freshness: Not applicable
+- OpenSpec lifecycle action: None
+- OpenSpec process telemetry opt-out: Not applicable
 - Requested workflow depth: Not applicable
 - Work class: Not applicable
 - Workflow route: Not applicable
@@ -101,6 +117,7 @@ Use this file for short continuity notes across active or recent tasks.
   - `.agents/skills/` is the native repository-skill location.
   - `.codex/workflow-metrics.md` is an optional local metadata-only workflow log.
   - `.codex/workflow-conformance.md` contains coordination-policy scenarios.
+  - OpenSpec support is optional through `.agents/skills/vaw-openspec/SKILL.md`; Native is default.
   - No active implementation plan has been designated yet.
 - Next step:
   - Wait for the user to choose the next task.

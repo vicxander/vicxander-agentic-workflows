@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -25,6 +26,7 @@ class WorkflowValidatorTests(unittest.TestCase):
     def activation_prompt(**overrides: str) -> str:
         values = {
             "Workflow depth": "Auto",
+            "Specification mode": "Native",
             "Efficiency profile": "Balanced",
             "Token budget": "Auto",
             "Execution mode": "<Sequential|Parallel>",
@@ -79,6 +81,7 @@ class WorkflowValidatorTests(unittest.TestCase):
 
     def test_authoritative_core_rejects_contradictory_defaults(self) -> None:
         contradictions = (
+            "Specification mode defaults to OpenSpec.",
             "Efficiency profile: Thorough",
             "Default efficiency profile is Thorough.",
             "Max retries per node: 9",
@@ -101,6 +104,7 @@ class WorkflowValidatorTests(unittest.TestCase):
         validator.errors.clear()
         canonical = "\n".join(
             (
+                "Specification mode: Native",
                 "Efficiency profile: Balanced",
                 "Max retries per node: 1",
                 "Validation/review/closeout reserve: 25%",
@@ -491,6 +495,154 @@ class WorkflowValidatorTests(unittest.TestCase):
             actual.write_text("fixture\n", encoding="utf-8")
             self.assertTrue(validator.path_has_exact_case(actual))
             self.assertFalse(validator.path_has_exact_case(root / "exactcase.md"))
+
+    def test_openspec_prompt_control_is_mode_consistent(self) -> None:
+        validator.check_activation_prompts("fixture", self.activation_prompt())
+        self.assertEqual(validator.errors, [])
+
+        validator.errors.clear()
+        missing_mode = self.activation_prompt().replace(
+            "Specification mode: Native\n",
+            "",
+            1,
+        )
+        validator.check_activation_prompts("fixture", missing_mode)
+        self.assert_error_contains("'Specification mode' exactly once")
+
+        validator.errors.clear()
+        native_with_change = self.activation_prompt(
+            **{"OpenSpec change": "change-one"}
+        )
+        validator.check_activation_prompts("fixture", native_with_change)
+        self.assert_error_contains("Native activation prompt must omit 'OpenSpec change'")
+
+        validator.errors.clear()
+        openspec_without_change = self.activation_prompt(
+            **{"Specification mode": "OpenSpec"}
+        )
+        validator.check_activation_prompts("fixture", openspec_without_change)
+        self.assert_error_contains(
+            "OpenSpec activation prompt must declare 'OpenSpec change' exactly once"
+        )
+
+        validator.errors.clear()
+        openspec = self.activation_prompt(
+            **{
+                "Specification mode": "OpenSpec",
+                "OpenSpec change": "change-one",
+            }
+        )
+        validator.check_activation_prompts("fixture", openspec)
+        self.assertFalse(
+            any("invalid 'OpenSpec change'" in error for error in validator.errors),
+            validator.errors,
+        )
+
+    def test_openspec_notice_requires_exact_upstream_mit_attribution(self) -> None:
+        source = (validator.ROOT / "THIRD_PARTY_NOTICES.md").read_text(
+            encoding="utf-8"
+        )
+        validator.check_notice_file("fixture", source)
+        self.assertEqual(validator.errors, [])
+
+        validator.errors.clear()
+        mutated = source.replace(
+            "Copyright (c) 2024 OpenSpec Contributors",
+            "Copyright omitted",
+            1,
+        )
+        validator.check_notice_file("fixture", mutated)
+        self.assert_error_contains("OpenSpec copyright")
+
+    def test_openspec_adapters_and_plan_overlays_reject_weakened_gates(self) -> None:
+        for name, config in validator.PROVIDERS.items():
+            root = config["root"]
+            self.assertIsInstance(root, Path)
+            adapter_relative = {
+                "codex": ".agents/skills/vaw-openspec/SKILL.md",
+                "github-copilot": ".github/skills/vaw-openspec/SKILL.md",
+                "claude": ".claude/skills/vaw-openspec/SKILL.md",
+            }[name]
+            adapter = (root / adapter_relative).read_text(encoding="utf-8")
+            overlay = (
+                root / "docs/implementation-plans/IP-OPENSPEC-TEMPLATE.md"
+            ).read_text(encoding="utf-8")
+
+            with self.subTest(provider=name, artifact="adapter"):
+                validator.errors.clear()
+                validator.check_openspec_adapter("fixture", adapter)
+                self.assertEqual(validator.errors, [])
+                weakened = re.sub(
+                    r"exactly one",
+                    "any number of",
+                    adapter,
+                    flags=re.IGNORECASE,
+                )
+                validator.check_openspec_adapter("fixture", weakened)
+                self.assert_error_contains("Auto ambiguity")
+
+            with self.subTest(provider=name, artifact="plan"):
+                validator.errors.clear()
+                validator.check_openspec_plan_contract("fixture", overlay)
+                self.assertEqual(validator.errors, [])
+                weakened = re.sub(
+                    r"invalidates?",
+                    "refreshes",
+                    overlay,
+                    flags=re.IGNORECASE,
+                )
+                validator.check_openspec_plan_contract("fixture", weakened)
+                self.assert_error_contains("material mutation reset")
+
+    def test_every_openspec_conformance_scenario_is_semantically_required(self) -> None:
+        for name, config in validator.PROVIDERS.items():
+            root = config["root"]
+            self.assertIsInstance(root, Path)
+            source = (root / config["conformance"]).read_text(encoding="utf-8")
+            validator.errors.clear()
+            validator.check_openspec_conformance(f"{name} fixture", source)
+            self.assertEqual(validator.errors, [], name)
+
+        source = (
+            validator.PROVIDERS["codex"]["root"]
+            / validator.PROVIDERS["codex"]["conformance"]
+        ).read_text(encoding="utf-8")
+        _, sections = validator.openspec_scenario_sections(source)
+        for scenario_id in validator.OPENSPEC_CONFORMANCE_SCENARIOS:
+            with self.subTest(scenario=scenario_id):
+                section = sections[scenario_id]
+                replacement = (
+                    f"### {scenario_id}\n\n**Given:** Placeholder.\n\n"
+                    "**Expected:** Placeholder.\n\n"
+                )
+                mutated = source.replace(section, replacement, 1)
+                validator.errors.clear()
+                validator.check_openspec_conformance("fixture", mutated)
+                self.assert_error_contains(
+                    f"scenario {scenario_id} does not implement its OpenSpec contract"
+                )
+
+    def test_openspec_core_rejects_default_and_authority_reversals(self) -> None:
+        source = (
+            validator.ROOT / "codex-agentic-workflow/.codex/agents/README.md"
+        ).read_text(encoding="utf-8")
+        validator.check_openspec_core_contract("fixture", source)
+        self.assertEqual(validator.errors, [])
+
+        unsafe_rules = (
+            "Specification mode defaults to OpenSpec.",
+            "VAW automatically installs OpenSpec.",
+            "OpenSpec approval replaces VAW approval.",
+            "OpenSpec verify replaces Tester and Reviewer.",
+        )
+        for unsafe in unsafe_rules:
+            with self.subTest(unsafe=unsafe):
+                validator.errors.clear()
+                validator.check_openspec_core_contract(
+                    "fixture",
+                    source + "\n" + unsafe,
+                )
+                self.assertTrue(validator.errors, unsafe)
 
 
 if __name__ == "__main__":

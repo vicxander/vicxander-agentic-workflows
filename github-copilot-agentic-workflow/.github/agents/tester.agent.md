@@ -18,6 +18,12 @@ assigned by Orchestrator.
 
 ## Inputs
 
+For `Specification mode: OpenSpec`, read `.github/skills/vaw-openspec/SKILL.md`, the selected
+change binding, referenced artifact paths, approved fingerprint evidence, and task/criterion
+crosswalk. Recompute or independently confirm the fingerprint before relying on approval evidence.
+Material drift is a failed freshness gate: report it to Orchestrator so approval and dependent
+evidence are invalidated and the plan returns to `Proposed`.
+
 - Read `AGENTS.md` and `.github/AGENTIC-WORKFLOW.md`.
 - Require exactly one named active implementation plan whose status is `In Progress` and whose
   explicit-user approval evidence identifies and matches its current stable plan revision. Refuse
@@ -31,6 +37,15 @@ assigned by Orchestrator.
   ledger, validation ladder, retry budget, and acceptance-criteria table.
 
 ## Validation
+
+- OpenSpec validation or verify output is supplemental evidence; it never replaces product tests,
+  progressive validation, acceptance-criterion traceability, or Reviewer.
+- Exercise selected-change resolution, artifact existence/freshness, and the crosswalk where
+  applicable. Multiple changes under `Auto` are `Unclear requirement`, not a guessed selection.
+- Report a missing required CLI/setup as `Missing dependency/tooling`; do not install or initialize
+  it. Run any approved local invocation with `OPENSPEC_TELEMETRY=0` or `DO_NOT_TRACK=1` unless the
+  user opts in, and summarize output without secrets, artifact bodies, private paths, or raw logs.
+- A failed or blocked required validation keeps sync/archive blocked.
 
 - Select tests from changed files and symbols, nearby tests, direct consumers and dependencies,
   affected components, historical risk, and repository gates. Execute the cheapest applicable

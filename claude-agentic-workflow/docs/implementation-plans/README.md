@@ -2,9 +2,26 @@
 
 This folder stores Architect-generated implementation plans.
 
+Choose the smallest template that preserves the required gates:
+
+- `IP-LITE-TEMPLATE.md`: compact Small/Lite coordination in Native or OpenSpec mode.
+- `IP-OPENSPEC-TEMPLATE.md`: OpenSpec coordination overlay that references proposal, delta,
+  design, and task artifacts instead of copying them.
+- `IP-TEMPLATE.md`: full Standard/Full plan, including optional OpenSpec binding fields.
+
 ## Rules
 
 - Architect creates a plan here for non-trivial agentic implementation work.
+- Record `Specification mode: Native` or `Specification mode: OpenSpec`; omitted means `Native`.
+  OpenSpec mode binds exactly one change. `Auto` is valid only when exactly one active change can
+  be resolved; otherwise stop as `Unclear requirement` and ask for a change ID.
+- In OpenSpec mode, record change ID, schema/profile, artifact paths, a deterministic fingerprint
+  or per-file hashes, and a task/criterion crosswalk. Approval binds those values plus the VAW plan
+  revision. Material artifact drift invalidates approval/evidence and returns the plan to
+  `Proposed`.
+- OpenSpec artifacts provide the proposed specification/design/tasks; this plan remains the VAW
+  execution, risk, lease, validation, review, and closeout authority. Do not duplicate artifact
+  prose in an overlay.
 - Architect records `Sequential` or `Parallel`; `Parallel` plans identify independent work,
   dependency boundaries, and non-overlapping ownership.
 - Parallel plans record automatic allocation, the global maximum, optional Coder, Tester, and
@@ -41,6 +58,9 @@ This folder stores Architect-generated implementation plans.
   `In Progress` plan.
 - Tester validates the approved plan and its Definition of Done.
 - Reviewer checks for defects and drift from the approved plan.
+- OpenSpec explore/propose/update are Architect-only planning operations; apply is Coder-only under
+  a named `In Progress` plan and valid lease; verify never replaces Tester/Reviewer; sync/archive
+  are Orchestrator-only after required gates.
 - High-risk plans include rollback or recovery notes.
 - Record `Not measured` for unavailable token, duration, hash, or runtime data instead of inventing
   it.

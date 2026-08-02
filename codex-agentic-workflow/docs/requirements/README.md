@@ -23,6 +23,10 @@ other user-approved inputs that should guide planning and implementation.
   validation, and review evidence without rewriting user intent.
 - Reviewer checks whether implementation drifted from relevant requirements.
 - Keep `INDEX.md` updated when useful for navigation.
+- When OpenSpec mode is used, this folder remains the stakeholder-intent lane.
+  `openspec/specs/` may normalize current behavior and a selected `openspec/changes/<change-id>/`
+  may describe a proposed delta, but neither silently outranks or rewrites user-approved intent.
+  The VAW implementation plan records any mapping or conflict.
 
 ## Statuses
 

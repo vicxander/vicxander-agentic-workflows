@@ -60,6 +60,7 @@ PROVIDERS = {
             "AGENTS.md",
             ".agents/skills/README.md",
             ".agents/skills/SKILL-TEMPLATE.md",
+            ".agents/skills/vaw-openspec/SKILL.md",
             ".codex/config.toml",
             ".codex/README.md",
             ".codex/session-notes.md",
@@ -117,6 +118,7 @@ PROVIDERS = {
             ".github/agents/reviewer.agent.md",
             ".github/skills/README.md",
             ".github/skills/SKILL-TEMPLATE.md",
+            ".github/skills/vaw-openspec/SKILL.md",
             ".github/agent-memory/README.md",
             ".github/agent-memory/session-notes.md",
             ".github/agent-memory/todo.md",
@@ -165,6 +167,7 @@ PROVIDERS = {
             ".claude/skills/README.md",
             ".claude/skills/SKILL-TEMPLATE.md",
             ".claude/skills/agentic-workflow/SKILL.md",
+            ".claude/skills/vaw-openspec/SKILL.md",
             ".claude/agent-memory/README.md",
             ".claude/agent-memory/orchestrator/MEMORY.md",
             ".claude/agent-memory/architect/MEMORY.md",
@@ -181,6 +184,8 @@ SHARED_DOCS = [
     "docs/requirements/REQ-TEMPLATE.md",
     "docs/implementation-plans/README.md",
     "docs/implementation-plans/INDEX.md",
+    "docs/implementation-plans/IP-LITE-TEMPLATE.md",
+    "docs/implementation-plans/IP-OPENSPEC-TEMPLATE.md",
     "docs/implementation-plans/IP-TEMPLATE.md",
     "docs/user-findings/README.md",
     "docs/user-findings/INDEX.md",
@@ -312,6 +317,7 @@ ROOT_MECHANISM_ROWS = (
 
 PROMPT_REQUIRED_FIELDS = (
     "Workflow depth",
+    "Specification mode",
     "Efficiency profile",
     "Token budget",
     "Execution mode",
@@ -323,10 +329,20 @@ PROMPT_REQUIRED_FIELDS = (
     "Task",
 )
 
-PROMPT_OPTIONAL_FIELDS = ("Coder max", "Tester max", "Reviewer max")
+PROMPT_OPTIONAL_FIELDS = (
+    "OpenSpec change",
+    "Coder max",
+    "Tester max",
+    "Reviewer max",
+)
 
 PROMPT_VALUE_PATTERNS = {
     "Workflow depth": r"(?:Auto|Direct|Lite|Standard|Full|<Auto\|Direct\|Lite\|Standard\|Full>)",
+    "Specification mode": r"(?:Native|OpenSpec|<Native\|OpenSpec>)",
+    "OpenSpec change": (
+        r"(?:Auto|[A-Za-z0-9][A-Za-z0-9._-]*|<change-id\|Auto; omit in Native>|"
+        r"<change-id\|Auto>|<explicit-change-id>)"
+    ),
     "Efficiency profile": r"(?:Economy|Balanced|Thorough|<Economy\|Balanced\|Thorough>)",
     "Token budget": r"(?:Auto|[1-9][0-9]*|<Auto\|positive integer>)",
     "Execution mode": r"(?:Sequential|Parallel|<Sequential\|Parallel>)",
@@ -347,6 +363,7 @@ PROMPT_VALUE_PATTERNS = {
 
 CANONICAL_PROMPT_DEFAULTS = {
     "Workflow depth": "Auto",
+    "Specification mode": "Native",
     "Efficiency profile": "Balanced",
     "Token budget": "Auto",
     "Execution mode": "<Sequential|Parallel>",
@@ -359,6 +376,7 @@ CANONICAL_PROMPT_DEFAULTS = {
 
 CANONICAL_PLAN_DEFAULTS = {
     "Requested workflow depth": "Auto",
+    "Specification mode": "Native",
     "Efficiency profile": "Balanced",
     "Token budget": "Auto",
     "Max parallel subagents": "4",
@@ -376,6 +394,7 @@ PLAN_ROLE_CAP_DEFAULTS = {
 
 PLAN_DEFAULT_SECTIONS = {
     "Requested workflow depth": r"Work Classification",
+    "Specification mode": r"(?:Specification Mode|OpenSpec(?: Coordination)?(?: Binding)?)",
     "Efficiency profile": (
         r"(?:Efficiency And Budget(?: Controls)?|Resource-Efficiency Controls|Resource Controls)"
     ),
@@ -635,8 +654,10 @@ FIRST_RUN_ADAPTATION_CONTRACT_PATTERNS = {
 
 LICENSE_NOTICE_CONTRACT_PATTERNS = {
     "creator attribution": r"Victor Alexander Daud",
+    "OpenSpec attribution": r"OpenSpec Contributors|OpenSpec.{0,120}MIT",
     "MIT permission-notice retention": (
-        r"retain(?:ing)?.{0,140}(?:MIT permission notice|complete\s+MIT notice)"
+        r"retain(?:ing)?.{0,180}(?:MIT permission notice|complete\s+MIT notice|"
+        r"complete.{0,80}MIT notices)"
     ),
     "non-destructive third-party notice guidance": (
         r"THIRD_PARTY_NOTICES\.md.{0,220}(?:instead of|without|never|do not)"
@@ -669,6 +690,123 @@ NOTICE_FILE_PATTERNS = {
     "document title": r"^# Third-Party Notices\s*$",
     "project name": r"^## VicXander Agentic Workflows\s*$",
     **MIT_LICENSE_PATTERNS,
+}
+
+OPENSPEC_BASELINE_VERSION = "1.7.0"
+OPENSPEC_BASELINE_COMMIT = "45cca5db6137ed209117cc70510eb3e057fb981b"
+OPENSPEC_LICENSE_PATTERNS = {
+    "OpenSpec heading": r"^## OpenSpec\s*$",
+    "OpenSpec copyright": r"^Copyright \(c\) 2024 OpenSpec Contributors\s*$",
+    "OpenSpec MIT permission grant": (
+        r"Copyright \(c\) 2024 OpenSpec Contributors[\s\S]{0,500}"
+        r"Permission is hereby granted, free of charge, to any person obtaining a copy"
+    ),
+    "OpenSpec notice-retention condition": (
+        r"Copyright \(c\) 2024 OpenSpec Contributors[\s\S]{0,1200}"
+        r"The above copyright notice and this permission notice shall be included in all"
+    ),
+    "OpenSpec warranty disclaimer": (
+        r"Copyright \(c\) 2024 OpenSpec Contributors[\s\S]{0,1800}"
+        r'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND'
+    ),
+    "OpenSpec non-endorsement": (
+        r"OpenSpec.{0,180}(?:does not|do not|no).{0,120}"
+        r"(?:endorse|affiliat|certif|sponsor)|"
+        r"(?:does not|do not|no).{0,120}(?:endorse|affiliat|certif|sponsor).{0,180}OpenSpec"
+    ),
+}
+
+OPENSPEC_CORE_CONTRACT_PATTERNS = {
+    "Native specification default": (
+        r"Specification mode:\s*Native|"
+        r"Specification mode.{0,100}(?:defaults? to|default is).{0,30}`?Native`?"
+    ),
+    "explicit OpenSpec selection": r"Specification mode:\s*(?:<Native\|OpenSpec>|OpenSpec)",
+    "unambiguous Auto change selection": (
+        r"OpenSpec change.{0,160}Auto.{0,220}exactly one.{0,200}"
+        r"(?:Unclear requirement|explicit (?:change )?ID)"
+    ),
+    "VAW sole authority": (
+        r"VAW.{0,100}(?:sole|only).{0,100}(?:authority|coordinator)|"
+        r"sole.{0,100}(?:authority|coordinator).{0,100}VAW"
+    ),
+    "Architect planning-only mapping": (
+        r"(?:explore|propose).{0,180}(?:Architect|planning).{0,220}no product writes|"
+        r"Architect.{0,180}(?:explore|propose|update).{0,220}no product writes"
+    ),
+    "Coder apply gate": (
+        r"apply.{0,180}Coder.{0,220}In Progress.{0,220}(?:lease|write lease)|"
+        r"Coder.{0,180}apply.{0,220}In Progress.{0,220}(?:lease|write lease)"
+    ),
+    "Tester and Reviewer verify gate": (
+        r"verify.{0,180}Tester.{0,180}Reviewer.{0,180}(?:never|does not|cannot).{0,100}replace|"
+        r"(?:never|does not|cannot).{0,100}replace.{0,180}Tester.{0,180}Reviewer"
+    ),
+    "Orchestrator sync/archive gate": (
+        r"(?:sync|archive).{0,180}Orchestrator.{0,260}"
+        r"(?:validation|review|closeout|Definition of Done)"
+    ),
+    "artifact fingerprint binding": (
+        r"OpenSpec.{0,180}(?:artifact )?fingerprint.{0,220}"
+        r"(?:change ID|schema|profile|artifact paths?|hash)"
+    ),
+    "material mutation invalidation": (
+        r"material.{0,120}(?:OpenSpec|bound).{0,100}artifact.{0,180}"
+        r"invalidat.{0,180}(?:approval|evidence).{0,160}Proposed"
+    ),
+    "no automatic setup": (
+        r"(?:never|do not|does not).{0,100}(?:install|initialize).{0,100}OpenSpec|"
+        r"OpenSpec.{0,100}(?:never|do not|does not).{0,100}(?:install|initialize)"
+    ),
+    "Native no-discovery behavior": (
+        r"Native mode.{0,180}(?:no|never|does not|without).{0,100}"
+        r"(?:discover|scan|invoke|OpenSpec dependency)"
+    ),
+    "OpenSpec untrusted-content boundary": (
+        r"OpenSpec.{0,120}(?:files|artifacts|skills|output|content).{0,180}"
+        r"untrusted\s+(?:data|content)"
+    ),
+    "telemetry-disabled VAW invocations": (
+        r"OPENSPEC_TELEMETRY=0.{0,100}DO_NOT_TRACK=1|"
+        r"DO_NOT_TRACK=1.{0,100}OPENSPEC_TELEMETRY=0"
+    ),
+}
+
+OPENSPEC_ADAPTER_PATTERNS = {
+    "adapter purpose": r"OpenSpec.{0,120}(?:adapter|lifecycle)",
+    "Native no-op": r"Native.{0,160}(?:no-op|do not|does not|no )",
+    "Auto ambiguity": r"Auto.{0,180}exactly one.{0,180}(?:Unclear requirement|explicit)",
+    "planning mapping": r"(?:explore|propose).{0,160}Architect",
+    "apply mapping": r"apply.{0,160}Coder.{0,200}In Progress",
+    "verify mapping": r"verify.{0,160}Tester.{0,160}Reviewer",
+    "sync/archive mapping": r"(?:sync|archive).{0,160}Orchestrator",
+    "fingerprint invalidation": (
+        r"fingerprint.{0,220}invalidat.{0,180}Proposed|"
+        r"invalidat.{0,120}(?:the )?fingerprint.{0,260}Proposed"
+    ),
+    "no setup": r"(?:never|do not).{0,120}(?:install|initialize)",
+    "telemetry opt out": r"OPENSPEC_TELEMETRY=0.{0,100}DO_NOT_TRACK=1|DO_NOT_TRACK=1.{0,100}OPENSPEC_TELEMETRY=0",
+}
+
+OPENSPEC_CONFORMANCE_SCENARIOS = {
+    "OS-01": r"Native.{0,180}(?:no|without).{0,120}(?:OpenSpec|dependency|scan)",
+    "OS-02": r"(?:explore|propose).{0,180}(?:planning|Architect).{0,180}no product writes",
+    "OS-03": r"apply.{0,180}(?:before|without).{0,120}(?:approval|In Progress).{0,180}(?:block|no product writes)",
+    "OS-04": r"approv.{0,180}(?:fingerprint|artifact).{0,180}In Progress",
+    "OS-05": r"material.{0,160}artifact.{0,180}invalidat.{0,180}Proposed",
+    "OS-06": r"multiple.{0,140}(?:active )?changes.{0,180}Auto.{0,180}Unclear requirement",
+    "OS-07": r"(?:CLI|setup|OpenSpec).{0,180}missing.{0,180}Missing dependency/tooling.{0,220}(?:not|never|do not).{0,100}(?:install|initialize)",
+    "OS-08": r"validation fails.{0,220}(?:block|blocked).{0,160}(?:sync|archive)",
+    "OS-09": r"(?:criteria|gates).{0,160}pass.{0,180}(?:sync|archive)",
+    "OS-10": r"(?:directive|instruction).{0,180}untrusted (?:data|content).{0,220}(?:authority|permission)",
+    "OS-11": r"Native.{0,180}(?:existing|contains).{0,120}OpenSpec.{0,180}(?:preserve|unchanged)",
+    "OS-12": r"(?:requirement|VAW).{0,180}conflict.{0,180}(?:delta|OpenSpec).{0,180}(?:surface|alignment|approval)",
+    "OS-13": r"Copilot.{0,180}(?:cannot pause|two-task).{0,220}fingerprint",
+    "OS-14": r"(?:non-interactive|Claude).{0,180}(?:proposal|propose).{0,180}(?:stop|approval boundary)",
+    "OS-15": r"telemetry.{0,220}(?:OPENSPEC_TELEMETRY=0|DO_NOT_TRACK=1)",
+    "OS-16": r"(?:bootstrap|merge).{0,180}(?:preserve|preserves).{0,220}(?:config|specs|changes|schemas)",
+    "OS-17": r"adapter.{0,180}(?:removed|disabled).{0,180}Native.{0,180}(?:operable|no .*delete|preserve)",
+    "OS-18": r"(?:MIT|license).{0,180}(?:notice|provenance)",
 }
 
 EMBEDDED_CONFORMANCE_SCENARIOS = {
@@ -1715,6 +1853,24 @@ def check_activation_prompts(label: str, text: str) -> None:
                 bool(task.strip()),
                 f"{label}:{opening_line} activation prompt has an empty task",
             )
+        specification_values = fields["Specification mode"]
+        change_values = fields["OpenSpec change"]
+        if specification_values == ["Native"]:
+            check(
+                not change_values,
+                (
+                    f"{label}:{opening_line} Native activation prompt must omit "
+                    "'OpenSpec change'"
+                ),
+            )
+        elif specification_values == ["OpenSpec"]:
+            check(
+                len(change_values) == 1,
+                (
+                    f"{label}:{opening_line} OpenSpec activation prompt must declare "
+                    "'OpenSpec change' exactly once"
+                ),
+            )
 
         canonical = all(
             fields[field] == [expected]
@@ -1750,10 +1906,10 @@ TARGET_AGENTS_POLICY_HEADINGS = (
     "Source Of Truth",
     "Untrusted Content Boundary",
     "External Tool Data Boundary",
+    "Specification Modes And OpenSpec",
     "Agent Rules",
     "Execution Modes",
     "Adaptive Work Routing And Efficiency",
-    "Resource Governance",
     "First-Run Repository Adaptation",
     "Risk And Security",
     "Definition Of Done",
@@ -1861,6 +2017,71 @@ def check_plan_defaults(label: str, text: str) -> None:
         )
 
 
+def check_lite_plan_contract(label: str, text: str) -> None:
+    """Validate the compact Lite envelope without requiring the Full-plan section layout."""
+    for contract, pattern in (
+        ("workflow contract version", rf"Workflow contract version:\s*{re.escape(WORKFLOW_CONTRACT_VERSION)}"),
+        ("Proposed initial status", r"(?:Status:\s*Proposed|## Status[\s\S]{0,40}Proposed)"),
+        ("Native specification default", r"Specification mode:\s*Native"),
+        ("Balanced efficiency default", r"Efficiency profile:\s*Balanced"),
+        ("Auto token budget", r"Token budget:\s*Auto"),
+        ("retry default", r"Max retries per node:\s*1"),
+        ("reserve default", r"Validation/review/closeout reserve:\s*25%"),
+        ("Sequential execution default", r"Execution mode:\s*Sequential|## Execution Mode[\s\S]{0,40}\nSequential"),
+        ("Auto integration default", r"Integration mode:\s*Auto"),
+        ("metrics default", r"Local metrics:\s*Off"),
+        ("global cap", r"Max parallel subagents:\s*4"),
+        ("task-packet revision", r"Task-packet (?:revision|version):\s*1"),
+        ("acceptance criteria", r"Acceptance Criteria"),
+        ("write ownership", r"write lease"),
+        ("validation", r"Validation"),
+        ("Reviewer disposition", r"Reviewer disposition"),
+        ("approval evidence", r"(?:Explicit )?approval evidence reference"),
+        ("material revision reset", r"material.{0,180}(?:clears approval|invalidat).{0,180}Proposed"),
+    ):
+        check(
+            re.search(pattern, text, re.DOTALL | re.IGNORECASE) is not None,
+            f"{label} lacks {contract}",
+        )
+
+
+def check_openspec_plan_contract(label: str, text: str) -> None:
+    """Validate the VAW overlay that binds, but does not duplicate, one OpenSpec change."""
+    for contract, pattern in (
+        ("workflow contract version", rf"Workflow contract version:\s*{re.escape(WORKFLOW_CONTRACT_VERSION)}"),
+        ("OpenSpec specification mode", r"Specification mode:\s*OpenSpec"),
+        ("change ID", r"OpenSpec change(?: ID)?:"),
+        ("Auto ambiguity", r"Auto.{0,180}exactly one.{0,180}Unclear requirement"),
+        (
+            "pinned baseline",
+            rf"{re.escape(OPENSPEC_BASELINE_VERSION)}.{{0,180}}{OPENSPEC_BASELINE_COMMIT}",
+        ),
+        ("schema/profile", r"Schema/profile:"),
+        ("bound artifact paths", r"(?:Material|Bound) artifact paths:"),
+        ("deterministic artifact hashes", r"SHA-256"),
+        ("aggregate fingerprint", r"(?:Aggregate SHA-256 fingerprint|Artifact fingerprint):"),
+        ("VAW sole authority", r"VAW remains the sole authority"),
+        ("untrusted artifact data", r"OpenSpec artifacts?.{0,180}untrusted data"),
+        ("planning-only actions", r"(?:Explore/propose/update|explore, propose, or update).{0,180}no product"),
+        ("Coder apply gate", r"Apply.{0,180}Coder.{0,220}In Progress.{0,220}lease"),
+        ("verify role preservation", r"verify.{0,180}(?:does not|never).{0,100}replace.{0,120}Tester.{0,120}Reviewer"),
+        (
+            "sync/archive gate",
+            r"(?:sync or archive.{0,180}Orchestrator|Orchestrator.{0,180}sync or archive)"
+            r".{0,220}(?:Definition of Done|validation|review)",
+        ),
+        ("material mutation reset", r"material.{0,160}(?:artifact|binding).{0,180}invalidat.{0,220}Proposed"),
+        ("approval binding", r"approval.{0,220}(?:selected change|schema/profile|artifact paths|fingerprint)"),
+        ("telemetry opt out", r"OPENSPEC_TELEMETRY=0.{0,100}DO_NOT_TRACK=1|DO_NOT_TRACK=1.{0,100}OPENSPEC_TELEMETRY=0"),
+        ("no automatic setup", r"(?:do not|never).{0,120}(?:install|init)"),
+        ("acceptance traceability", r"Criterion.{0,80}(?:Tester evidence|Validation evidence).{0,80}Reviewer disposition"),
+    ):
+        check(
+            re.search(pattern, text, re.DOTALL | re.IGNORECASE) is not None,
+            f"{label} lacks {contract}",
+        )
+
+
 def check_core_default_contract(
     label: str,
     text: str,
@@ -1903,6 +2124,12 @@ def check_core_default_contract(
             )
 
     contradictions = {
+        "specification mode": (
+            r"Specification mode[^.\n]{0,100}(?:defaults?\s+to|default\s+is)"
+            r"\s*`?OpenSpec`?|"
+            r"OpenSpec\s+(?:is\s+the\s+default|default specification mode)|"
+            r"default specification mode(?:\s+is|:)?\s*OpenSpec"
+        ),
         "workflow depth": (
             r"Workflow depth.{0,50}(?:defaults?\s+to|default\s+is)"
             r".{0,30}(?:Direct|Lite|Standard|Full)|"
@@ -2740,7 +2967,7 @@ def check_first_run_adaptation_contract(label: str, text: str) -> None:
 
 
 def check_notice_file(label: str, text: str) -> None:
-    """Require a self-contained MIT notice suitable for copied workflow material."""
+    """Require self-contained VAW and OpenSpec MIT notices for copied material."""
     for contract in ("document title", "project name"):
         pattern = NOTICE_FILE_PATTERNS[contract]
         check(
@@ -2748,6 +2975,115 @@ def check_notice_file(label: str, text: str) -> None:
             f"{label} lacks {contract}",
         )
     check_mit_license(label, text)
+    for contract, pattern in OPENSPEC_LICENSE_PATTERNS.items():
+        check(
+            re.search(pattern, text, re.DOTALL | re.MULTILINE | re.IGNORECASE)
+            is not None,
+            f"{label} lacks {contract}",
+        )
+
+
+def check_openspec_core_contract(label: str, text: str) -> None:
+    """Require the provider-neutral OpenSpec authority, lifecycle, and privacy contract."""
+    for contract, pattern in OPENSPEC_CORE_CONTRACT_PATTERNS.items():
+        check(
+            re.search(pattern, text, re.DOTALL | re.IGNORECASE) is not None,
+            f"{label} lacks OpenSpec contract {contract}",
+        )
+    for contradiction, pattern in (
+        (
+            "OpenSpec as the default specification mode",
+            r"Specification mode[^.\n]{0,100}(?:defaults? to|default is)"
+            r"\s*`?OpenSpec`?|"
+            r"OpenSpec\s+is the default specification mode",
+        ),
+        (
+            "automatic OpenSpec installation",
+            r"VAW automatically installs OpenSpec|workflow automatically installs OpenSpec",
+        ),
+        (
+            "automatic OpenSpec initialization",
+            r"VAW automatically (?:runs )?openspec init|workflow automatically initializes OpenSpec",
+        ),
+        (
+            "unpinned latest OpenSpec execution",
+            r"\bnpx(?:\s+-y)?\s+(?:@fission-ai/)?openspec@latest\b",
+        ),
+        (
+            "OpenSpec approval replacing VAW approval",
+            r"OpenSpec approval replaces VAW approval|OpenSpec may approve implementation",
+        ),
+        (
+            "OpenSpec verification replacing VAW roles",
+            r"OpenSpec verify replaces (?:the )?Tester and Reviewer",
+        ),
+    ):
+        check(
+            re.search(pattern, text, re.DOTALL | re.IGNORECASE) is None,
+            f"{label} contains unsafe OpenSpec rule: {contradiction}",
+        )
+
+
+def check_openspec_adapter(label: str, text: str) -> None:
+    """Require a provider-native adapter to preserve every VAW lifecycle gate."""
+    check_frontmatter_text(label, text)
+    for contract, pattern in OPENSPEC_ADAPTER_PATTERNS.items():
+        check(
+            re.search(pattern, text, re.DOTALL | re.IGNORECASE) is not None,
+            f"{label} lacks OpenSpec adapter contract {contract}",
+        )
+
+
+def openspec_scenario_sections(text: str) -> tuple[list[str], dict[str, str]]:
+    """Extract OS scenarios from heading-based or compact table-based suites."""
+    visible = markdown_contract_text(text)
+    heading_matches = list(
+        re.finditer(
+            r"^ {0,3}###(?!#)[ \t]+(OS-\d{2})\b[^\n]*",
+            visible,
+            re.MULTILINE,
+        )
+    )
+    if heading_matches:
+        ids = [match.group(1) for match in heading_matches]
+        sections: dict[str, str] = {}
+        boundary = re.compile(r"^ {0,3}#{1,3}(?!#)[ \t]+", re.MULTILINE)
+        for match in heading_matches:
+            next_heading = boundary.search(visible, match.end())
+            end = next_heading.start() if next_heading is not None else len(visible)
+            sections.setdefault(match.group(1), visible[match.start() : end])
+        return ids, sections
+
+    row_matches = list(
+        re.finditer(r"^\|\s*(OS-\d{2})\s*\|.*\|\s*$", visible, re.MULTILINE)
+    )
+    ids = [match.group(1) for match in row_matches]
+    return ids, {match.group(1): match.group(0) for match in row_matches}
+
+
+def check_openspec_conformance(label: str, text: str) -> None:
+    """Require exact OS-01 through OS-18 scenario coverage and expected behavior."""
+    ids, sections = openspec_scenario_sections(text)
+    expected = set(OPENSPEC_CONFORMANCE_SCENARIOS)
+    actual = set(ids)
+    check(len(ids) == len(actual), f"{label} contains duplicate OpenSpec scenario IDs")
+    check(
+        actual == expected,
+        (
+            f"{label} OpenSpec scenario IDs differ from the exact contract; "
+            f"missing={sorted(expected - actual)}, unexpected={sorted(actual - expected)}"
+        ),
+    )
+    for scenario_id, pattern in OPENSPEC_CONFORMANCE_SCENARIOS.items():
+        check(
+            re.search(
+                pattern,
+                sections.get(scenario_id, ""),
+                re.DOTALL | re.IGNORECASE,
+            )
+            is not None,
+            f"{label} scenario {scenario_id} does not implement its OpenSpec contract",
+        )
 
 
 def check_mit_license(label: str, text: str) -> None:
@@ -3676,6 +4012,45 @@ def check_provider_roles(name: str, provider_root: Path) -> None:
                 f"{name}: {role} role lacks {contract}",
             )
 
+    openspec_role_contracts = {
+        "orchestrator": (
+            ("specification-mode control", r"Specification mode"),
+            ("Auto ambiguity stop", r"Auto.{0,180}exactly one.{0,180}(?:Unclear requirement|explicit)"),
+            ("sync/archive ownership", r"(?:sync|archive).{0,180}(?:only|Orchestrator)"),
+            ("artifact-mutation reset", r"material.{0,140}artifact.{0,180}invalidat.{0,180}Proposed"),
+        ),
+        "architect": (
+            ("planning action ownership", r"(?:explore|propose|update).{0,180}(?:planning|OpenSpec)"),
+            ("no product writes", r"(?:no|never|do not).{0,100}product writes?"),
+            ("artifact binding", r"(?:change ID|artifact paths?|fingerprint)"),
+        ),
+        "coder": (
+            ("apply ownership", r"OpenSpec.{0,160}apply|apply.{0,160}OpenSpec"),
+            ("VAW plan gate", r"In Progress"),
+            ("write-lease gate", r"write lease|lease"),
+        ),
+        "tester": (
+            ("OpenSpec verification", r"OpenSpec.{0,160}verif|verif.{0,160}OpenSpec"),
+            ("supporting evidence only", r"(?:support|supplement).{0,140}evidence|(?:never|does not).{0,100}replace"),
+        ),
+        "reviewer": (
+            ("OpenSpec verification review", r"OpenSpec.{0,160}(?:verif|artifact)|(?:verif|artifact).{0,160}OpenSpec"),
+            ("independent gate", r"independent|(?:never|does not).{0,100}replace"),
+            ("sync/archive blocking", r"(?:sync|archive).{0,160}(?:block|gate|before)"),
+        ),
+    }
+    for role, contracts in openspec_role_contracts.items():
+        for contract, pattern in contracts:
+            check(
+                re.search(
+                    pattern,
+                    role_texts[role],
+                    re.DOTALL | re.IGNORECASE,
+                )
+                is not None,
+                f"{name}: {role} role lacks OpenSpec {contract}",
+            )
+
 
 def check_provider(name: str, config: dict[str, object]) -> None:
     provider_root = config["root"]
@@ -3692,8 +4067,8 @@ def check_provider(name: str, config: dict[str, object]) -> None:
         if path.is_file() and not IGNORED_PARTS.intersection(path.relative_to(provider_root).parts)
     ]
     check(
-        len(actual_files) == 32,
-        f"{name}: expected 32 distribution files, found {len(actual_files)}",
+        len(actual_files) == 35,
+        f"{name}: expected 35 distribution files, found {len(actual_files)}",
     )
     check_notice_file(
         f"{name}: THIRD_PARTY_NOTICES.md",
@@ -3714,6 +4089,18 @@ def check_provider(name: str, config: dict[str, object]) -> None:
         check(
             re.search(pattern, readme, re.DOTALL | re.IGNORECASE) is not None,
             f"{name}: README lacks {notice_contract}",
+        )
+    for contract, pattern in (
+        ("OpenSpec pinned baseline", rf"OpenSpec.{{0,180}}{re.escape(OPENSPEC_BASELINE_VERSION)}"),
+        ("OpenSpec pinned commit", OPENSPEC_BASELINE_COMMIT),
+        ("Native no-migration compatibility", r"Native.{0,180}(?:no migration|does not require migration|no.*migrat)"),
+        ("non-destructive OpenSpec merge", r"merge.{0,220}preserve.{0,260}openspec"),
+        ("missing-tool handling", r"Missing dependency/tooling"),
+        ("OpenSpec telemetry opt-out", r"OPENSPEC_TELEMETRY=0.{0,100}DO_NOT_TRACK=1|DO_NOT_TRACK=1.{0,100}OPENSPEC_TELEMETRY=0"),
+    ):
+        check(
+            re.search(pattern, readme, re.DOTALL | re.IGNORECASE) is not None,
+            f"{name}: README lacks {contract}",
         )
     check(
         sum(
@@ -3893,6 +4280,7 @@ def check_provider(name: str, config: dict[str, object]) -> None:
         check(invariant in core_text, f"{name}: core instructions lack invariant {invariant!r}")
     check_untrusted_content_contract(f"{name}: core instructions", core_text)
     check_external_tool_data_contract(f"{name}: core instructions", core_text)
+    check_openspec_core_contract(f"{name}: core instructions", core_text)
     check_core_default_contract(f"{name}: core instructions", core_text)
     for contract, pattern in {**RETRY_CONTRACT_PATTERNS, **LEASE_CONTRACT_PATTERNS}.items():
         check(
@@ -3921,6 +4309,7 @@ def check_provider(name: str, config: dict[str, object]) -> None:
     conformance_path = provider_root / str(config["conformance"])
     conformance = read_text(conformance_path)
     check_provider_conformance(name, f"{name}: conformance suite", conformance)
+    check_openspec_conformance(f"{name}: conformance suite", conformance)
     for term in ("approval", "privacy", "security", "blocked"):
         check(term in conformance.lower(), f"{name}: conformance suite lacks {term} coverage")
 
@@ -3932,6 +4321,24 @@ def check_provider(name: str, config: dict[str, object]) -> None:
         )
     check_plan_defaults(f"{name}: implementation-plan template", plan_template)
     check_fingerprint_contract(f"{name}: implementation-plan template", plan_template)
+    check_openspec_core_contract(
+        f"{name}: implementation-plan template",
+        plan_template,
+    )
+    lite_plan = read_text(
+        provider_root / "docs/implementation-plans/IP-LITE-TEMPLATE.md"
+    )
+    openspec_plan = read_text(
+        provider_root / "docs/implementation-plans/IP-OPENSPEC-TEMPLATE.md"
+    )
+    check_lite_plan_contract(
+        f"{name}: Lite implementation-plan template",
+        lite_plan,
+    )
+    check_openspec_plan_contract(
+        f"{name}: OpenSpec implementation-plan template",
+        openspec_plan,
+    )
     for plan_contract, pattern in (
         (
             "contract version",
@@ -4029,6 +4436,27 @@ def check_provider(name: str, config: dict[str, object]) -> None:
         re.search(r"(?:Explicit )?Approval evidence reference:", session_text, re.IGNORECASE)
         is not None,
         f"{name}: session state lacks explicit approval-evidence reference",
+    )
+    for contract, pattern in (
+        ("specification mode", r"Specification mode:"),
+        ("OpenSpec change", r"OpenSpec change(?: ID)?:"),
+        ("OpenSpec schema/profile", r"OpenSpec (?:schema|profile|schema/profile):"),
+        ("OpenSpec artifact fingerprint", r"OpenSpec artifact fingerprint:"),
+        ("OpenSpec artifact state", r"OpenSpec artifact (?:state|status|freshness):"),
+    ):
+        check(
+            re.search(pattern, session_text, re.IGNORECASE) is not None,
+            f"{name}: session state lacks {contract}",
+        )
+
+    adapter_relative = {
+        "codex": ".agents/skills/vaw-openspec/SKILL.md",
+        "github-copilot": ".github/skills/vaw-openspec/SKILL.md",
+        "claude": ".claude/skills/vaw-openspec/SKILL.md",
+    }[name]
+    check_openspec_adapter(
+        f"{name}: {adapter_relative}",
+        read_text(provider_root / adapter_relative),
     )
 
     memory_root = provider_root / str(config["memory"])
@@ -4525,12 +4953,15 @@ def check_bootstrap_role_contracts(
     contracts = {
         "orchestrator": {
             "current-revision approval gate": (
-                r"explicit-user approval evidence.{0,120}approved plan revision"
-                r".{0,220}In Progress"
+                r"explicit(?:-user| user)? approval (?:evidence|record).{0,320}"
+                r"In Progress.{0,260}current revision|"
+                r"current revision.{0,260}explicit(?:-user| user)? approval"
+                r".{0,260}In Progress"
             ),
             "pre-plan write ownership": r"pre-plan lease",
-            "hard retry ceiling": r"hard retry ceiling",
-            "single active writer": r"one active writer per file or overlapping path",
+            "hard retry ceiling": (
+                r"hard retry ceiling|retry ceiling.{0,40}(?:hard|reached)"
+            ),
             "single memory writer": r"sole durable-memory writer",
             "same-role worker quiescence": (
                 r"active same-role workers?.{0,80}"
@@ -4541,8 +4972,12 @@ def check_bootstrap_role_contracts(
         "architect": {
             "pre-plan write ownership": r"pre-plan lease",
             "read-only contributor": r"read-only evidence contributor",
-            "no implementation": r"Do not implement code",
-            "Proposed lifecycle": r"Mark new plans as `Proposed`",
+            "no implementation": (
+                r"(?:do not|does not|never).{0,80}implement (?:product )?code"
+            ),
+            "Proposed lifecycle": (
+                r"new plans?.{0,120}Proposed|return status to `?Proposed`?"
+            ),
             "no nested delegation": (
                 r"Do not spawn, invoke, or delegate to subagents"
             ),
@@ -4554,16 +4989,23 @@ def check_bootstrap_role_contracts(
             "current-revision approval gate": (
                 r"explicit-user approval record matches the.{0,80}current revision"
                 r".{0,120}In Progress|"
-                r"explicit user approval of the current revision.{0,120}In Progress"
+                r"explicit user approval of the current revision.{0,120}In Progress|"
+                r"explicit-user approval record matches.{0,220}current revision"
+                r".{0,220}In Progress|"
+                r"In Progress.{0,180}explicit-user approval record.{0,120}current"
             ),
             "refused inactive lifecycle states": (
                 r"Proposed.{0,80}Approved.{0,80}Done.{0,80}"
                 r"Superseded.{0,80}Abandoned.{0,80}missing.{0,80}ambiguous"
                 r".{0,80}revision-mismatched"
             ),
-            "retry exhaustion": r"retry budget\s+is\s+exhausted",
+            "retry exhaustion": (
+                r"retry budget\s+is\s+exhausted|"
+                r"Exhaustion.{0,80}circuit.{0,80}stops"
+            ),
             "no hypothesis-only reset": (
-                r"new hypothesis alone\s+does not\s+reset an exhausted retry allowance"
+                r"new hypothesis alone\s+does not\s+reset "
+                r"(?:an exhausted retry allowance|the allowance)"
             ),
             "no nested delegation": (
                 r"Do not spawn, invoke, or delegate to subagents"
@@ -4574,11 +5016,13 @@ def check_bootstrap_role_contracts(
         },
         "tester": {
             "current-revision approval gate": (
-                r"named active `In Progress` plan.{0,120}explicit[- ]user approval record"
-                r".{0,80}current revision"
+                r"named active `?In Progress`? plan.{0,260}"
+                r"explicit[- ]user approval record.{0,180}current revision|"
+                r"In\s+Progress plan.{0,180}explicit[- ]user approval record"
+                r".{0,120}current revision"
             ),
             "read-only validation": r"This is a read-only role",
-            "hard retry ceiling": r"hard retry ceiling",
+            "hard retry ceiling": r"hard retry ceiling|hard ceiling|ceiling.{0,40}hard",
             "no hypothesis-only reset": (
                 r"new hypothesis alone does not reset the allowance"
             ),
@@ -4598,12 +5042,17 @@ def check_bootstrap_role_contracts(
         },
         "reviewer": {
             "current-revision approval gate": (
-                r"named active `In Progress` plan.{0,120}explicit[- ]user approval record"
-                r".{0,80}current revision"
+                r"named active `?In Progress`? plan.{0,260}"
+                r"explicit[- ]user approval record.{0,180}current revision|"
+                r"In\s+Progress.{0,180}explicit[- ]user approval record"
+                r".{0,120}current revision"
             ),
             "read-only review": r"This is a read-only role",
-            "stable finding IDs": r"stable ID",
-            "mandatory security coverage": r"Never omit mandatory security review",
+            "stable finding IDs": r"stable.{0,30}ID",
+            "mandatory security coverage": (
+                r"Never omit mandatory security review|"
+                r"(?:do not|never).{0,60}(?:omit|skip).{0,80}mandatory security"
+            ),
             "no nested delegation": (
                 r"Do not spawn, invoke, or delegate to subagents"
             ),
@@ -4647,7 +5096,10 @@ def check_bootstrap_role_contracts(
 
 
 def check_embedded_conformance(label: str, conformance: str) -> None:
-    """Validate the table-based conformance suite shipped by the bootstrap kit."""
+    """Validate legacy compact or current Codex-native embedded conformance."""
+    if re.search(r"^ {0,3}###(?!#)[ \t]+CF-\d+\b", conformance, re.MULTILINE):
+        check_provider_conformance("codex", label, conformance)
+        return
     visible = markdown_contract_text(conformance)
     rows = {
         match.group(1): match.group(0)
@@ -4770,6 +5222,16 @@ def check_bootstrap_templates() -> None:
     )
 
     targets = {target: (info, body, line) for target, info, body, line in records}
+    codex_root = PROVIDERS["codex"]["root"]
+    assert isinstance(codex_root, Path)
+    for target, (_, body, _) in targets.items():
+        source = read_text(codex_root / target).rstrip("\r\n")
+        if target == "AGENTS.md":
+            source = source.replace("`codex-agentic-workflow`", "`[PROJECT_NAME]`")
+        check(
+            body == source,
+            f"embedded target {target!r} has drifted from the finalized Codex source",
+        )
     for target, (info, body, heading_line) in targets.items():
         expected_info = "toml" if target.endswith(".toml") else "markdown"
         check(
@@ -4806,6 +5268,13 @@ def check_bootstrap_templates() -> None:
     skill_target = ".agents/skills/SKILL-TEMPLATE.md"
     if skill_target in targets:
         check_frontmatter_text(f"embedded target {skill_target}", targets[skill_target][1])
+
+    openspec_skill_target = ".agents/skills/vaw-openspec/SKILL.md"
+    if openspec_skill_target in targets:
+        check_openspec_adapter(
+            f"embedded target {openspec_skill_target}",
+            targets[openspec_skill_target][1],
+        )
 
     agents_target = "AGENTS.md"
     if agents_target in targets:
@@ -4849,6 +5318,23 @@ def check_bootstrap_templates() -> None:
                 is not None,
                 f"embedded implementation-plan template lacks {plan_contract}",
             )
+        check_openspec_core_contract(
+            "embedded implementation-plan template",
+            plan_template,
+        )
+
+    lite_plan_target = "docs/implementation-plans/IP-LITE-TEMPLATE.md"
+    if lite_plan_target in targets:
+        check_lite_plan_contract(
+            "embedded Lite implementation-plan template",
+            targets[lite_plan_target][1],
+        )
+    openspec_plan_target = "docs/implementation-plans/IP-OPENSPEC-TEMPLATE.md"
+    if openspec_plan_target in targets:
+        check_openspec_plan_contract(
+            "embedded OpenSpec implementation-plan template",
+            targets[openspec_plan_target][1],
+        )
 
     agents_readme_target = ".codex/agents/README.md"
     if agents_readme_target in targets:
@@ -4868,12 +5354,8 @@ def check_bootstrap_templates() -> None:
         for authority_contract, pattern in (
             ("pre-plan write ownership", r"pre-plan lease"),
             (
-                "blocked-plan status",
-                r"temporarily blocked.{0,160}In Progress.{0,180}unblock\s+condition",
-            ),
-            (
                 "category-specific failure responses",
-                r"category-specific response.{0,180}Failure class.{0,120}Default response",
+                r"Failure class.{0,120}(?:Default response|Default action|Required response)",
             ),
         ):
             check(
@@ -4963,6 +5445,7 @@ def check_bootstrap_templates() -> None:
     check_fingerprint_contract("embedded core instructions", embedded_core)
     check_untrusted_content_contract("embedded core instructions", embedded_core)
     check_external_tool_data_contract("embedded core instructions", embedded_core)
+    check_openspec_core_contract("embedded core instructions", embedded_core)
     check_core_default_contract("embedded core instructions", embedded_core)
     for contract, pattern in (
         (
@@ -4972,7 +5455,8 @@ def check_bootstrap_templates() -> None:
         (
             "invalid-control clarification",
             r"invalid explicit.{0,160}(?:surface|clarif)|"
-            r"(?:surface|clarif).{0,160}invalid explicit",
+            r"(?:surface|clarif).{0,160}invalid explicit|"
+            r"explicit value.{0,80}invalid.{0,120}clarif",
         ),
         (
             "unsupported-control fallback",
@@ -4987,6 +5471,10 @@ def check_bootstrap_templates() -> None:
     conformance_target = ".codex/workflow-conformance.md"
     if conformance_target in targets:
         check_embedded_conformance(
+            "embedded conformance suite",
+            targets[conformance_target][1],
+        )
+        check_openspec_conformance(
             "embedded conformance suite",
             targets[conformance_target][1],
         )
@@ -5059,6 +5547,7 @@ def check_bootstrap_templates() -> None:
         check_untrusted_content_contract(document_label, document)
         check_external_tool_data_contract(document_label, document)
         check_first_run_adaptation_contract(document_label, document)
+        check_openspec_core_contract(document_label, document)
         check(
             "--bootstrap-target" in document,
             f"{document_label} lacks the target-scoped validator command",
@@ -5157,6 +5646,11 @@ def check_bootstrap_target(target_root: Path) -> list[Path]:
                     bool(skill_fields.get(field)),
                     f"{relative(skill_path)} frontmatter needs a non-empty {field}",
                 )
+        openspec_skill_path = target_root / ".agents/skills/vaw-openspec/SKILL.md"
+        check_openspec_adapter(
+            "bootstrap target OpenSpec adapter",
+            read_text(openspec_skill_path),
+        )
 
         authority_path = target_root / ".codex/agents/README.md"
         authority = read_text(authority_path)
@@ -5249,6 +5743,7 @@ def check_bootstrap_target(target_root: Path) -> list[Path]:
             core,
             contradiction_text=core_contradictions,
         )
+        check_openspec_core_contract("bootstrap target core instructions", core)
         check_first_run_adaptation_contract(
             "bootstrap target AGENTS.md",
             agents_text,
@@ -5268,6 +5763,7 @@ def check_bootstrap_target(target_root: Path) -> list[Path]:
             )
         check_plan_defaults("bootstrap target plan template", plan)
         check_fingerprint_contract("bootstrap target plan template", plan)
+        check_openspec_core_contract("bootstrap target plan template", plan)
         for contract, pattern in (
             (
                 "workflow contract version",
@@ -5290,10 +5786,24 @@ def check_bootstrap_target(target_root: Path) -> list[Path]:
                 f"bootstrap target plan template lacks {contract}",
             )
 
+        lite_plan = read_text(
+            target_root / "docs/implementation-plans/IP-LITE-TEMPLATE.md"
+        )
+        check_lite_plan_contract("bootstrap target Lite plan template", lite_plan)
+        openspec_plan = read_text(
+            target_root / "docs/implementation-plans/IP-OPENSPEC-TEMPLATE.md"
+        )
+        check_openspec_plan_contract(
+            "bootstrap target OpenSpec plan template",
+            openspec_plan,
+        )
+
+        conformance = read_text(target_root / ".codex/workflow-conformance.md")
         check_embedded_conformance(
             "bootstrap target conformance suite",
-            read_text(target_root / ".codex/workflow-conformance.md"),
+            conformance,
         )
+        check_openspec_conformance("bootstrap target conformance suite", conformance)
         check_metrics_policy(
             "bootstrap target workflow metrics policy",
             read_text(target_root / ".codex/workflow-metrics.md"),
@@ -5311,6 +5821,10 @@ def check_bootstrap_target(target_root: Path) -> list[Path]:
                 "approval evidence reference",
                 r"(?:Explicit )?Approval evidence reference:",
             ),
+            ("specification mode", r"Specification mode:"),
+            ("OpenSpec change", r"OpenSpec change(?: ID)?:"),
+            ("OpenSpec artifact fingerprint", r"OpenSpec artifact fingerprint:"),
+            ("OpenSpec artifact state", r"OpenSpec artifact (?:state|status|freshness):"),
         ):
             check(
                 re.search(pattern, session, re.IGNORECASE) is not None,
@@ -5405,6 +5919,7 @@ def check_repository_metadata() -> None:
     check_untrusted_content_contract("top-level README", root_readme)
     check_external_tool_data_contract("top-level README", root_readme)
     check_first_run_adaptation_contract("top-level README", root_readme)
+    check_openspec_core_contract("top-level README", root_readme)
     for notice_contract, pattern in LICENSE_NOTICE_CONTRACT_PATTERNS.items():
         check(
             re.search(pattern, root_readme, re.DOTALL | re.IGNORECASE) is not None,
@@ -5485,7 +6000,7 @@ def check_repository_metadata() -> None:
     check_safety_invariants("top-level README", root_readme)
     for provider_label in ("Codex", "GitHub Copilot", "Claude Code"):
         check(
-            f"- {provider_label} workflow: 32 files" in root_readme,
+            f"- {provider_label} workflow: 35 files" in root_readme,
             f"top-level README has a stale {provider_label} file count",
         )
 
@@ -5507,6 +6022,26 @@ def check_repository_metadata() -> None:
             f"CITATION.cff lacks valid {label}",
         )
     check_mit_license("root LICENSE", read_text(ROOT / "LICENSE"))
+    check_notice_file(
+        "root THIRD_PARTY_NOTICES.md",
+        read_text(ROOT / "THIRD_PARTY_NOTICES.md"),
+    )
+    provenance = read_text(ROOT / "docs/third-party/openspec.md")
+    for contract, pattern in (
+        ("upstream repository", r"https://github\.com/Fission-AI/OpenSpec"),
+        ("pinned package version", rf"`{re.escape(OPENSPEC_BASELINE_VERSION)}`"),
+        ("pinned commit", rf"`{OPENSPEC_BASELINE_COMMIT}`"),
+        ("license URL", rf"{OPENSPEC_BASELINE_COMMIT}/LICENSE"),
+        ("adaptation map", r"## Adaptation Map"),
+        ("copied/adapted treatment", r"(?:Modified conceptual adaptation|independently implemented|referenced)"),
+        ("local behavioral differences", r"## Intentional Behavioral Differences"),
+        ("update procedure", r"## Upstream Review Procedure"),
+        ("non-endorsement", r"does not imply affiliation, endorsement, sponsorship, certification"),
+    ):
+        check(
+            re.search(pattern, provenance, re.DOTALL | re.IGNORECASE) is not None,
+            f"OpenSpec provenance manifest lacks {contract}",
+        )
     gitignore = read_text(ROOT / ".gitignore")
     for ignored in ("__pycache__/", "*.py[cod]"):
         check(ignored in gitignore, f".gitignore must exclude {ignored}")

@@ -25,6 +25,9 @@ TeamCity exports, QA notes, screenshots, crash traces, recordings, profiler outp
 - Tester uses relevant findings for reproduction and validation.
 - Reviewer checks whether the change addresses the evidence without overfitting to it.
 - Keep `INDEX.md` updated when useful for navigation.
+- In OpenSpec mode, findings remain evidence rather than specification or execution authority.
+  Map relevant evidence to the selected change and VAW plan without copying secrets or raw logs
+  into OpenSpec artifacts.
 
 ## Suggested File Names
 

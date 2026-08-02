@@ -9,6 +9,11 @@ This sample provides an adaptive workflow using Claude Code's native project ins
 subagents, skills, and project-scoped agent memory. Planned routes remain explicitly
 approval-gated.
 
+OpenSpec support is optional. `Specification mode: Native` remains the default; explicit
+`Specification mode: OpenSpec` activates a VAW-owned adapter that uses OpenSpec artifacts while
+keeping VAW as the sole coordination, approval, execution, validation, review, and closeout
+authority.
+
 ## Privacy And Data Handling
 
 This workflow includes no telemetry, analytics, uploader, hosted backend, or external data store.
@@ -41,6 +46,13 @@ the user explicitly authorizes that specific disclosure. General task approval o
 research is not disclosure authorization. Prefer local or offline analysis, redaction, synthetic
 examples, or user-provided public references.
 
+VAW itself remains telemetry-free. An independently installed OpenSpec CLI has separate policies;
+at the supported planning baseline it documents anonymous command/version telemetry. VAW-owned
+examples and invocations disable it for the process by default with `OPENSPEC_TELEMETRY=0` or
+`DO_NOT_TRACK=1`. The workflow never installs or initializes OpenSpec, and Native mode does not
+scan for or invoke OpenSpec or Node.js.
+Native mode requires no migration from an existing VAW installation.
+
 ## Install Into A Project
 
 Install the workflow at the target repository root. Do not leave
@@ -67,6 +79,8 @@ replace the target license, including when it uses a different license.
    write-ownership expectations.
 7. Review every project instruction, subagent profile, skill, and permission implication before
    use.
+8. Do not initialize OpenSpec as an installation side effect. Existing `openspec/` data remains
+   untouched, and the workflow stays in Native mode unless the user selects OpenSpec explicitly.
 
 The installed paths must look like:
 
@@ -89,8 +103,8 @@ The installed paths must look like:
 2. Merge the workflow rules into an existing `CLAUDE.md`; do not replace established project
    instructions.
 3. Ensure the target root contains `THIRD_PARTY_NOTICES.md`: copy it when absent, or merge only the
-   missing VicXander entry when present. Preserve every other notice file and never replace the
-   target project's `LICENSE`.
+   missing VicXander and OpenSpec entries when present. Preserve every other notice file and never
+   replace the target project's `LICENSE`.
 4. Copy `.claude/AGENTIC-WORKFLOW.md` when that path is unused, or merge it with an existing
    workflow contract.
 5. Copy missing `.claude/agents/*.md` profiles. If a subagent name already exists, review and merge
@@ -99,9 +113,12 @@ The installed paths must look like:
    `.claude/workflow-conformance.md`, and the three `docs/` lanes without replacing active skills,
    memory, requirements, plans, findings, indexes, conformance scenarios, or project-specific
    templates. Preserve local scenarios and add the new controls selectively.
-7. Preserve machine-local Claude memory and permission settings; this workflow does not require
+7. Preserve all existing OpenSpec configuration, specs, changes, schemas, commands, generated
+   skills, and notices. Never overwrite, archive, or delete them during workflow installation.
+   During an existing-project merge, preserve the complete existing `openspec/` tree.
+8. Preserve machine-local Claude memory and permission settings; this workflow does not require
    replacing either.
-8. Review the resulting diff before starting Claude Code.
+9. Review the resulting diff before starting Claude Code.
 
 ### Activate And Verify
 
@@ -160,6 +177,47 @@ unresolved unknowns, and validation results.
 
 An approved adaptation authorizes only the displayed instruction-file diff. Later refreshes use the
 same proposal-and-approval protocol, start delta-first, and run only when explicitly requested.
+
+## Optional OpenSpec Specification Mode
+
+Use OpenSpec mode when a project already has an approved local OpenSpec setup and the task benefits
+from proposal, specification-delta, design, and task artifacts. Do not select it simply because an
+`openspec/` directory exists.
+
+```text
+Specification mode: OpenSpec
+OpenSpec change: <change-id|Auto>
+```
+
+`Auto` works only when exactly one active change exists. Zero or multiple candidates stop as an
+`Unclear requirement` until the user names a change. Missing OpenSpec setup is
+`Missing dependency/tooling`; the workflow reports what is missing and never installs or
+initializes it automatically.
+
+| Artifact | Role |
+| --- | --- |
+| `docs/requirements/` | Stakeholder intent and stable acceptance criteria |
+| `openspec/specs/` | Normalized current behavioral specification |
+| Bound `openspec/changes/<id>/` | Proposed delta, design, and tasks |
+| VAW implementation plan | Execution envelope, approval, risk, nodes, leases, validation, review, and closeout |
+| Code and tests | Current implemented behavior |
+| `docs/user-findings/` | Evidence to investigate |
+
+VAW maps OpenSpec lifecycle intent onto its named roles: Architect owns explore/propose/update and
+cannot write product code; Coder alone may apply under a named, approved-revision `In Progress`
+plan and valid lease; OpenSpec verification supplements Tester and Reviewer; Orchestrator alone may
+sync after validation/review and archive after Definition of Done, traceability, and readiness
+checks.
+
+Approval binds the VAW plan revision and the exact OpenSpec change, schema/profile, artifact paths,
+and deterministic fingerprint or per-file hashes. Material artifact drift invalidates approval and
+dependent evidence, returns the plan to `Proposed`, and requires new explicit user approval. Use
+`docs/implementation-plans/IP-OPENSPEC-TEMPLATE.md` for the reference-based overlay or the compact
+`IP-LITE-TEMPLATE.md` for Small/Lite work.
+
+The adapter targets OpenSpec npm `1.7.0`, upstream commit
+`45cca5db6137ed209117cc70510eb3e057fb981b`. It is OpenSpec-compatible material, not an official
+OpenSpec distribution or endorsement. See `THIRD_PARTY_NOTICES.md` for the retained MIT notices.
 
 ## Choose An Execution Mode
 
@@ -328,7 +386,7 @@ circuit prevents repeated commands and Coder/Tester loops without a new hypothes
 `.claude/workflow-conformance.md` contains behavioral scenarios for all 22 controls plus the
 existing route, approval, concurrency, and privacy invariants. Use it after material workflow
 changes; it is intentionally project-local and contains no telemetry.
-The current suite contains 30 scenarios.
+The current suite contains 30 scenarios, plus OpenSpec concepts OS-01 through OS-18.
 
 ## What Is Included
 
@@ -337,6 +395,8 @@ CLAUDE.md
 docs/
   requirements/
   implementation-plans/
+    IP-LITE-TEMPLATE.md
+    IP-OPENSPEC-TEMPLATE.md
   user-findings/
 .claude/
   AGENTIC-WORKFLOW.md
@@ -350,6 +410,8 @@ docs/
     README.md
     SKILL-TEMPLATE.md
     agentic-workflow/
+      SKILL.md
+    vaw-openspec/
       SKILL.md
   agent-memory/
   session-notes.md
@@ -373,6 +435,7 @@ Then prompt:
 Classify the task first. For Lite, Standard, or Full, the Architect role must create the
 implementation plan and wait for my approval before coding.
 Workflow depth: Auto
+Specification mode: Native
 Efficiency profile: Balanced
 Token budget: Auto
 Validation/review/closeout reserve: 25%
@@ -389,6 +452,8 @@ Alternatively, start a normal Claude Code session and invoke the native project 
 ```text
 /agentic-workflow
 Workflow depth: Auto
+Specification mode: <Native|OpenSpec>
+OpenSpec change: <change-id|Auto; omit in Native>
 Efficiency profile: Balanced
 Token budget: Auto
 Validation/review/closeout reserve: 25%
@@ -410,6 +475,8 @@ Selectable values:
 | Field | Values and default |
 | --- | --- |
 | `Workflow depth` | `Auto` (default), `Direct`, `Lite`, `Standard`, `Full` |
+| `Specification mode` | `Native` (default) or `OpenSpec` |
+| `OpenSpec change` | Explicit change ID, or `Auto` only when exactly one active change resolves |
 | `Efficiency profile` | `Economy`, `Balanced` (default), `Thorough` |
 | `Token budget` | `Auto` (default) or positive integer; advisory |
 | `Validation/review/closeout reserve` | `25%` default or another integer from `1%` through `99%`; advisory |
@@ -434,8 +501,10 @@ A non-interactive `claude -p` invocation cannot reliably pause for user approval
 
 1. Run `orchestrator` for a planning-only task. It issues the pre-plan lease, has Architect produce
    a `Proposed` plan with a stable revision, and stops before approval or product implementation.
+   In OpenSpec mode it may prepare planning artifacts but cannot self-approve or apply.
 2. Review the plan, explicitly approve that revision, record the approval in the plan, and change
-   its status to `Approved`.
+   its status to `Approved`. OpenSpec approval also records the bound change, schema/profile,
+   artifact paths, and fingerprint that must be present in the later run's baseline.
 3. Start a later `orchestrator` run that names the `Approved` plan. It changes that same revision
    to `In Progress` without clearing approval immediately before the first product edit, then
    coordinates implementation, validation, and review. Use `coder` directly only for a bounded

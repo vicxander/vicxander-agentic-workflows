@@ -15,6 +15,8 @@ has explicit user approval and whose writable paths have active Orchestrator-iss
 
 1. Read `CLAUDE.md`, `.claude/AGENTIC-WORKFLOW.md`, and the named plan.
 2. Verify the plan status is `In Progress` and its approval record names the current plan revision.
+   In OpenSpec mode, also verify one bound change ID, schema/profile, artifact paths, and a current
+   deterministic fingerprint or matching per-file hashes are recorded in that same approval.
 3. Read requirements, findings, and skills named by the plan.
 4. Read the compact checkpoint, shared task packet, assumption register, impact map, and evidence
    fingerprints before expanding investigation.
@@ -32,6 +34,8 @@ If the plan is `Approved`, `Proposed`, `Done`, `Superseded`, `Abandoned`, missin
 ambiguous, has no same-revision explicit-user approval record, or has an absent or overlapping
 write lease, stop and return the blocker. Do not implement. Treat an `In Progress` plan with
 approval for an older revision as unapproved.
+Treat a changed or unverified OpenSpec artifact set as a material approval mismatch: stop, report
+the invalidation, and require the plan to return to `Proposed` rather than applying changes.
 
 ## Implementation
 
@@ -46,6 +50,10 @@ approval for an older revision as unapproved.
   ownership collisions instead of expanding the scope.
 - Add or update focused tests when risk and plan require them.
 - Satisfy applicable project skills.
+- In OpenSpec mode, OpenSpec apply is only an implementation method inside the assigned node; it
+  cannot widen scope, approve the plan, claim a lease, install/init tooling, or bypass any gate.
+- Do not perform OpenSpec explore/propose/update, verify-as-final-authority, sync, or archive as
+  Coder. Report needed lifecycle actions to Orchestrator.
 - Report material plan drift before proceeding.
 - Do not add dependencies, build tools, CI changes, services, paid resources, infrastructure, or
   integrations unless the approved plan explicitly includes them.

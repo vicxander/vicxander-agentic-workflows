@@ -10,6 +10,14 @@ Use this file for concise continuity across active or recent tasks.
 - Requested workflow depth: Not applicable
 - Work class: Not applicable
 - Workflow route: Not applicable
+- Specification mode: Native
+- OpenSpec change ID: Not applicable
+- OpenSpec schema/profile: Not applicable
+- Observed OpenSpec CLI version: Not observed
+- OpenSpec artifact paths: Not applicable
+- OpenSpec artifact fingerprint: Not applicable
+- OpenSpec fingerprint evidence ID: Not applicable
+- OpenSpec artifact freshness: Not applicable
 - Risk: Low
 - Efficiency profile: Balanced
 - Token budget: Auto
@@ -47,6 +55,8 @@ Use this file for concise continuity across active or recent tasks.
 - Open finding IDs: None
 - Stage confidence: Not applicable
 - Next action: Wait for the user to choose a task
+- OpenSpec sync/archive readiness: Not applicable
+- OpenSpec sync/archive evidence or deferral: Not applicable
 - Last conformance review: 2026-07-26
 - Last metrics update: None
 - Notes:
@@ -54,4 +64,5 @@ Use this file for concise continuity across active or recent tasks.
   - `.claude/skills/agentic-workflow/SKILL.md` provides the native activation command.
   - `.claude/workflow-metrics.md` is an optional local metadata-only workflow log.
   - `.claude/workflow-conformance.md` defines behavioral scenarios for workflow changes.
+  - Native mode is the default and does not inspect, install, initialize, or invoke OpenSpec.
   - No implementation plan has been approved.
