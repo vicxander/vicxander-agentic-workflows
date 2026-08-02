@@ -1,6 +1,6 @@
 # Claude Code Agentic Workflow
 
-Workflow contract version: 1.0.0
+Workflow contract version: 2.5.0
 
 This provider-specific Claude Code materialization shares the same semantic workflow contract as
 the Codex and GitHub Copilot materializations.

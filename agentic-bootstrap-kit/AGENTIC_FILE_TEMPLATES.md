@@ -548,7 +548,7 @@ Use this index for navigation only. Do not infer that the newest plan is active.
 ```markdown
 # IP-0000 Short Title
 
-- Workflow contract version: 1.0.0
+- Workflow contract version: 2.5.0
 
 ## Status
 
@@ -1265,7 +1265,7 @@ Use this file for short continuity notes across active or recent tasks.
 
 - Date:
 - Task:
-- Workflow contract version: 1.0.0
+- Workflow contract version: 2.5.0
 - Requested workflow depth:
 - Work class:
 - Workflow route:
@@ -1519,7 +1519,7 @@ are policy fixtures, not a substitute for project tests.
 This directory defines a project-local agentic workflow. It is an operating model for coordinated
 assistant work, not a replacement for source code, tests, or primary project documentation.
 
-Workflow contract version: 1.0.0
+Workflow contract version: 2.5.0
 
 This generated Codex-native workflow implements the shared semantic workflow contract.
 

@@ -6,7 +6,7 @@ Use this file for short continuity notes across active or recent tasks.
 
 - Date:
 - Task:
-- Workflow contract version: 1.0.0
+- Workflow contract version: 2.5.0
 - Requested workflow depth:
 - Work class:
 - Workflow route:

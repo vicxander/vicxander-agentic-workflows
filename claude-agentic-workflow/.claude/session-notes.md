@@ -6,7 +6,7 @@ Use this file for concise continuity across active or recent tasks.
 
 - Date: 2026-07-26
 - Task: Claude Code agentic workflow initialized
-- Workflow contract version: 1.0.0
+- Workflow contract version: 2.5.0
 - Requested workflow depth: Not applicable
 - Work class: Not applicable
 - Workflow route: Not applicable
