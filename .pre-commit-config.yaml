@@ -1,0 +1,19 @@
+# Local-only hooks: no third-party hook repositories, so enabling them adds no supply-chain
+# surface. `language: python` makes pre-commit provision an isolated interpreter, so the `python`
+# entry resolves on systems that ship only `python3` as well as on Windows.
+repos:
+  - repo: local
+    hooks:
+      - id: validate-workflow-contracts
+        name: Validate workflow contracts
+        entry: python tools/validate_workflows.py
+        language: python
+        pass_filenames: false
+        always_run: true
+
+      - id: validator-unit-suites
+        name: Run validator unit suites
+        entry: python -B -m unittest discover -s tools -p "test_*.py"
+        language: python
+        pass_filenames: false
+        always_run: true
