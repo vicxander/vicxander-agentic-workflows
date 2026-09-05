@@ -3,7 +3,7 @@ message: "If you use VicXander Agentic Workflows, please cite Victor Alexander D
 title: "VicXander Agentic Workflows"
 abstract: "Reusable, adaptive, approval-gated agentic workflow definitions for Codex, GitHub Copilot, and Claude Code."
 type: software
-version: "2.5.0"
+version: "2.6.0"
 date-released: 2026-07-26
 authors:
   - family-names: "Daud"

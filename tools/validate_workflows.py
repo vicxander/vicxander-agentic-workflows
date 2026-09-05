@@ -19,7 +19,7 @@ except ModuleNotFoundError:  # pragma: no cover - Python 3.11+ is expected.
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW_CONTRACT_VERSION = "2.5.0"
+WORKFLOW_CONTRACT_VERSION = "2.6.0"
 GITHUB_AGENT_PROMPT_MAX_CHARACTERS = 30_000
 CLAUDE_AGENT_COLORS = {
     "red",
@@ -33,7 +33,7 @@ CLAUDE_AGENT_COLORS = {
 }
 IGNORED_PARTS = {".git", "__pycache__"}
 TEXT_NAMES = {"LICENSE", ".gitattributes"}
-TEXT_SUFFIXES = {".cff", ".md", ".py", ".toml", ".txt", ".yaml", ".yml"}
+TEXT_SUFFIXES = {".cff", ".json", ".md", ".py", ".toml", ".txt", ".yaml", ".yml"}
 
 PROVIDERS = {
     "codex": {
@@ -1080,7 +1080,7 @@ def read_text(path: Path) -> str:
         return ""
 
 
-def check_text_hygiene(paths: list[Path]) -> None:
+def check_text_hygiene(paths: list[Path], *, require_lf: bool = False) -> None:
     for path in paths:
         if not is_text_file(path):
             continue
@@ -1088,6 +1088,12 @@ def check_text_hygiene(paths: list[Path]) -> None:
         if not text:
             continue
         check(text.endswith("\n"), f"{relative(path)} must end with a newline")
+        if require_lf:
+            check(
+                b"\r\n" not in path.read_bytes(),
+                f"{relative(path)} must use LF line endings, "
+                "matching .gitattributes eol=lf",
+            )
         for number, line in enumerate(text.splitlines(), start=1):
             if line.endswith((" ", "\t")):
                 fail(f"{relative(path)}:{number} has trailing whitespace")
@@ -5516,6 +5522,38 @@ def check_repository_metadata() -> None:
             check("-system" not in path.name.lower(), f"stale -system directory name: {relative(path)}")
 
 
+def check_contract_coverage() -> None:
+    """Require every recorded contract clause to remain present on its recorded surface.
+
+    The coverage baseline pins which surface carries which named contract clause, so relocating or
+    deduplicating contract prose cannot silently drop a clause. Deliberate removals are recorded by
+    regenerating the baseline, which makes the baseline diff the reviewable evidence.
+    """
+    # Imported lazily: contract_coverage imports this module, and by the time this runs the module
+    # is already initialised, so the lazy import avoids a circular import at load time.
+    try:
+        from tools import contract_coverage
+    except ImportError:  # pragma: no cover - exercised by the direct-script path.
+        import contract_coverage
+
+    try:
+        baseline = contract_coverage.load_baseline()
+    except contract_coverage.BaselineError as exc:
+        # Reported as an ordinary check failure: raising here would abort main() before the
+        # accumulated report prints, hiding every other finding behind a traceback.
+        check(False, f"{exc}; regenerate with 'python tools/contract_coverage.py --write'")
+        return
+    check(
+        bool(baseline),
+        "contract-clause coverage baseline is missing; "
+        "run 'python tools/contract_coverage.py --write'",
+    )
+    if not baseline:
+        return
+    for _identifier, _surface, problem in contract_coverage.verify_pairs(baseline):
+        check(problem is None, problem or "")
+
+
 def main(argv: list[str] | None = None) -> int:
     global checks
     errors.clear()
@@ -5551,7 +5589,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     files = repository_files()
-    check_text_hygiene(files)
+    check_text_hygiene(files, require_lf=True)
     check_fences(files)
     check_markdown_tables(files)
     check_local_links(files)
@@ -5561,6 +5599,7 @@ def main(argv: list[str] | None = None) -> int:
     check_codex_toml()
     check_frontmatter_files()
     check_bootstrap_templates()
+    check_contract_coverage()
 
     if errors:
         print(f"Workflow validation failed: {len(errors)} issue(s) across {checks} checks.")

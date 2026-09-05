@@ -24,25 +24,33 @@ For a non-trivial task that the user wants handled in agentic mode:
 3. Read `Workflow depth: Auto`, `Direct`, `Lite`, `Standard`, or `Full`, defaulting to `Auto`.
    Classify the task, treat an explicitly named route as the requested minimum rigor, and let risk
    raise but never silently weaken the resulting route.
-4. Read `Efficiency profile: Economy`, `Balanced`, or `Thorough`, defaulting to `Balanced`.
-   Read advisory `Token budget: Auto` or a positive integer,
-   `Validation/review/closeout reserve: 25%`, `Max retries per node: 1`, and
-   `Integration mode: Auto`, `Leased writers`, or `Single integrator`. Efficiency choices never
-   weaken mandatory safety gates. Read `Local metrics: Off` or `Local metrics: On`, defaulting to
-   `Off`.
-5. Read the requested execution mode and parallelism caps; default to `Sequential` when omitted.
-   For uncapped `Parallel`, use `Auto` with a global maximum of 4.
-6. Run one runtime capability preflight, then check the active task packet, latest checkpoint, and
-   evidence ledger before loading delta-first context. Expand beyond changed or named files,
-   symbols, nearby tests, and direct dependencies only for a recorded reason.
-7. For planned routes, have Architect create a `Proposed` plan in `docs/implementation-plans/`.
-8. Do not start planned implementation until the user explicitly approves that plan.
-9. After approval, schedule only ready dependency nodes, enforce exclusive write leases, apply a
+4. Read the efficiency, budget, reserve, retry, integration, execution-mode, and parallelism
+   controls as defined in `AGENTS.md`. Efficiency choices never weaken mandatory safety gates.
+   Read `Local metrics: Off` or `Local metrics: On`, defaulting to `Off`.
+5. Run one runtime capability preflight, then check the active task packet, latest checkpoint, and
+   evidence ledger before loading delta-first context.
+6. For planned routes, have Architect create a `Proposed` plan in `docs/implementation-plans/`.
+7. Do not start planned implementation until the user explicitly approves that plan.
+8. After approval, schedule only ready dependency nodes, enforce exclusive write leases, apply a
    spawn-value gate to optional workers, and use Coder, Tester, and Reviewer as ordered stages.
-10. Use evidence fingerprints, impact-based progressive validation, acceptance-criteria
-    traceability, bounded retries, failure classification, deduplicated review findings,
-    conditional adjudication, confidence-based escalation, and stage checkpoints. Report failed or
-    unavailable checks as blocked, never passed.
+9. Use evidence fingerprints, impact-based progressive validation, acceptance-criteria
+   traceability, bounded retries, failure classification, deduplicated review findings,
+   conditional adjudication, confidence-based escalation, and stage checkpoints as defined in
+   `AGENTS.md`. Report failed or unavailable checks as blocked, never passed.
+
+Operational mechanics -- worker caps and allocation, lease reassignment, handoff and checkpoint
+contents, and budgets and reserves -- are defined once in `AGENTS.md`. Read it before agentic work
+rather than relying on this file to restate them.
+
+Reuse fresh fingerprinted evidence instead of repeating scans or commands. Every reusable
+fingerprint includes a stable ID, repository revision, relevant inputs or hashes, exact command or
+method, environment details and tool version, timestamp, concise result digest, and invalidation
+condition.
+
+Custom agents inherit user and session model settings. When the runtime supports capability-based
+routing and the user has not pinned a setting, use the least costly sufficient capability for
+routine bounded work and deeper reasoning for architecture, security, or conflicting evidence.
+Never hardcode model IDs, override the user's setting, or claim a model change that did not occur.
 
 Record explicit-user approval tied to the current plan revision before implementation and change
 that named active plan from `Approved` to `In Progress` before the first implementation write.
@@ -64,30 +72,11 @@ only for independent work inside the current stage, with bounded non-overlapping
 integration wait before advancing. If delegation or concurrency is unavailable, report the
 limitation and fall back to `Sequential`. Never parallelize across the plan approval gate.
 
-Treat `Max parallel subagents`, `Coder max`, `Tester max`, and `Reviewer max` as positive-integer
-ceilings. Use the smallest useful worker count permitted by independent work, the global cap, the
-applicable role cap, and runtime capacity. Never create filler tasks to reach a cap. Report the
-requested caps, workers used by stage, actual peak concurrency, and any fallback at closeout.
-
-Reuse fresh fingerprinted evidence instead of repeating scans or commands. Every reusable
-fingerprint includes a stable ID, repository revision, relevant inputs or hashes, exact command or
-method, environment details and tool version, timestamp, concise result digest, and invalidation
-condition.
 A relevant requirement, decision, file, command, environment, or input change invalidates
 dependent evidence and work; cancel obsolete queued nodes safely. Release a never-active lease
 immediately; retain or quarantine an active writer's lease until stop or finish is confirmed and
 its last write state is reconciled. Never advance on Low confidence or unresolved materially
 conflicting evidence.
-
-Keep handoffs reference-based and compact. Reserve 25% of observable budget for validation, review,
-and closeout by default; when budget use is not observable, report `Not measured` rather than
-guessing. A retry requires a new hypothesis or changed input, and the default maximum is one retry
-per node. Open the circuit and escalate after repeated unchanged failure or exhausted retries.
-
-Custom agents inherit user and session model settings. When the runtime supports capability-based
-routing and the user has not pinned a setting, use the least costly sufficient capability for
-routine bounded work and deeper reasoning for architecture, security, or conflicting evidence.
-Never hardcode model IDs, override the user's setting, or claim a model change that did not occur.
 
 Use stable Reviewer finding IDs and merge duplicates without losing perspective or evidence.
 Request an additional adjudicator only for material conflict, Low confidence, elevated risk, or

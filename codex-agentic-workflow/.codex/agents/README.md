@@ -3,7 +3,7 @@
 This directory defines a project-local agentic workflow. It is an operating model for coordinated
 assistant work, not a replacement for source code, tests, or primary project documentation.
 
-Workflow contract version: 2.5.0
+Workflow contract version: 2.6.0
 
 This Codex-native materialization implements the repository's shared semantic workflow contract.
 

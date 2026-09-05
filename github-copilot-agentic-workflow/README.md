@@ -3,7 +3,7 @@
 This sample provides an adaptive workflow using GitHub Copilot's native repository instructions,
 custom agents, and project skills. Planned routes remain explicitly approval-gated.
 
-**Workflow contract version: 2.5.0**
+**Workflow contract version: 2.6.0**
 
 This GitHub Copilot-specific materialization shares the same semantic workflow contract as the
 other provider distributions in this repository; only provider-native file formats, capabilities,

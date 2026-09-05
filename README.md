@@ -4,7 +4,7 @@ Reusable, adaptive, approval-gated agentic workflows for Codex, GitHub Copilot, 
 
 Created and maintained by **Victor Alexander Daud**.
 
-Workflow contract version: 2.5.0
+Workflow contract version: 2.6.0
 
 ## Overview
 
@@ -610,6 +610,27 @@ source checkout's validator against that target:
 python -B tools/validate_workflows.py --bootstrap-target "/path/to/target-repository"
 ```
 
+Both commands above run automatically in continuous integration
+(`.github/workflows/validate.yml`) on every push to `master` and every pull request, against Python
+3.11, 3.12, and 3.13. To run the same gates locally before each commit, install `pre-commit` and
+enable the repository's local-only hooks:
+
+```shell
+pre-commit install
+```
+
+`.pre-commit-config.yaml` defines system hooks that invoke the checked-in validator directly. It
+references no third-party hook repository, so enabling it adds no supply-chain surface.
+
+The validator also enforces a contract-clause coverage baseline. `tools/contract_coverage.py`
+records which repository surface carries each named contract clause, and validation fails when a
+surface loses a clause it used to state. When a clause is deliberately removed from a surface,
+regenerate the baseline in the same change so its diff stays reviewable:
+
+```shell
+python -B tools/contract_coverage.py --write
+```
+
 Replace the example target path for the local machine. This target-scoped mode permits unrelated
 project files but checks every required workflow file; the ordinary command above remains the full
 distribution-repository audit.
@@ -617,10 +638,11 @@ distribution-repository audit.
 Python 3.11 or newer is required. The dependency-free validator checks required files, the shared
 22-mechanism contract, privacy and
 installation guidance, conformance scenario coverage, Markdown fences and local links, custom-agent
-frontmatter, Codex TOML, bootstrap-template parity, repository naming, citation metadata, and text
-hygiene. The discovered unit suites include adversarial mutations for defaults, privacy and
+frontmatter, Codex TOML, bootstrap-template parity, repository naming, citation metadata, text
+hygiene, and LF line endings. The discovered unit suites include adversarial mutations for defaults, privacy and
 external-tool disclosure polarity, fingerprint completeness, frontmatter, TOML, CommonMark links,
-canonical sections, coverage maps, and scenario isolation. Provider conformance files remain the
+canonical sections, coverage maps, scenario isolation, contract-clause coverage regression, and
+line-ending hygiene. Provider conformance files remain the
 behavioral acceptance suites; these commands perform the complementary static repository audit.
 Agent and skill profiles in this repository intentionally use a dependency-free flat-YAML
 frontmatter subset: one `key: scalar` declaration per line, with inline bracket values where needed.
@@ -628,8 +650,11 @@ frontmatter subset: one `key: scalar` declaration per line, with inline bracket 
 ## Status
 
 This repository currently provides workflow definitions and templates. It intentionally contains no
-product runtime, package manager configuration, CI pipeline, telemetry, or external service
-integration. The local validator is a repository-maintenance utility and makes no network calls.
+product runtime, package manager configuration, telemetry, or external service integration. The
+local validator is a repository-maintenance utility and makes no network calls.
+
+Continuous integration runs only that same local validator and its unit suites on GitHub-hosted
+runners. It installs Python, checks out the repository, and publishes nothing.
 
 ## Author
 
