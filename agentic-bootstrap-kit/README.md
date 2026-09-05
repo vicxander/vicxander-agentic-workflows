@@ -6,7 +6,7 @@ workflow in a new repository.
 The goal is to avoid re-prompting the same setup details every time a new project starts. Copy or
 reference these files from a new repository, then ask Codex to initialize agentic mode from them.
 
-Workflow contract version: 2.5.0
+Workflow contract version: 2.6.0
 
 The live provider distributions and this bootstrap kit are provider-specific materializations of
 the same semantic workflow contract.

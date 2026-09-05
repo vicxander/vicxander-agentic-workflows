@@ -1,6 +1,6 @@
 # IP-0000 Short Title
 
-- Workflow contract version: 2.5.0
+- Workflow contract version: 2.6.0
 
 ## Status
 

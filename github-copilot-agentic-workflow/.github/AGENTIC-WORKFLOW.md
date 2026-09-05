@@ -4,7 +4,7 @@ This file defines the shared operating contract for the repository's GitHub Copi
 It supplements `AGENTS.md`; it does not replace code, tests, requirements, or current user
 instructions.
 
-**Workflow contract version: 2.5.0**
+**Workflow contract version: 2.6.0**
 
 This provider-specific materialization implements the same semantic workflow contract as the other
 provider distributions in this repository. GitHub Copilot-native formats, capabilities, and

@@ -1,6 +1,6 @@
 # Claude Code Agentic Workflow
 
-Workflow contract version: 2.5.0
+Workflow contract version: 2.6.0
 
 This provider-specific Claude Code materialization shares the same semantic workflow contract as
 the other supported provider materializations.
