@@ -4,7 +4,7 @@ Use this file to initialize a structured agentic workflow in a new project.
 
 Audience: Codex.
 
-Workflow contract version: 1.0.0
+Workflow contract version: 2.5.0
 
 This bootstrap specification generates a Codex-native materialization of the repository's shared
 semantic workflow contract.

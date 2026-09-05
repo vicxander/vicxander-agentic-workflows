@@ -3,7 +3,7 @@
 This sample provides an adaptive workflow using Codex's native repository instructions, project
 configuration, custom agents, and skills. Planned routes remain explicitly approval-gated.
 
-Workflow contract version: 1.0.0
+Workflow contract version: 2.5.0
 
 This provider-specific materialization implements the repository's shared semantic workflow
 contract with Codex-native instructions and configuration.

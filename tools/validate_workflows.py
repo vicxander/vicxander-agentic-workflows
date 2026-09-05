@@ -19,7 +19,7 @@ except ModuleNotFoundError:  # pragma: no cover - Python 3.11+ is expected.
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW_CONTRACT_VERSION = "1.0.0"
+WORKFLOW_CONTRACT_VERSION = "2.5.0"
 GITHUB_AGENT_PROMPT_MAX_CHARACTERS = 30_000
 CLAUDE_AGENT_COLORS = {
     "red",
@@ -5495,7 +5495,10 @@ def check_repository_metadata() -> None:
         (r'^title:\s*"VicXander Agentic Workflows"\s*$', "title"),
         (r'family-names:\s*"Daud"', "family name"),
         (r'given-names:\s*"Victor Alexander"', "given names"),
-        (r'^version:\s*"1\.0\.0"\s*$', "version"),
+        (
+            rf'^version:\s*"{re.escape(WORKFLOW_CONTRACT_VERSION)}"\s*$',
+            "version",
+        ),
         (r"^date-released:\s*2026-07-26\s*$", "release date"),
         (r"^license:\s*MIT\s*$", "license"),
     ):
