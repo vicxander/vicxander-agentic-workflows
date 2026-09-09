@@ -492,3 +492,18 @@ Official references:
 - [Custom agents configuration](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
 - [Agent skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills)
 - [Parallel Copilot CLI agents](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/fleet)
+
+## Trademarks
+
+GitHub and GitHub Copilot are trademarks of GitHub, Inc. and Microsoft Corporation.
+
+These names appear here only descriptively, to identify the third-party tool this distribution is
+written for. Documentation linked above is published by GitHub and remains its property.
+
+VicXander Agentic Workflows is an independent project by Victor Alexander Daud. It is not affiliated
+with, sponsored by, endorsed by, or produced by GitHub or Microsoft, and no such affiliation or
+endorsement is claimed or implied.
+
+This distribution redistributes no third-party source code or documentation text. It contains
+original workflow material written to the public file and configuration conventions that GitHub
+Copilot reads.

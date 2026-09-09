@@ -847,7 +847,21 @@ Final response contract:
 For `Direct` tasks, the Orchestrator records the classification rationale and targeted validation
 instead of pretending that unused roles ran.
 
+## Trademarks
+
+Claude and Claude Code are trademarks of Anthropic, PBC. GitHub and GitHub Copilot are trademarks
+of GitHub, Inc. and Microsoft Corporation. Codex and ChatGPT are trademarks of OpenAI, L.L.C. All
+other product and company names are the property of their respective owners.
+
+These names appear here only descriptively, to identify the third-party tools this bootstrap kit
+generates workflow material for. VicXander Agentic Workflows is an independent project by Victor
+Alexander Daud. It is not affiliated with, sponsored by, endorsed by, or produced by Anthropic,
+GitHub, Microsoft, or OpenAI, and no such affiliation or endorsement is claimed or implied.
+
+This kit redistributes no third-party source code or documentation text. It generates original
+workflow material written to the public file and configuration conventions each target tool reads.
+
 ## Attribution
 
 Authored by Victor Alexander Daud. Copyright (c) 2026.
-Co-authored with Codex.
+Co-authored with Claude.

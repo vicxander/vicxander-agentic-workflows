@@ -468,3 +468,18 @@ Official references:
 - [Project configuration](https://learn.chatgpt.com/docs/config-file/config-basic)
 - [Subagents and custom agents](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 - [Agent skills](https://learn.chatgpt.com/docs/build-skills)
+
+## Trademarks
+
+Codex and ChatGPT are trademarks of OpenAI, L.L.C.
+
+These names appear here only descriptively, to identify the third-party tool this distribution is
+written for. Documentation linked above is published by OpenAI and remains its property.
+
+VicXander Agentic Workflows is an independent project by Victor Alexander Daud. It is not affiliated
+with, sponsored by, endorsed by, or produced by OpenAI, and no such affiliation or endorsement is
+claimed or implied.
+
+This distribution redistributes no third-party source code or documentation text. It contains
+original workflow material written to the public file and configuration conventions that Codex
+reads.

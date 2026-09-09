@@ -672,3 +672,23 @@ the metadata in [`CITATION.cff`](CITATION.cff).
 Released under the [MIT License](LICENSE).
 
 Copyright © 2026 Victor Alexander Daud.
+
+## Trademarks
+
+Claude and Claude Code are trademarks of Anthropic, PBC. GitHub and GitHub Copilot are trademarks
+of GitHub, Inc. and Microsoft Corporation. Codex and ChatGPT are trademarks of OpenAI, L.L.C. All
+other product and company names are the property of their respective owners.
+
+These names appear here only descriptively, to identify the third-party tools each distribution is
+written for. Directory names such as `claude-agentic-workflow/`,
+`github-copilot-agentic-workflow/`, and `codex-agentic-workflow/` describe the platform each
+distribution targets; they do not indicate origin from, or approval by, those platforms' owners.
+
+VicXander Agentic Workflows is an independent project by Victor Alexander Daud. It is not
+affiliated with, sponsored by, endorsed by, or produced by Anthropic, GitHub, Microsoft, or OpenAI,
+and no such affiliation or endorsement is claimed or implied. Documentation linked from this
+repository is published by those vendors and remains their property.
+
+No third-party source code, documentation text, or other copyrighted material is redistributed in
+this repository. Each distribution contains original workflow material written to the public file
+and configuration conventions its target tool reads.
