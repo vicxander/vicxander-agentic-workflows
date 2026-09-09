@@ -489,3 +489,18 @@ Official references:
 - [Claude Code skills](https://code.claude.com/docs/en/skills)
 - [Agent teams](https://code.claude.com/docs/en/agent-teams)
 - [Parallel agents](https://code.claude.com/docs/en/agents)
+
+## Trademarks
+
+Claude and Claude Code are trademarks of Anthropic, PBC.
+
+These names appear here only descriptively, to identify the third-party tool this distribution is
+written for. Documentation linked above is published by Anthropic and remains its property.
+
+VicXander Agentic Workflows is an independent project by Victor Alexander Daud. It is not affiliated
+with, sponsored by, endorsed by, or produced by Anthropic, and no such affiliation or endorsement is
+claimed or implied.
+
+This distribution redistributes no third-party source code or documentation text. It contains
+original workflow material written to the public file and configuration conventions that Claude
+Code reads.
