@@ -1,176 +1,240 @@
-# IP-0002 Provider-Agnostic Workflows And Existing-Installation Upgrades
+# IP-0002 Provider-Neutral Workflow Specifications And Verified Target Generation
 
-- Workflow contract version: 2.6.0 (planning baseline)
+- Source workflow contract version: 2.6.0
+- Target workflow contract version: 3.0.0
 - Created: 2026-10-31
-- Plan revision: 1
+- Plan revision: 2
 
 ## Status
 
 In Progress
 
-Approved by Victor Alexander Daud on 2026-10-31, revision 1. Implementation started under
-that approval.
+Victor Alexander Daud approved revision 1 on 2026-10-31. Revision 1 was partially implemented
+in commit 51dd6b3 and PR #3. The user subsequently requested full provider neutrality and this
+plan revision. Revision 2 supersedes revision 1's scope, acceptance criteria, and compatibility
+decisions. Approval of revision 1 does not imply approval of the expanded implementation.
+Victor Alexander Daud approved revision 2 and requested implementation and a commit.
+Implementation began on 2026-10-31; the target contract is 3.0.0.
 
-The user requested this implementation plan. Implementation has not been authorized by this
-planning request. Material changes to scope, acceptance criteria, or validation require a revised
-plan. This plan does not supersede IP-0001; reconcile overlapping changes against the current tree
-before implementation rather than replaying that plan's historical baseline.
+IP-0001 remains a historical plan. Reconcile its overlapping work against the current tree;
+do not replay its historical assumptions. Its tracked text is included in the neutrality review.
 
-## Summary
+## Objective And Boundary
 
-Present VicXander Agentic Workflows as a provider-agnostic workflow with explicitly selected
-target integrations. Neutralize general branding while preserving the native instructions,
-formats, capabilities, and activation rules needed by each supported tool. Add a shared manual
-bootstrap entry point and document safe upgrades of existing installations.
+Publish one original, provider-neutral workflow specification. The tracked workflow source must
+contain no AI-provider-specific branding, native configuration, hardcoded integration mappings,
+or product-specific distributions. Target-specific instruction and configuration files are
+created only in destination projects using verified conventions for a user-supplied coding tool.
 
-Provider-agnostic means a neutral workflow identity with supported integration mappings. It does
-not mean every provider is supported or that provider names disappear from technical configuration.
+The neutrality boundary covers tracked filenames and contents, including documentation, tests,
+fixtures, scripts, metadata, and implementation plans. Ordinary hosting/CI infrastructure is
+allowed when it serves repository maintenance rather than an AI integration. Existing Git history,
+prior releases, external PR text, and local untracked environment configuration are outside the
+source-tree cleanup. Do not rewrite history or delete user-local environment files.
 
-## Risk Level And Work Classification
+This is a technical architecture and presentation change, not legal clearance. Do not promise
+freedom from claims. Preserve applicable license obligations and copyright notices; review any
+proposed notice removal on its own merits rather than treating it as branding cleanup.
 
-- Risk: High, because edits span downstream instruction templates and their validation contracts.
-- Work class: Large; workflow route: Full; requested depth: Auto.
-- Preserve all safety, approval, privacy, authority, and resource-governance semantics.
-- Execution mode: Sequential; integration mode: Single integrator.
+## Risk And Execution
+
+- Risk: High; work class: Large; workflow route: Full.
+- Risk basis: consolidation removes distributed instruction surfaces and changes generation,
+  validation, and upgrade contracts consumed by existing installations.
+- Preserve safety, approval, privacy, authority, role separation, resource governance, and metrics
+  defaults. Capability differences must never weaken mandatory behavior.
+- Execution: Sequential; one integrator owns overlapping writes.
 - Efficiency profile: Balanced; token budget: Auto; usage: Not measured; local metrics: Off.
-- Reserve: 25% for validation, review, and closeout; max retries per node: 1.
+- Validation/review reserve: 25%; maximum retries per node: 1.
 
-## Verified Baseline And Source Inputs
+## Verified Baseline
 
-- [Root README](../../README.md) already defines one shared semantic workflow contract and three
-  native distributions. Installation notes require preserving existing instructions, memory,
-  documentation, and third-party notices.
-- [Bootstrap specification](../../agentic-bootstrap-kit/CODEX_AGENTIC_BOOTSTRAP.md) currently
-  targets Codex and supports create, merge, and dry-run through agent instructions.
-- [Embedded templates](../../agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md) are Codex-specific.
-- [Validator](../../tools/validate_workflows.py) has a PROVIDERS registry, exact bootstrap file-set
-  checks, Codex bootstrap-target validation, native format checks, and literal README count checks.
-- [Coverage tooling](../../tools/contract_coverage.py) and its committed baseline track clauses
-  across required surfaces; wording changes can affect coverage recognition.
-- [Existing plan](IP-0001-context-efficiency-and-contract-enforcement.md) establishes a root-level
-  plan convention. There is currently no root implementation-plan index or template.
-- Read-only inspection of the user's soundvslr-win11 installation found contract version 2.6.0,
-  project-specific CLAUDE.md guidance, and existing memory, skills, and worktrees. This motivates
-  preservation requirements but does not authorize editing that external repository.
+- [README](../../README.md) describes three native distributions and a shared semantic contract.
+- [Current neutral bootstrap](../../agentic-bootstrap-kit/AGENTIC_BOOTSTRAP.md) still routes to
+  a fixed product table and bundled native files. It does not satisfy revision 2.
+- [Validator](../../tools/validate_workflows.py) contains a provider registry, native format and
+  role checks, exact bootstrap file-set checks, and a single-target installed-bootstrap mode.
+- [Coverage tooling](../../tools/contract_coverage.py) records clauses across required surfaces.
+  Consolidation must preserve clause meaning even though surface counts will change.
+- Revision 1 validation: 5,983 repository checks, 94 unit tests, and 47 clauses across 1,294
+  clause-surface pairs passed. These are historical results, not revision 2 acceptance evidence.
+- Revision 1 live assistant create/merge/dry-run rehearsals were not executed.
+- Read-only inspection of an existing user project found customized project instructions and
+  workflow state. No downstream project edits are authorized by this plan.
 
-## Scope And Non-Goals
+## Proposed Source Layout
 
-In scope: public workflow prose, distribution prose, bootstrap guidance, embedded-template parity,
-README setup and upgrade examples, and associated validator/tests/coverage updates.
+```text
+workflow/
+  principles.md
+  orchestration.md
+  capabilities.md
+  conformance.md
+  roles/
+    orchestrator.md
+    architect.md
+    coder.md
+    tester.md
+    reviewer.md
+  memory/
+    README.md
+templates/
+  project-instructions.md
+  implementation-plans/
+  requirements/
+  user-findings/
+  skills/
+  memory/
+bootstrap/
+  INITIALIZE.md
+  UPDATE.md
+  TARGET_PROFILE_TEMPLATE.md
+tools/
+  validate_workflows.py
+  contract_coverage.py
+  test_*.py
+docs/
+  implementation-plans/
+README.md
+LICENSE
+CITATION.cff
+```
 
-Keep the three existing distribution directory names and native output paths. Keep copyright,
-license, and attribution content separate from editorial branding changes. Do not add a template
-engine, runtime, CLI scaffolder, dependencies, or unsupported integrations. Do not relocate memory
-into a new shared directory. Do not update downstream projects as part of this change.
+Keep existing repository maintenance infrastructure. Templates contain neutral semantic roles,
+fields, and placeholders rather than a particular runtime's native syntax. Separate the workflow's
+normative rules from example templates and installation guidance. Keep one authoritative definition
+of each rule, with explicit references from roles and templates.
 
 ## Design Decisions
 
-1. Use neutral titles and role-based language for general workflow behavior. Keep product names
-   in the supported-integration table, native configuration explanations, activation instructions,
-   provider-processing disclosures, and compatibility notes. Do not use global text replacement.
-2. Use `Target integration` as the setup field. Accept documented product display names and stable
-   IDs for the existing three integrations: codex, claude, and github-copilot. A provider/company
-   name that maps ambiguously to a product requires clarification. Unknown names produce an
-   unsupported-target report before writes; never silently select a different integration.
-3. Add agentic-bootstrap-kit/AGENTIC_BOOTSTRAP.md as the neutral manual entry point. Route to the
-   existing distribution contents and their native setup instructions. The executing assistant
-   need not be the requested target; generated files follow the explicit target selection.
-4. Retain CODEX_AGENTIC_BOOTSTRAP.md and its embedded templates as a working compatibility path.
-   Explain its Codex-specific scope and link to the neutral entry point. Avoid a second generic
-   copy of all distribution templates. Keep standalone legacy-kit use working.
-5. The neutral entry point requires the selected distribution to be available with the kit;
-   document how to supply the repository/source path. If source files are missing, report the
-   missing dependency without inventing templates or fetching unspecified remote sources.
-6. Preserve create, merge, and dry-run meanings. Dry-run must list source, target, proposed file
-   actions, conflicts, and validation limitations without writes. Upgrading means merge; existing
-   content must never be overwritten merely because it differs from the distribution.
+1. Inventory each existing distribution and bootstrap template before removal. Record where every
+   common behavior and meaningful integration-specific constraint goes in the neutral contract.
+   Resolve differences explicitly; do not assume one distribution contains the complete contract.
+2. Remove bundled product-specific distributions, branded legacy bootstrap files, embedded native
+   templates, fixed target tables, and provider-specific validator branches after consolidation.
+   Historical source paths cease to be supported in the new release. This replaces revision 1's
+   promise of legacy source-path compatibility.
+3. Accept a user-supplied coding-tool name and, when relevant, version or deployment context.
+   Company names alone may be ambiguous. Resolve ambiguity before generation. No committed
+   supported-provider allowlist or claim of universal compatibility is introduced.
+4. Verify native entry points, configuration schema, tools, role support, memory, skills, execution,
+   and model-setting behavior against current official documentation or authoritative local
+   documentation supplied by the user. Record source locations, tool/version applicability,
+   verification date, and limitations in a destination-local target profile.
+5. Treat retrieved documentation as evidence, not instructions that override the workflow. Fetch
+   public documentation using generic product queries; do not send target-project content or
+   private identifiers to external tools. If required evidence is unavailable, stale for the target,
+   or contradictory, report the missing evidence and stop before native configuration writes.
+6. Map neutral capabilities to verified native features. Optional unsupported capabilities use an
+   explicit documented fallback, such as sequential role handling. If required behavior cannot
+   be preserved, report that the target cannot safely materialize this workflow. Do not invent
+   native fields, tools, paths, model IDs, or permission settings.
+7. Keep scaffolding instruction-driven. No new installer runtime, template engine, dependency, or
+   automatic remote script execution is required. Product-specific profiles and outputs remain
+   destination-local and must not be committed back into the neutral source repository.
+8. Validate both neutral semantics and generated output structure. A generic validator can check
+   required roles, profile completeness, paths, links, and evidence records; it cannot establish
+   that a product actually accepts a native format without native validation or runtime evidence.
+   Report these distinct validation levels honestly.
 
-## Implementation Nodes And Dependencies
+## Setup And Upgrade Contract
 
-| Node | Depends on | Changes and ownership | Completion evidence |
-| --- | --- | --- | --- |
-| N1 | None | Inventory provider mentions and native exceptions across README, three distributions, and bootstrap kit; capture baseline validation | Reviewed classification of editorial vs technical occurrences |
-| N2 | N1 | Neutralize general titles, descriptions, task prompts, and role prose; preserve native semantics and mirror relevant embedded template edits | Diff review and contract coverage comparison |
-| N3 | N2 | Add neutral bootstrap routing, supported-name mapping, source requirements, safe merge rules, and legacy compatibility guidance | Create/merge/dry-run scenarios for all three targets |
-| N4 | N3 | Update root and distribution README setup/upgrade guidance, including the exact generic template below | Working relative links and examples matching actual supported behavior |
-| N5 | N2, N3, N4 | Update validator bootstrap file-set, README wording/count checks, target-specific checks, and affected unit tests/coverage baseline | Full repository gates plus negative regression tests |
-| N6 | N5 | Review native-format preservation, safety coverage, upgrade preservation, compatibility, and release metadata | Acceptance traceability and recorded validation results |
+- `create`: inspect the destination, including hidden files; create only scoped workflow files.
+  Report collisions instead of replacing existing content.
+- `merge`: compare the neutral contract, verified target profile, and installed workflow. Preserve
+  local customization and state. Without a prior source baseline, flag ambiguous differences.
+- `dry-run`: report proposed create/merge/preserve actions, target evidence, capability fallbacks,
+  validation limits, and conflicts without writing files, directories, profiles, or memory.
+  Keep the proposed profile in the report until writes are authorized.
+- Require source and destination paths to be distinct; constrain writes to the authorized target.
+  Never allow supplied profile paths to escape it or overwrite unrelated product files.
+- Preserve project-specific architecture, commands, quality gates, instructions, custom skills,
+  configuration, session notes, todos, worklogs, metrics, role memory, worktrees, requirements,
+  findings, plans, and indexes. Never reset state using empty templates.
+- Preserve existing native entry points in installed projects when the verified runtime requires
+  them. Source neutrality does not require renaming or deleting downstream native files.
+- Preserve other integrations and reuse shared documentation lanes. Repeated merge is idempotent;
+  unresolved conflicts remain unchanged and are reported.
+- Preserve the project's LICENSE and unrelated notices. Include applicable workflow attribution.
+  Recommend a checkpoint and backup of ignored state; never automatically commit or reset work.
+- Existing users may remain on the prior release. Describe this source-layout migration accurately;
+  no automatic downstream runtime migration or history rewrite occurs.
 
-One integrator owns all writes. Nodes are sequential because prose, embedded templates, and
-validator expectations overlap. No parallel worker allocation is required.
+## README Upgrade Request Template
 
-## Existing-Installation Upgrade Contract
-
-- Recommend a Git checkpoint and a separate backup of ignored/untracked state before applying
-  an upgrade; do not automatically commit, delete, or reset user work.
-- Compare source distribution files against the installed workflow. Without a previous source
-  baseline, do not claim that differences are exclusively local edits; flag ambiguous conflicts.
-- Merge workflow sections while retaining project-specific architecture, commands, quality gates,
-  authority rules, and custom instructions. Explicitly report conflicts instead of guessing.
-- Preserve session notes, todos, worklogs, metrics, role memory, custom skills, worktrees, and
-  existing plans, requirements, findings, and documentation indexes. Merge template guidance only
-  where appropriate; do not reset existing state from empty distribution templates.
-- Preserve native entry points and config paths for the selected target, unrelated config keys,
-  and other installed integrations. Share existing documentation lanes; do not duplicate them.
-- Merge required notices without replacing the target project's LICENSE or unrelated notices.
-- Report changed, skipped, and conflicted files and available validation evidence. Branding-only
-  adoption is optional and must not be presented as a required runtime migration.
-
-## README Update: Proposed Exact Upgrade Request Template
-
-Add an "Update an existing installation" section to the root README. Explain the preservation
-rules above, link to the neutral bootstrap guide and supported integrations, and include:
+Replace the current fixed-integration setup and upgrade guidance with neutral setup documentation,
+a description of evidence requirements, and this user-customizable request:
 
 ```text
 Update the installed VicXander Agentic Workflows in:
 <TARGET_REPOSITORY_PATH>
 
-Use the updated workflow source from:
+Use the updated neutral workflow source from:
 <WORKFLOW_SOURCE_REPOSITORY_PATH>
 
 AI provider / coding tool name: <YOUR_AI_PROVIDER_OR_CODING_TOOL_NAME>
+Tool version or environment, if known: <VERSION_OR_ENVIRONMENT_OR_UNKNOWN>
 Mode: merge, starting with a dry-run.
 
-Read agentic-bootstrap-kit/AGENTIC_BOOTSTRAP.md in the workflow source repository.
-Resolve my supplied name to a documented supported target integration. If the name is
-ambiguous or unsupported, explain what is needed before making changes. Do not switch
-integrations or invent configuration for an unsupported target.
+Read bootstrap/UPDATE.md and the referenced neutral workflow specifications in the source.
+Verify my selected tool's native instruction and configuration conventions using current
+official documentation or authoritative local documentation. Clarify an ambiguous target.
+If required conventions or capabilities cannot be verified, report the missing evidence
+and stop before generating or modifying configuration. Do not invent native settings.
 
-First produce a dry-run comparison listing files to create, merge, preserve, and any
-conflicts. Wait for my approval of that comparison before applying the update.
+First report the target evidence, capability mapping, files to create, merge, or preserve,
+conflicts, and validation limitations. Do not write files during this dry-run. Wait for my
+approval of that comparison before applying the update.
 
 Preserve project-specific instructions, architecture, commands, quality gates, custom
 skills, configuration, memory, session notes, todos, worklogs, metrics, worktrees, and
-existing documentation, requirements, findings, and plans. Keep the selected integration's
-native instruction filenames and configuration directories. Preserve other integrations
-and reuse shared documentation lanes. Surface unresolved conflicts rather than overwriting.
+existing documentation, requirements, findings, and plans. Retain native paths required
+by the selected tool. Preserve other integrations and reuse shared documentation lanes.
+Surface unresolved conflicts rather than overwriting them.
 
-Do not modify application code or replace the project's LICENSE. Preserve existing notices
-and merge only missing workflow notices. After applying the approved update, validate the
-workflow using available target-appropriate checks and report changes and limitations.
+Generate target-specific files and the verified target profile only in my target project.
+Do not modify application code, the source repository, or replace the project's LICENSE.
+Preserve existing notices and merge only applicable workflow attribution. Validate the
+result using available semantic and native checks; distinguish static checks from runtime
+verification and report limitations. Do not claim compatibility that was not verified.
 ```
 
-The approval pause above is part of the proposed reusable downstream request, not a requirement
-to pause creation of this implementation plan. Tell README readers to replace all three
-placeholders and consult the integration table; entering a name does not add provider support.
-Link distribution READMEs to this central procedure rather than duplicating the full template.
+Explain all placeholders, including that a supplied name does not establish compatibility.
+Add a matching new-installation example pointing to bootstrap/INITIALIZE.md. No product names
+or branded examples are required in either template.
 
-## Acceptance Criteria And Traceability
+## Implementation Nodes
 
-| ID | Definition of done | Nodes / evidence |
+| Node | Dependencies | Work | Evidence |
+| --- | --- | --- | --- |
+| N1 | None | Rebaseline current tree; inventory tracked names, content, native constraints, notices, and coverage | Semantic migration inventory and unchanged initial gate results |
+| N2 | N1 | Consolidate normative workflow, roles, capability requirements, conformance, and reusable templates | Every old requirement mapped to a neutral destination or justified native-only retirement |
+| N3 | N2 | Implement initialization/update guides, target-profile template, evidence requirements, fallbacks, and safe merge rules | Reviewed generation and preservation contracts |
+| N4 | N2, N3 | Replace native validation with neutral contract/profile checks and synthetic regression fixtures; migrate coverage deliberately | Positive and negative tests; clause migration review |
+| N5 | N4 | Remove obsolete distributions and compatibility paths; neutralize tracked docs/plans/metadata; update README examples and release guidance | Tracked-tree audit, links, notices, counts, and migration notes |
+| N6 | N5 | Rehearse setup/upgrades, review safety and compatibility limits, run gates, and update PR scope | Acceptance evidence and accurate PR description |
+
+After implementation approval, continue on the existing PR branch and rewrite PR #3's title and
+body around the final neutral-specification architecture. Commit and push only under the approved
+implementation scope. This plan revision alone does not update the PR or implement those nodes.
+
+## Acceptance Criteria
+
+| ID | Definition of done | Evidence |
 | --- | --- | --- |
-| AC1 | General workflow branding is neutral; remaining product names have technical, compatibility, disclosure, or attribution purposes | N1, N2; occurrence review |
-| AC2 | Neutral entry point documents explicit target routing for all three existing integrations and rejects ambiguous/unsupported targets before writes | N3, N5; routing scenarios |
-| AC3 | Native entry points, role sets, tool declarations, model inheritance, memory behavior, and safety clauses are preserved | N2, N5, N6; native checks and coverage diff |
-| AC4 | Create, merge, and dry-run work as documented; dry-run is read-only and a repeated merge introduces no duplicate sections | N3, N5; disposable fixture comparisons |
-| AC5 | Upgrades preserve local instructions and state, other integrations, shared docs, config, and notices; conflicts are surfaced | N3, N5; populated upgrade fixtures |
-| AC6 | README contains the provider-neutral request template with user-supplied target/source paths and provider/tool name | N4; documentation review |
-| AC7 | Existing Codex bootstrap invocation remains valid and missing neutral-bootstrap source files fail clearly | N3, N5; compatibility scenarios |
-| AC8 | Required gates pass without dropping contract coverage to conceal regressions | N5, N6; command results and coverage review |
+| AC1 | All tracked workflow filenames/content are AI-provider neutral; only justified non-AI hosting infrastructure remains | Tracked-tree inventory and final audit, including plans/tests/metadata |
+| AC2 | Shared behavior is preserved in authoritative neutral specifications without silent safety/authority loss | Old-to-new semantic mapping and reviewed coverage migration |
+| AC3 | No bundled native distributions, fixed product mappings, branded legacy bootstrap, or product-specific validation branches remain | Structure and content checks |
+| AC4 | Target generation requires verified evidence and capability mapping; missing evidence and incompatible required capabilities prevent writes | Negative scenarios and target-profile review |
+| AC5 | Create/merge/dry-run preserve boundaries, local state, native destination paths, and other integrations; repeated merge adds no duplicates | Disposable project scenarios and before/after hashes |
+| AC6 | README includes neutral initialization and upgrade requests with user-supplied tool and paths | Documentation and link checks |
+| AC7 | Native output is validated to the extent available; static validation is never presented as runtime compatibility | Distinct semantic/native/runtime results |
+| AC8 | License obligations are preserved and migration breaking changes are explicit | Notice review and release guidance |
+| AC9 | Required gates and rehearsals pass; pending evidence prevents a Done status | Recorded checks and acceptance disposition |
 
 ## Validation Strategy
 
-Capture current results before editing; do not assume historical plan results still apply.
+Capture baseline results, then run the maintained repository gates after migration:
 
 ```text
 python -B tools/validate_workflows.py
@@ -179,53 +243,59 @@ python -B tools/contract_coverage.py
 git diff --check
 ```
 
-Use disposable repositories for each integration: empty create, populated merge with local
-customizations, repeated merge, dry-run with before/after file hashes, conflicting instructions,
-missing source distribution, unsupported target, and coexistence with another integration.
-Seed ignored memory and custom skills so preservation is observable. Validate generated native
-formats and required files using target-specific checks factored from the existing registry.
-Keep the existing --bootstrap-target Codex validation compatible; do not imply it validates
-other integrations without extending and testing that interface explicitly.
+Keep contract clause coverage by meaning and required neutral surface. Surface counts may decrease
+when duplicate distributions are removed; document every removal and replacement. Do not remove
+checks or regenerate a baseline merely to hide lost requirements. Replace obsolete native tests
+with meaningful semantic and generation-boundary regressions.
 
-The scaffolding remains instruction-driven. Automated static tests validate routing declarations,
-preservation rules, and file contracts; they do not prove an assistant executed a merge correctly.
-Record manual disposable-project scenario results separately and report any unexecuted scenario.
-Add negative tests for missing mappings, accidental native-path replacement, weakened preservation
-clauses, and stale bootstrap-file expectations. Review coverage baseline changes individually;
-never regenerate the baseline solely to make failures disappear.
+Use neutral synthetic tool schemas and capability fixtures for automated tests. Keep real-product
+rehearsal outputs outside the tracked source. Test empty creation, populated legacy upgrades,
+repeated merge, read-only dry-run, conflicting instructions, missing/stale/contradictory evidence,
+ambiguous target, unsupported mandatory capabilities, unavailable optional features, missing source,
+path escape, coexistence, and notices. Seed custom skills, ignored state, active plans, and unrelated
+configuration so preservation can be measured.
 
-## Release, Rollback, And Closeout
+Rehearse at least two materially different real target formats in disposable projects using verified
+documentation. Record sanitized scenario IDs, observed results, and limitations in the repository;
+keep product-identifying evidence in external/local review records. Do not claim simulated schema
+checks establish native-runtime acceptance. Report unavailable runtime checks explicitly.
 
-Assess versioning after the final diff: editorial-only changes do not imply changed runtime
-semantics, but a revised bootstrap contract must be documented and all declared contract versions
-kept consistent if bumped. Update file counts and release metadata only to verified values.
+The tracked-tree audit must inspect git ls-files, including hidden paths and all text files. A
+review-time search inventory can be kept outside the repository to avoid embedding a branded
+blocklist in source. Generic structural checks guard against reintroducing bundled native profiles;
+manual name review remains required rather than claiming a complete automated trademark detector.
 
-Rollback upstream through normal version-control reversal; keep legacy paths functional during
-the migration. Downstream rollback uses the user's checkpoint plus backup for ignored state.
-Report acceptance results, changed files, unresolved limitations, and compatibility guarantees.
-No external installation is updated by completing this plan.
+## Versioning, Rollback, And Closeout
 
-## Planning Validation
+This is a breaking source-layout and bootstrap-contract migration. Target workflow contract version 3.0.0 because removing bundled distributions and legacy
+bootstrap paths changes setup, validation, and upgrade contracts. Retain 2.6.0 as the source
+baseline. During implementation, synchronize all active contract-version declarations and release
+metadata to 3.0.0, including validator expectations and citation metadata; update counts to verified
+values and document removed source paths generically. Publish the 3.0.0 release only after required
+validation and acceptance evidence pass. Historical baseline references remain at their original
+versions rather than being globally replaced. Remove or repair links to deleted
+files, including links in historical plans. Preserve factual approval and result history using
+neutral descriptions; do not carry forward obsolete acceptance claims.
 
-Repository/source inspection completed. Implementation tests and disposable upgrade scenarios
-have not run; those belong to implementation. The pre-existing untracked .codex directory is
-outside this plan's changes and must be preserved.
+Rollback uses normal version-control reversal or the prior release; no history rewriting is planned.
+Destination rollback uses the user's checkpoint and backup. Keep legal assertions out of acceptance
+claims: technical neutrality and notice preservation are verifiable; legal immunity is not.
 
-## Implementation Evidence (2026-10-31)
+Revision 2 is complete only when AC1-AC9 have recorded dispositions and required operational evidence
+exists. No real user project is modified as part of implementing this source-repository plan.
 
-N1-N5 implemented: neutral public branding and task prompts; shared manual bootstrap with three
-explicit integration mappings; legacy compatibility; central README upgrade template and links;
-validator routing/preservation guards with negative regression tests. Native config and agent
-frontmatter were retained. Editorial integration names remain where they explain compatibility.
-No contract version bump: native behavioral semantics remain at 2.6.0; the neutral entry point
-adds setup guidance. Bootstrap source-file count is now four.
+## Revision Record And Planning Validation
 
-Validation: 5,983 repository checks passed; 94 unit tests passed; 47 contract clauses across
-1,294 recorded clause-surface pairs retained; git diff --check passed. Diff review corrected an
-encoding conversion before the final checks. The coverage baseline required no changes.
+Revision 1 introduced a neutral front door while retaining native distributions. Its passing static
+checks and unexecuted merge rehearsals remain historical evidence only. Revision 2 replaces that
+architecture with neutral specifications and verified destination-only generation, explicitly
+removes legacy source compatibility, and requires operational evidence before completion.
 
-N6 limitation: live assistant create/merge/dry-run rehearsals in disposable projects were not
-executed. Automated tests cover the documented mapping and preservation contract, including
-negative cases; they do not prove actual merge behavior. AC4/AC5 operational scenario evidence
-remains pending, so this plan stays In Progress rather than claiming complete acceptance.
-The PR is reviewable with this explicit limitation. No downstream repository was modified.
+This revision changes the plan only. Implementation and revision-2 acceptance checks are pending.
+The pre-existing untracked local environment directory must remain untouched.
+
+## Revision 2 Implementation Progress
+
+Approval recorded; initial clause inventory and neutral capability specification drafted.
+Full semantic consolidation, bootstrap replacement, validator migration, source cleanup, and
+operational rehearsals remain pending. This is an implementation checkpoint, not release 3.0.0.
