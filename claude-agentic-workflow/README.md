@@ -1,4 +1,4 @@
-# Claude Code Agentic Workflow
+# Agentic Workflow Integration
 
 Workflow contract version: 2.6.0
 
@@ -504,3 +504,8 @@ claimed or implied.
 This distribution redistributes no third-party source code or documentation text. It contains
 original workflow material written to the public file and configuration conventions that Claude
 Code reads.
+
+## Updating An Existing Installation
+
+Use the [shared upgrade procedure](../README.md#update-an-existing-installation) with this
+integration as the target. Preserve project-specific guidance and workflow state.

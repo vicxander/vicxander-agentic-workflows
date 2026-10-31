@@ -1,6 +1,6 @@
 # Agentic Mode Setup Guide
 
-This folder contains project-agnostic instructions for bootstrapping a structured Codex agentic
+This folder contains project-agnostic instructions for bootstrapping a structured agentic
 workflow in a new repository.
 
 The goal is to avoid re-prompting the same setup details every time a new project starts. Copy or
@@ -10,6 +10,14 @@ Workflow contract version: 2.6.0
 
 The live provider distributions and this bootstrap kit are provider-specific materializations of
 the same semantic workflow contract.
+
+## Shared Setup
+
+Use [AGENTIC_BOOTSTRAP.md](AGENTIC_BOOTSTRAP.md) with the full source repository available,
+an explicit target integration, and create, merge, or dry-run mode. See the
+[upgrade request template](../README.md#update-an-existing-installation).
+
+The remaining guide documents the standalone Codex compatibility kit.
 
 ## Recommended Use
 
@@ -317,7 +325,7 @@ mechanism when risk or complexity justifies it.
 Use this prompt for a normal agentic task:
 
 ```text
-Use the project-local Codex agents in agentic mode. Orchestrator coordinates Architect, Coder,
+Use the project-local workflow agents in agentic mode. Orchestrator coordinates Architect, Coder,
 Tester, and Reviewer. Apply the reasoning policy from .codex/agents/README.md. Classify the task
 first. For Lite, Standard, or Full, Architect must create the plan and wait for my approval.
 Workflow depth: Auto
@@ -335,7 +343,7 @@ Task: <task>
 Use this prompt when native project skills should be enforced:
 
 ```text
-Use the project-local Codex agents in agentic mode and apply relevant native project skills from
+Use the project-local workflow agents in agentic mode and apply relevant native project skills from
 .agents/skills/. Architect must include applicable skills in the plan. Coder and Tester must
 satisfy or report blockers for those skills.
 Workflow depth: Auto
@@ -353,7 +361,7 @@ Task: <task>
 Use this prompt when the task is based on requirements or user findings:
 
 ```text
-Use the project-local Codex agents in agentic mode. Read relevant files under docs/requirements/
+Use the project-local workflow agents in agentic mode. Read relevant files under docs/requirements/
 and docs/user-findings/ before planning. Treat user findings as evidence, not automatic root cause.
 For Lite, Standard, or Full, Architect must create the implementation plan and wait for my
 approval.
@@ -372,7 +380,7 @@ Task: <task>
 Use this prompt when you want maximum rigor for the entire workflow:
 
 ```text
-Use the project-local Codex agents in agentic mode. Keep the whole workflow at my current reasoning
+Use the project-local workflow agents in agentic mode. Keep the whole workflow at my current reasoning
 level; do not downgrade any role. Architect creates the plan first and waits for my approval.
 Workflow depth: Full
 Efficiency profile: Thorough

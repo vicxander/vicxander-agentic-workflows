@@ -1,6 +1,6 @@
 # VicXander Agentic Workflows
 
-Reusable, adaptive, approval-gated agentic workflows for Codex, GitHub Copilot, and Claude Code.
+Reusable, adaptive, approval-gated agentic workflows with explicitly selected coding-tool integrations.
 
 Created and maintained by **Victor Alexander Daud**.
 
@@ -78,7 +78,7 @@ details, synthetic examples, and user-provided public references are preferred.
 
 | Directory | Purpose | Native entry point |
 | --- | --- | --- |
-| [`agentic-bootstrap-kit/`](agentic-bootstrap-kit/) | Reusable manual bootstrap guide and file templates | `CODEX_AGENTIC_BOOTSTRAP.md` |
+| [`agentic-bootstrap-kit/`](agentic-bootstrap-kit/) | Reusable manual bootstrap guide and file templates | `AGENTIC_BOOTSTRAP.md` |
 | [`codex-agentic-workflow/`](codex-agentic-workflow/) | Project-local workflow for Codex | `AGENTS.md`, `.codex/config.toml`, and `.codex/agents/*.toml` |
 | [`github-copilot-agentic-workflow/`](github-copilot-agentic-workflow/) | Native GitHub Copilot instructions, custom agents, and skills | `.github/copilot-instructions.md` |
 | [`claude-agentic-workflow/`](claude-agentic-workflow/) | Native Claude Code instructions, subagents, skills, and project memory | `CLAUDE.md` |
@@ -88,7 +88,7 @@ Current distributions:
 - Codex workflow: 32 files
 - GitHub Copilot workflow: 32 files
 - Claude Code workflow: 32 files
-- Bootstrap kit: 3 source files
+- Bootstrap kit: 4 source files
 
 ## Shared Workflow
 
@@ -456,7 +456,7 @@ project's main `README.md`; merge existing instruction and documentation files c
 project when Codex asks before loading project-local configuration. Then prompt:
 
 ```text
-Use the project-local Codex agents in agentic mode. Orchestrator coordinates Architect, Coder,
+Use the project-local workflow agents in agentic mode. Orchestrator coordinates Architect, Coder,
 Tester, and Reviewer. Apply the reasoning policy from .codex/agents/README.md. Classify the task
 first. For Lite, Standard, or Full, Architect must create the plan and wait for my approval.
 Workflow depth: Auto
@@ -541,7 +541,24 @@ and `Reviewer max: 3`. Advanced controls are `Max retries per node: 1`,
 The sample uses standard Claude Code subagents. Experimental agent teams remain disabled unless the
 user deliberately enables and approves them.
 
-### Manual bootstrap
+### Provider-Agnostic Setup
+
+Use [the shared bootstrap guide](agentic-bootstrap-kit/AGENTIC_BOOTSTRAP.md) with the full
+workflow source repository available. Choose a supported target integration explicitly:
+
+| Target ID | Product name |
+| --- | --- |
+| codex | Codex |
+| claude | Claude Code |
+| github-copilot | GitHub Copilot |
+
+Supply the target repository path, workflow source repository path, target name, and mode
+(create, merge, or dry-run). The assistant performing setup may differ from the target tool.
+Company names that are ambiguous require clarification; unsupported names do not add support.
+Native entry points and tool formats remain integration-specific.
+
+### Manual bootstrap (Codex Compatibility)
+
 
 Use [`agentic-bootstrap-kit/`](agentic-bootstrap-kit/) when you want Codex to initialize or merge the
 workflow into another project from reusable instructions.
@@ -559,6 +576,49 @@ metadata-only local workflow metrics.
 ```
 
 The bootstrap supports `create`, `merge`, and `dry-run` modes.
+
+## Update An Existing Installation
+
+Use merge mode to update an existing workflow. First create a Git checkpoint for tracked files
+and back up ignored/untracked state you want retained. Review the dry-run before applying changes.
+Preserve customized project guidance, configuration, skills, memory, worktrees, and shared docs.
+Unresolved conflicts must be reported rather than overwritten. Keep native instruction paths and
+other installed integrations. Preserve the project LICENSE and unrelated notices. Branding-only
+updates are optional; they do not require a runtime migration.
+
+Replace the target path, source path, and provider/tool name placeholders below. Use a supported
+product name or target ID from the table above. The selected distribution must be available in
+the source repository. See the [bootstrap guide](agentic-bootstrap-kit/AGENTIC_BOOTSTRAP.md)
+for preservation and validation details.
+
+```text
+Update the installed VicXander Agentic Workflows in:
+<TARGET_REPOSITORY_PATH>
+
+Use the updated workflow source from:
+<WORKFLOW_SOURCE_REPOSITORY_PATH>
+
+AI provider / coding tool name: <YOUR_AI_PROVIDER_OR_CODING_TOOL_NAME>
+Mode: merge, starting with a dry-run.
+
+Read agentic-bootstrap-kit/AGENTIC_BOOTSTRAP.md in the workflow source repository.
+Resolve my supplied name to a documented supported target integration. If the name is
+ambiguous or unsupported, explain what is needed before making changes. Do not switch
+integrations or invent configuration for an unsupported target.
+
+First produce a dry-run comparison listing files to create, merge, preserve, and any
+conflicts. Wait for my approval of that comparison before applying the update.
+
+Preserve project-specific instructions, architecture, commands, quality gates, custom
+skills, configuration, memory, session notes, todos, worklogs, metrics, worktrees, and
+existing documentation, requirements, findings, and plans. Keep the selected integration's
+native instruction filenames and configuration directories. Preserve other integrations
+and reuse shared documentation lanes. Surface unresolved conflicts rather than overwriting.
+
+Do not modify application code or replace the project's LICENSE. Preserve existing notices
+and merge only missing workflow notices. After applying the approved update, validate the
+workflow using available target-appropriate checks and report changes and limitations.
+```
 
 ## Installation Notes
 

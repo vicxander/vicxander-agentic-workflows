@@ -1,4 +1,4 @@
-# GitHub Copilot Agentic Workflow
+# Agentic Workflow Integration
 
 This sample provides an adaptive workflow using GitHub Copilot's native repository instructions,
 custom agents, and project skills. Planned routes remain explicitly approval-gated.
@@ -507,3 +507,8 @@ endorsement is claimed or implied.
 This distribution redistributes no third-party source code or documentation text. It contains
 original workflow material written to the public file and configuration conventions that GitHub
 Copilot reads.
+
+## Updating An Existing Installation
+
+Use the [shared upgrade procedure](../README.md#update-an-existing-installation) with this
+integration as the target. Preserve project-specific guidance and workflow state.

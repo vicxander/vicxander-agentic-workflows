@@ -4721,9 +4721,37 @@ def check_embedded_conformance(label: str, conformance: str) -> None:
         )
 
 
+def check_neutral_bootstrap(text: str) -> None:
+    """Guard target routing and preservation in the manual bootstrap contract."""
+    for target, product, distribution, entry in (
+        ("codex", "Codex", "codex-agentic-workflow", "AGENTS.md and .codex/config.toml"),
+        ("claude", "Claude Code", "claude-agentic-workflow", "CLAUDE.md and .claude/"),
+        ("github-copilot", "GitHub Copilot", "github-copilot-agentic-workflow",
+         ".github/copilot-instructions.md"),
+    ):
+        check(
+            f"| {target} | {product} | {distribution} | {entry} |" in text,
+            f"neutral bootstrap lacks native mapping for {target}",
+        )
+    for clause in (
+        "Unsupported names must produce an unsupported-target report before any writes",
+        "If it is missing, report the missing source and stop before writes",
+        "Do not write files, create directories, or update memory",
+        "Repeating a merge must not duplicate sections",
+        "Leave unresolved files unchanged",
+        "Never reset state from empty templates",
+        "Preserve unrelated configuration keys and other integrations",
+        "Preserve the project's LICENSE and all unrelated notices",
+        "CODEX_AGENTIC_BOOTSTRAP.md and embedded templates remain a standalone",
+    ):
+        check(clause in text.replace("\n", " "), f"neutral bootstrap lacks rule: {clause}")
+
+
 def check_bootstrap_templates() -> None:
     kit_root = ROOT / "agentic-bootstrap-kit"
+    check_neutral_bootstrap(read_text(kit_root / "AGENTIC_BOOTSTRAP.md"))
     expected_kit_files = {
+        "AGENTIC_BOOTSTRAP.md",
         "README.md",
         "CODEX_AGENTIC_BOOTSTRAP.md",
         "AGENTIC_FILE_TEMPLATES.md",

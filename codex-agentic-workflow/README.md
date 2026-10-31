@@ -1,4 +1,4 @@
-# Codex Agentic Workflow
+# Agentic Workflow Integration
 
 This sample provides an adaptive workflow using Codex's native repository instructions, project
 configuration, custom agents, and skills. Planned routes remain explicitly approval-gated.
@@ -390,7 +390,7 @@ the active parent settings unless the user or Orchestrator explicitly overrides 
 Prompt Codex:
 
 ```text
-Use the project-local Codex agents in agentic mode. Orchestrator coordinates Architect, Coder,
+Use the project-local workflow agents in agentic mode. Orchestrator coordinates Architect, Coder,
 Tester, and Reviewer. Classify the task first. For Lite, Standard, or Full, Architect must create
 the implementation plan and wait for my approval before coding.
 Workflow depth: Auto
@@ -408,7 +408,7 @@ Task: <task>
 For a skill-driven task:
 
 ```text
-Use the project-local Codex agents in agentic mode and apply relevant native project skills from
+Use the project-local workflow agents in agentic mode and apply relevant native project skills from
 .agents/skills/. Architect must include applicable skills in the plan.
 Workflow depth: Auto
 Efficiency profile: Balanced
@@ -483,3 +483,8 @@ claimed or implied.
 This distribution redistributes no third-party source code or documentation text. It contains
 original workflow material written to the public file and configuration conventions that Codex
 reads.
+
+## Updating An Existing Installation
+
+Use the [shared upgrade procedure](../README.md#update-an-existing-installation) with this
+integration as the target. Preserve project-specific guidance and workflow state.
