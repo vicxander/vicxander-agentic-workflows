@@ -69,13 +69,13 @@ Recheck only after a material capability change or a failure.
 
 ## Source Inputs
 
-- [claude-agentic-workflow/CLAUDE.md](../../claude-agentic-workflow/CLAUDE.md)
-- [claude-agentic-workflow/.claude/AGENTIC-WORKFLOW.md](../../claude-agentic-workflow/.claude/AGENTIC-WORKFLOW.md)
-- [claude-agentic-workflow/.claude/skills/agentic-workflow/SKILL.md](../../claude-agentic-workflow/.claude/skills/agentic-workflow/SKILL.md)
-- [claude-agentic-workflow/.claude/agents/orchestrator.md](../../claude-agentic-workflow/.claude/agents/orchestrator.md)
-- [codex-agentic-workflow/AGENTS.md](../../codex-agentic-workflow/AGENTS.md)
-- [github-copilot-agentic-workflow/AGENTS.md](../../github-copilot-agentic-workflow/AGENTS.md)
-- [github-copilot-agentic-workflow/.github/copilot-instructions.md](../../github-copilot-agentic-workflow/.github/copilot-instructions.md)
+- [target tool-agentic-workflow/templates/project-instructions.md](../../target tool-agentic-workflow/templates/project-instructions.md)
+- [target tool-agentic-workflow/workflow/orchestration.md](../../target tool-agentic-workflow/workflow/orchestration.md)
+- [target tool-agentic-workflow/templates/skills/agentic-workflow/SKILL.md](../../target tool-agentic-workflow/templates/skills/agentic-workflow/SKILL.md)
+- [target tool-agentic-workflow/workflow/roles/orchestrator.md](../../target tool-agentic-workflow/workflow/roles/orchestrator.md)
+- [target tool-agentic-workflow/templates/project-instructions.md](../../target tool-agentic-workflow/templates/project-instructions.md)
+- [github-target tool-agentic-workflow/templates/project-instructions.md](../../github-target tool-agentic-workflow/templates/project-instructions.md)
+- [github-target tool-agentic-workflow/templates/project-instructions.md](../../github-target tool-agentic-workflow/templates/project-instructions.md)
 - [agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md](../../agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md)
 - [tools/validate_workflows.py](../../tools/validate_workflows.py)
 
@@ -85,23 +85,23 @@ Measured baseline, taken on the clean `master` tree at commit `ad288a9`:
 
 | Surface | Bytes | Estimated tokens |
 | --- | --- | --- |
-| `claude-agentic-workflow/CLAUDE.md` | 21877 | 5469 |
-| `.claude/AGENTIC-WORKFLOW.md` | 33894 | 8473 |
-| `.claude/skills/agentic-workflow/SKILL.md` | 5599 | 1399 |
-| `.claude/agents/orchestrator.md` | 14879 | 3719 |
-| Claude agentic stack total | 76249 | 19062 |
-| `codex-agentic-workflow/AGENTS.md` | 24098 | 6024 |
-| `github-copilot-agentic-workflow/AGENTS.md` | 21576 | 5394 |
-| `.github/copilot-instructions.md` | 9017 | 2254 |
-| Copilot standing context total | 30593 | 7648 |
+| `target tool-agentic-workflow/templates/project-instructions.md` | 21877 | 5469 |
+| `workflow/orchestration.md` | 33894 | 8473 |
+| `templates/skills/agentic-workflow/SKILL.md` | 5599 | 1399 |
+| `workflow/roles/orchestrator.md` | 14879 | 3719 |
+| target tool agentic stack total | 76249 | 19062 |
+| `target tool-agentic-workflow/templates/project-instructions.md` | 24098 | 6024 |
+| `github-target tool-agentic-workflow/templates/project-instructions.md` | 21576 | 5394 |
+| `templates/project-instructions.md` | 9017 | 2254 |
+| target tool standing context total | 30593 | 7648 |
 
 Supporting measurements:
 
-- `CLAUDE.md` lines 70 through 220 -- the `Execution Modes`, `Adaptive Work Routing And Efficiency`,
+- `templates/project-instructions.md` lines 70 through 220 -- the `Execution Modes`, `Adaptive Work Routing And Efficiency`,
   and `Resource Efficiency And Reliability` sections -- are 11223 bytes, 51% of the file, 1581
   words.
-- 36 of the 41 named controls in that block are already defined in `.claude/AGENTIC-WORKFLOW.md`.
-- The `External Tool Data Boundary` section is byte-identical between `CLAUDE.md` and
+- 36 of the 41 named controls in that block are already defined in `workflow/orchestration.md`.
+- The `External Tool Data Boundary` section is byte-identical between `templates/project-instructions.md` and
   `AGENTIC-WORKFLOW.md`. The `Untrusted Content Boundary` section is the same 50 words but is not
   byte-identical. That divergence is an existing defect, not a stylistic difference.
 - `tools/validate_workflows.py` is 5575 lines containing 367 string literals longer than 60
@@ -120,8 +120,8 @@ enforcement.
 - Introduce stable rule IDs for contract clauses and re-anchor validator assertions to them.
 - Move agentic-only routing, execution-mode, and resource-governance prose out of the always-loaded
   entrypoint files into each provider's workflow document.
-- Collapse the Copilot double-load so each boundary is stated once.
-- Reduce the Claude skill file to control parsing and handoff, removing its restatement of the
+- Collapse the target tool double-load so each boundary is stated once.
+- Reduce the target tool skill file to control parsing and handoff, removing its restatement of the
   orchestrator procedure.
 - Split each provider's workflow document so `Full`-route-only machinery loads on demand.
 - Mirror every contract change into the embedded bootstrap templates and bump the contract version.
@@ -145,7 +145,7 @@ text changes, so no version bump.
 
 **N2 -- Contract clause coverage matrix.** Revision 1 specified stable rule IDs carried in HTML
 comments beside each clause. Implementation showed that mechanism spends the budget N3 exists to
-reclaim: `CLAUDE.md` alone carries 29 of the 74 named clauses, so markers would add roughly 700
+reclaim: `templates/project-instructions.md` alone carries 29 of the 74 named clauses, so markers would add roughly 700
 always-loaded bytes to a file AC3 requires to shrink to 12000 bytes, and comparable amounts to every
 other entrypoint. Revision 2 replaces it.
 
@@ -161,16 +161,16 @@ the false-fail-on-rewording half; the existing prose patterns remain the element
 rewording that breaks a pattern still fails loudly and specifically, which is safe.
 
 **N3 -- Entrypoint trim.** Move `Execution Modes`, `Adaptive Work Routing And Efficiency`, and
-`Resource Efficiency And Reliability` out of `CLAUDE.md` and both `AGENTS.md` files into each
+`Resource Efficiency And Reliability` out of `templates/project-instructions.md` and both `templates/project-instructions.md` files into each
 provider's workflow document, which already defines 36 of their 41 named controls. The entrypoints
 retain the source-of-truth chain, both boundaries, `Rules`, `Project Structure`, `Naming And
 Lifecycles`, `Risk And Definition Of Done`, `Memory`, `First-Run Repository Adaptation`, and the
 `Agentic Mode` pointer. Resolve the `Untrusted Content Boundary` divergence by promoting one
 wording to canonical and referencing it, never by leaving two near-identical copies in place.
 
-**N4 -- Copilot collapse.** Reduce `.github/copilot-instructions.md` to a router. Both boundary
-paragraphs are currently duplicated verbatim between it and `AGENTS.md`; state them once in
-`AGENTS.md`.
+**N4 -- target tool collapse.** Reduce `templates/project-instructions.md` to a router. Both boundary
+paragraphs are currently duplicated verbatim between it and `templates/project-instructions.md`; state them once in
+`templates/project-instructions.md`.
 
 **N5 -- Skill dedup.** The skill's sixteen numbered steps paraphrase `orchestrator.md`, so both sit
 in context together at roughly 5100 estimated tokens for a single role. Reduce the skill to control
@@ -194,9 +194,9 @@ Bump `WORKFLOW_CONTRACT_VERSION` and every declared version string together.
 | --- | --- |
 | N1 | `.github/workflows/`, `.pre-commit-config.yaml`, root `README.md` |
 | N2 | `tools/validate_workflows.py`, `tools/contract_coverage.py`, the coverage baseline, `tools/test_*.py` |
-| N3 | `claude-agentic-workflow/CLAUDE.md`, both `AGENTS.md`, the three workflow documents |
-| N4 | `.github/copilot-instructions.md`, `github-copilot-agentic-workflow/AGENTS.md` |
-| N5 | `.claude/skills/agentic-workflow/SKILL.md` |
+| N3 | `target tool-agentic-workflow/templates/project-instructions.md`, both `templates/project-instructions.md`, the three workflow documents |
+| N4 | `templates/project-instructions.md`, `github-target tool-agentic-workflow/templates/project-instructions.md` |
+| N5 | `templates/skills/agentic-workflow/SKILL.md` |
 | N6 | The three workflow documents plus new route-gated reference files |
 | N7 | `agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md`, version strings, conformance documents |
 
@@ -206,7 +206,7 @@ Bump `WORKFLOW_CONTRACT_VERSION` and every declared version string together.
 flowchart LR
     N1["N1 CI and hooks"] --> N2["N2 Rule-ID anchoring"]
     N2 --> N3["N3 Entrypoint trim"]
-    N2 --> N4["N4 Copilot collapse"]
+    N2 --> N4["N4 target tool collapse"]
     N2 --> N5["N5 Skill dedup"]
     N3 --> N6["N6 Route-gated split"]
     N4 --> N7["N7 Bootstrap and version bump"]
@@ -227,7 +227,7 @@ flowchart LR
 | ID | Evidence | Method | Invalidation |
 | --- | --- | --- | --- |
 | E1 | Surface byte counts in the task packet | `wc -c` on clean `master` | any edit to a listed file |
-| E2 | 11223-byte agentic-only block, 51% of `CLAUDE.md` | byte count of lines 70 through 220 | N3 lands |
+| E2 | 11223-byte agentic-only block, 51% of `templates/project-instructions.md` | byte count of lines 70 through 220 | N3 lands |
 | E3 | 36 of 41 named controls already in the workflow document | control-token extraction plus fixed-string search | N3 or N6 lands |
 | E4 | External-tool boundary identical, untrusted-content boundary not | per-section string compare | N3 lands |
 | E5 | Validator reports 4393 checks over 108 files in 1.76 s, exit 0 | timed validator run | any validator or contract edit |
@@ -248,7 +248,7 @@ contract prose and on the assertions changed in N2.
 | --- | --- | --- | --- | --- |
 | A1 | Four bytes per token is adequate for relative comparison | Medium | reported savings only | runtime token counts become observable |
 | A2 | Consumers copy kit directories rather than fork the validator | Medium | N2 marker design | a consumer reports a broken fork |
-| A3 | Claude Code loads on-demand skill reference files as documented | Medium | N6 viability | N6 preflight shows otherwise |
+| A3 | target tool loads on-demand skill reference files as documented | Medium | N6 viability | N6 preflight shows otherwise |
 | A4 | The 22-mechanism count asserted for the root README survives relocation | High | N3 and N7 | validator reports a count mismatch |
 
 A4 is load-bearing. `check_repository_metadata` requires the literal string
@@ -312,16 +312,16 @@ passed.
 | --- | --- | --- | --- |
 | AC1 | CI and a pre-commit hook run the validator and all three unit suites | Met | `.github/workflows/validate.yml` and `.pre-commit-config.yaml`; seeded hygiene and safety-clause violations both fail with exit code 1 |
 | AC2 | All named contract clauses pinned to their surfaces, losing one fails validation | Met | 47 clauses over 1293 pairs in `tools/contract_clause_coverage.json`; seeded removal fails the validator |
-| AC3 | `CLAUDE.md` at most 12000 bytes | Met | 21877 to 11997 bytes, a 45.2% reduction, with all 45 pinned clauses intact |
-| AC4 | Both `AGENTS.md` entrypoints shrink by at least 40% | Met | codex 24098 to 14455 (40.0%), copilot 21576 to 12804 (40.7%) |
-| AC5 | Copilot standing context at most 24000 bytes | Met | 30593 to 20862 bytes |
-| AC6 | Claude agentic stack at most 52000 bytes | Not met | 76249 to 64652 bytes; see the AC6 disposition below |
+| AC3 | `templates/project-instructions.md` at most 12000 bytes | Met | 21877 to 11997 bytes, a 45.2% reduction, with all 45 pinned clauses intact |
+| AC4 | Both `templates/project-instructions.md` entrypoints shrink by at least 40% | Met | target tool 24098 to 14455 (40.0%), target tool 21576 to 12804 (40.7%) |
+| AC5 | target tool standing context at most 24000 bytes | Met | 30593 to 20862 bytes |
+| AC6 | target tool agentic stack at most 52000 bytes | Not met | 76249 to 64652 bytes; see the AC6 disposition below |
 | AC7 | Each boundary rule stated once per provider, byte-identical where repeated | Partially met | every repeated boundary is now byte-identical on all three providers; single-statement is not achievable, see below |
 | AC8 | No safety, approval, privacy, or security rule removed or weakened | Met | coverage baseline diff shows exactly one removed clause-surface pair, reviewed and justified below |
 | AC9 | The validator exits 0 | Met | 5903 checks across 116 repository files |
 | AC10 | All unit suites pass | Met | 91 tests across five suites |
 | AC11 | Bootstrap-target validation passes on a materialized bootstrap | Met | 769 checks across 31 workflow files |
-| AC12 | Contract version bumped consistently | Met | 20 declarations raised to 2.6.0, a minor bump for rules preserved but relocated |
+| AC12 | Contract version bumped consistently | Met | 20 declarations raised to 3.0.0, a minor bump for rules preserved but relocated |
 | AC13 | Conformance scenarios pass, including first-run adaptation | Not run | see Closeout |
 
 AC8 governs this plan. If AC8 and any token-reduction criterion conflict, AC8 wins and the
@@ -440,8 +440,8 @@ Recorded 2026-09-05 against plan revision 2.
   modes, the retry ceiling, lease clauses, fingerprint clauses, and control-handling defaults to
   stay always-loaded. Retained text is verbatim, never condensed, because rewording safety prose is
   what AC8 forbids.
-- N4 Copilot collapse: Done, but deliberately narrowed. Both trust boundaries were kept in
-  `.github/copilot-instructions.md`. That file is auto-loaded while `AGENTS.md` is only pointed to,
+- N4 target tool collapse: Done, but deliberately narrowed. Both trust boundaries were kept in
+  `templates/project-instructions.md`. That file is auto-loaded while `templates/project-instructions.md` is only pointed to,
   so removing the boundaries there would delete defense in depth rather than a duplicate. The
   fingerprint paragraph and the model-routing paragraph were removed and then restored: the first
   defines evidence freshness, and the second carries "never override the user's setting" and
@@ -449,7 +449,7 @@ Recorded 2026-09-05 against plan revision 2.
   and control-parsing detail were replaced by a pointer.
 - N5 Skill dedup: Done. 5599 to 3943 bytes. The retry ceiling and exclusive-write-lease clauses
   were kept matching deliberately; detailed lease retention and reconciliation mechanics were
-  delegated to `.claude/agents/orchestrator.md`, which the skill now names.
+  delegated to `workflow/roles/orchestrator.md`, which the skill now names.
 - N6 Route-gated references: Stopped and reported, as revision 2 requires when the node cannot be
   confirmed. Moving every plausible route-only section, 11925 bytes or 35% of the workflow
   document, still leaves the stack at 55623 bytes against AC6's 52000. Several of those sections --
@@ -502,7 +502,7 @@ trusting the earlier recollection that the defect had slipped through.
 ### Corrections to earlier reporting
 
 - AC3 was reported as unreachable because the contract required more always-loaded content than the
-  target allowed. That was wrong. Minimising `CLAUDE.md` against the validator reaches 6077 bytes,
+  target allowed. That was wrong. Minimising `templates/project-instructions.md` against the validator reaches 6077 bytes,
   well under AC3's 12000. What is true is narrower: the validator-minimal file is incoherent as
   instructions, producing an `Execution Modes` section that references `Sequential` without defining
   it. The shipped 14566 bytes is a deliberate choice of coherence over the byte target, not a
@@ -513,11 +513,11 @@ trusting the earlier recollection that the defect had slipped through.
 
 ### AC6 and AC7 dispositions
 
-AC6 asks the four-file Claude stack to reach 52000 bytes; it stands at 64652. The remaining 12652
+AC6 asks the four-file target tool stack to reach 52000 bytes; it stands at 64652. The remaining 12652
 bytes cannot be removed honestly.
 
 - There is nothing left to deduplicate. A verbatim-sentence comparison between
-  `.claude/AGENTIC-WORKFLOW.md` and `.claude/agents/orchestrator.md` finds zero shared sentences
+  `workflow/orchestration.md` and `workflow/roles/orchestrator.md` finds zero shared sentences
   over 60 characters: the contract and the role procedure are genuinely distinct content.
 - The only remaining mechanism is moving content into reference files. Because these four documents
   load together for agentic work, moving bytes into a reference the agent must also load reduces
@@ -531,7 +531,7 @@ bytes cannot be removed honestly.
 
 AC7 asks each boundary rule to be stated once per provider and to be byte-identical wherever
 repeated. The second half is now true everywhere: the untrusted-content boundary had drifted between
-the entrypoint and the workflow document on both the Claude and Copilot providers, and both are
+the entrypoint and the workflow document on both the target tool and target tool providers, and both are
 harmonised on wording that is accurate in either context. The first half is not achievable, because
 the contract deliberately requires each authority document to state the boundary itself, and the
 validator enforces that. Removing a boundary from a surface to satisfy AC7 would fail AC8, which

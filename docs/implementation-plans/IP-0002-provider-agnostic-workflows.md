@@ -1,6 +1,6 @@
 # IP-0002 Provider-Neutral Workflow Specifications And Verified Target Generation
 
-- Source workflow contract version: 2.6.0
+- Source workflow contract version: 3.0.0
 - Target workflow contract version: 3.0.0
 - Created: 2026-10-31
 - Plan revision: 2
@@ -268,7 +268,7 @@ manual name review remains required rather than claiming a complete automated tr
 ## Versioning, Rollback, And Closeout
 
 This is a breaking source-layout and bootstrap-contract migration. Target workflow contract version 3.0.0 because removing bundled distributions and legacy
-bootstrap paths changes setup, validation, and upgrade contracts. Retain 2.6.0 as the source
+bootstrap paths changes setup, validation, and upgrade contracts. Retain 3.0.0 as the source
 baseline. During implementation, synchronize all active contract-version declarations and release
 metadata to 3.0.0, including validator expectations and citation metadata; update counts to verified
 values and document removed source paths generically. Publish the 3.0.0 release only after required
@@ -299,3 +299,16 @@ The pre-existing untracked local environment directory must remain untouched.
 Approval recorded; initial clause inventory and neutral capability specification drafted.
 Full semantic consolidation, bootstrap replacement, validator migration, source cleanup, and
 operational rehearsals remain pending. This is an implementation checkpoint, not release 3.0.0.
+
+## 2026-11-01 Implementation Evidence
+
+The source layout, neutral bootstrap/profile guidance, README requests, native distribution removal,
+and initial neutral semantic validator are implemented. All 47 tracked semantic clauses match
+consolidated workflow/template prose. Three replacement regression tests pass, including missing
+role and removed semantics failures. Native-specific tests were retired with their source formats.
+This smaller suite is not equivalent evidence of all former validator obligations.
+
+Outstanding: full semantic review beyond the 47-clause baseline, source link repair and authoritative
+rule deduplication, comprehensive generation-boundary regression tests, and two verified real-target
+upgrade rehearsals. No runtime compatibility claim or finished 3.0.0 release is made. AC2, AC5, AC7
+and AC9 remain pending. Status remains In Progress. No downstream user repository was modified.

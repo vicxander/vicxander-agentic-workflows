@@ -1,6 +1,6 @@
 # Target Capabilities
 
-Target contract: 3.0.0 (migration draft)
+Target contract: 3.0.0
 
 A target profile describes verified capabilities of the user's selected coding tool. The profile
 and native configuration belong in the destination project. This source repository defines

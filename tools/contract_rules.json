@@ -1,0 +1,61 @@
+{
+  "untrusted-content": {
+    "source and comment coverage": "source files?.{0,80}code comments?",
+    "log and finding coverage": "logs?.{0,80}(?:user )?findings?",
+    "web and tool-output coverage": "web (?:pages?|content).{0,80}tool output",
+    "untrusted-data classification": "untrusted\\s+data",
+    "non-instruction classification": "not\\s+(?:executable\\s+|workflow\\s+)?instructions",
+    "declared authority": "(?:declared )?(?:source-of-truth|authority) chain",
+    "reviewed skills": "reviewed\\s+native\\s+skills",
+    "embedded directive refusal": "(?:never|do not|not)\\s+obey",
+    "conflict escalation": "(?:suspicious\\s+instructions?|authority\\s+conflicts?)"
+  },
+  "external-tool-data": {
+    "generic minimal non-sensitive inputs": "generic.{0,40}minimal.{0,40}non-sensitive|generic,\\s*minimal,\\s*(?:and\\s+)?non-sensitive",
+    "absolute credential exclusion": "never.{0,80}(?:send|encode).{0,100}secrets.{0,60}credentials.{0,60}(?:access\\s+)?tokens.{0,60}private\\s+keys|secrets.{0,60}credentials.{0,60}(?:access\\s+)?tokens.{0,60}private\\s+keys.{0,100}never.{0,40}(?:sent|encoded)",
+    "protected project-data coverage": "proprietary\\s+source.{0,100}(?:repository\\s+content)?.{0,120}(?:customer\\s+or\\s+personal\\s+data|customer\\s+data.{0,40}personal\\s+data).{0,100}private\\s+URLs.{0,100}sensitive\\s+identifiers",
+    "external-surface coverage": "(?:web(?:-search)?\\s+(?:quer(?:y|ies)|search(?:es)?)|web\\s+searches).{0,140}fetched\\s+URLs?.{0,140}(?:connector\\s+or\\s+MCP\\s+calls?|connector.{0,30}MCP).{0,140}remote\\s+API.{0,140}(?:third-party\\s+tool\\s+inputs?|external\\s+tool\\s+inputs?)",
+    "specific-disclosure authorization": "user\\s+explicitly\\s+authorizes.{0,40}(?:that|the)\\s+specific\\s+disclosure|explicit\\s+user\\s+authorization.{0,40}(?:that|the)\\s+specific\\s+disclosure",
+    "general approval is insufficient": "(?:general\\s+)?task\\s+approval.{0,100}(?:request\\s+to\\s+research|research\\s+request).{0,100}not.{0,40}disclosure\\s+authorization",
+    "safer alternatives": "(?:local|offline).{0,120}redact.{0,120}synthetic"
+  },
+  "first-run-adaptation": {
+    "explicit user trigger": "(?:only when|after) (?:the )?user explicitly (?:requests?|approves?)|explicit(?:ly)?(?: user)? request",
+    "bounded repository-wide inventory": "bounded.{0,140}(?:repository-wide|repo-wide).{0,140}(?:inventory|scan)",
+    "evidence-first discovery": "evidence-first",
+    "high-value discovery sources": "(?=.*manifests?)(?=.*lockfiles?)(?=.*(?:CI|continuous integration))(?=.*test\\s+configuration)(?=.*representative entry points?)",
+    "scan exclusions": "(?=.*\\.git)(?=.*dependenc)(?=.*generated)(?=.*build\\s+artifacts?)(?=.*vendored)(?=.*binaries)(?=.*secrets)",
+    "fact provenance": "(?:(?:proposed durable facts?|proposed facts?|each proposed fact|durable facts?).{0,200}(?:repository )?source(?: path)?.{0,140}confidence|(?:repository )?source(?: path)?.{0,140}confidence.{0,200}(?:proposed )?durable fact)",
+    "unknown and conflict handling": "unknown.{0,140}conflicting.{0,180}(?:not guessed|instead of guessing|remain explicit|unresolved)",
+    "revisioned exact diff": "(?:revisioned exact|exact .{0,80}diff.{0,100}(?:proposal )?revision)",
+    "approval before instruction write": "(?=.*(?:(?:stop|stops).*(?:without|before) writing|no instruction file is changed))(?=.*(?:explicitly\\s+approves?|explicit\\s+(?:user\\s+)?approval))",
+    "instruction-only authorization": "(?:(?:only the displayed|apply only the displayed).{0,100}(?:instruction-file|AGENTS\\.md|target tool\\.md) (?:diff|changes).{0,220}(?:never|does not|no).{0,120}product[- ]code|adaptation approval.{0,160}(?:never authorizes?|does not authorize).{0,80}product[- ]code)",
+    "protected workflow invariants": "(?=.*(?:preserve|preserves|keeps|does not delete|do not delete|must not delete|without deleting))(?=.*(?:workflow.{0,20}invariants?|authority|source-of-truth))(?=.*(?:validation|review))(?=.*(?:memory|conformance))",
+    "post-merge validation": "(?:validate|validation).{0,160}(?:first-run adaptation )?(?:scenario|workflow-conformance|Markdown)|run.{0,220}(?:first-run adaptation )?(?:scenario|workflow-conformance)",
+    "delta-first refresh": "(?:later )?refresh.{0,180}delta-first"
+  },
+  "fingerprint": {
+    "revision or worktree state": "revision|worktree",
+    "relevant inputs or hashes": "input|hash",
+    "command or method": "command|method",
+    "environment and tool version": "environment(?:\\s+details?)?\\s+and\\s+(?:the\\s+)?tool\\s+version|tool\\s+version\\s+and\\s+(?:the\\s+)?environment",
+    "timestamp": "timestamp|observation\\s+time",
+    "result digest": "result\\s+digest",
+    "invalidation condition": "invalidat"
+  },
+  "retry": {
+    "hard retry ceiling": "hard\\s+ceiling",
+    "changed retry evidence": "(?:changed|new) (?:state|input|evidence|hypothesis|code|command)",
+    "exhaustion stops the node": "exhaust(?:ion|ed).{0,160}stop(?:s|ped)?\\s+(?:the|that)\\s+node|stop(?:s|ped)?\\s+(?:the|that)\\s+node.{0,160}exhaust",
+    "new hypotheses do not reset exhaustion": "new\\s+hypothesis\\s+alone\\s+does\\s+not\\s+reset",
+    "retries after exhaustion need authority": "user[- ]raised ceiling|approved plan revision.{0,100}materially new node"
+  },
+  "lease": {
+    "exclusive write ownership": "exclusive\\s+(?:write\\s+)?lease|one\\s+active\\s+write\\s+lease",
+    "never-active immediate release": "never[- ]active.{0,100}(?:release|released).{0,40}immediate|(?:release|released).{0,40}never[- ]active.{0,40}immediate|(?:release|released).{0,40}immediate.{0,80}never[- ]active",
+    "active lease quarantine": "(?:retain(?:ed)?|quarantin(?:e|ed)).{0,100}(?:active writer|lease)|(?:active writer|lease).{0,100}(?:retain(?:ed)?|quarantin(?:e|ed))",
+    "active release waits for confirmed stop and reconciliation": "(?:active writer|active[- ]writer|active work).{0,260}(?:stop|finish).{0,220}(?:last(?:[- ]|\\s+)write|write\\s+state).{0,180}(?:then|after.{0,80}(?:confirm|reconcil)).{0,120}(?:release|reassign)",
+    "last-write reconciliation": "last(?:[- ]|\\s+)write(?:\\s+state)?.{0,30}reconcil",
+    "stale results are never integrated": "never\\s+integrat.{0,80}(?:stale|obsolete|invalidat)|(?:stale|obsolete|invalidat).{0,80}never\\s+integrat"
+  }
+}

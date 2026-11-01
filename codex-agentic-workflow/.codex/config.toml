@@ -1,7 +1,0 @@
-# Project-local Codex configuration is loaded only after the repository is trusted.
-# Agent files intentionally inherit the user's active model, reasoning, sandbox, and approval
-# settings unless an explicit runtime override is supplied.
-
-[agents]
-enabled = true
-
