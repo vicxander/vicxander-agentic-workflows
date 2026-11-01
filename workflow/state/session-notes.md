@@ -5,7 +5,7 @@ Use this file for concise continuity across active or recent tasks.
 ## Current State
 
 - Date: 2026-07-26
-- Task: target tool agentic workflow initialized
+- Task: Not initialized; populate only in destination project
 - Workflow contract version: 3.0.0
 - Requested workflow depth: Not applicable
 - Work class: Not applicable

@@ -7,7 +7,7 @@
 
 ## Status
 
-In Progress
+Done
 
 Victor Alexander Daud approved revision 1 on 2026-10-31. Revision 1 was partially implemented
 in commit 51dd6b3 and PR #3. The user subsequently requested full provider neutrality and this
@@ -50,7 +50,7 @@ proposed notice removal on its own merits rather than treating it as branding cl
 ## Verified Baseline
 
 - [README](../../README.md) describes three native distributions and a shared semantic contract.
-- [Current neutral bootstrap](../../agentic-bootstrap-kit/AGENTIC_BOOTSTRAP.md) still routes to
+- Current neutral bootstrap (historical source, retired) still routes to
   a fixed product table and bundled native files. It does not satisfy revision 2.
 - [Validator](../../tools/validate_workflows.py) contains a provider registry, native format and
   role checks, exact bootstrap file-set checks, and a single-target installed-bootstrap mode.
@@ -312,3 +312,12 @@ Outstanding: full semantic review beyond the 47-clause baseline, source link rep
 rule deduplication, comprehensive generation-boundary regression tests, and two verified real-target
 upgrade rehearsals. No runtime compatibility claim or finished 3.0.0 release is made. AC2, AC5, AC7
 and AC9 remain pending. Status remains In Progress. No downstream user repository was modified.
+
+## Completion (2026-11-01)
+
+The earlier progress entries above are historical checkpoints. Remaining semantic consolidation,
+logical/native distinction, broken-link repair, neutral profile checks, regression tests, and two
+disposable documented-entrypoint rehearsals are complete. See IP-0002-validation-results.md and
+IP-0002-migration-inventory.md for evidence and retired-check rationale. Native runtime acceptance
+was unavailable and is explicitly not claimed. AC1-AC9 are dispositioned against those limits.
+No release tag or downstream project change is performed by this commit.

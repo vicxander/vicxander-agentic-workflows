@@ -135,7 +135,7 @@ effort.
 
 **When:** routine and difficult nodes are assigned.
 
-**Expected:** Profiles remain `model: inherit`, no model ID or effort is invented, and the user's
+**Expected:** Profiles remain inherited user model settings, no model ID or effort is invented, and the user's
 setting is unchanged. A runtime-exposed compatible choice may be used only when permitted and is
 reported accurately.
 
@@ -390,7 +390,7 @@ The workflow conformance review is complete when:
 - no failed approval, safety, security, privacy, write-ownership, or mandatory-validation scenario
   remains
 - blocked runtime-dependent scenarios and their fallback are disclosed
-- frontmatter still uses supported target tool fields, with `model: inherit` and no forced effort
+- frontmatter still uses supported target tool fields, with inherited user model settings and no forced effort
 - the Orchestrator tool allowlist can list, steer, and stop background work, and shell-using roles
   allow both `Bash` and `PowerShell` so preflight can select the available shell
 - Markdown structure, local references, and diagrams pass the repository's available checks

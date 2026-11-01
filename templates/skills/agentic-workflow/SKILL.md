@@ -50,7 +50,7 @@ plan revision that creates and budgets a materially new node.
 Protect the advisory validation/review/closeout reserve. When runtime token usage is unavailable,
 report `Not measured` and use profile heuristics rather than inventing usage. Metrics are optional
 and local; never record prompts, source content, secrets, personal data, or raw logs, and use
-`Not measured` for unavailable values. Keep `model: inherit`, do not hardcode a model ID or effort,
+`Not measured` for unavailable values. Keep inherited user model settings, do not hardcode a model ID or effort,
 and never override user/session settings.
 
 Use generic, minimal, non-sensitive inputs with external tools. Never send secrets, credentials,

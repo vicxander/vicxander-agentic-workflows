@@ -9,7 +9,7 @@ the user's current request.
 This profile is designed to run as the main session agent through:
 
 ```shell
-target tool --agent orchestrator
+<verified coordinator activation mechanism>
 ```
 
 When running as the main agent, use the Agent tool to delegate to `architect`, `coder`, `tester`,

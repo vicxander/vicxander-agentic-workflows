@@ -69,14 +69,14 @@ Recheck only after a material capability change or a failure.
 
 ## Source Inputs
 
-- [target tool-agentic-workflow/templates/project-instructions.md](../../target tool-agentic-workflow/templates/project-instructions.md)
-- [target tool-agentic-workflow/workflow/orchestration.md](../../target tool-agentic-workflow/workflow/orchestration.md)
-- [target tool-agentic-workflow/templates/skills/agentic-workflow/SKILL.md](../../target tool-agentic-workflow/templates/skills/agentic-workflow/SKILL.md)
-- [target tool-agentic-workflow/workflow/roles/orchestrator.md](../../target tool-agentic-workflow/workflow/roles/orchestrator.md)
-- [target tool-agentic-workflow/templates/project-instructions.md](../../target tool-agentic-workflow/templates/project-instructions.md)
-- [github-target tool-agentic-workflow/templates/project-instructions.md](../../github-target tool-agentic-workflow/templates/project-instructions.md)
-- [github-target tool-agentic-workflow/templates/project-instructions.md](../../github-target tool-agentic-workflow/templates/project-instructions.md)
-- [agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md](../../agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md)
+- target tool-agentic-workflow/templates/project-instructions.md (historical source, retired)
+- target tool-agentic-workflow/workflow/orchestration.md (historical source, retired)
+- target tool-agentic-workflow/templates/skills/agentic-workflow/SKILL.md (historical source, retired)
+- target tool-agentic-workflow/workflow/roles/orchestrator.md (historical source, retired)
+- target tool-agentic-workflow/templates/project-instructions.md (historical source, retired)
+- github-target tool-agentic-workflow/templates/project-instructions.md (historical source, retired)
+- github-target tool-agentic-workflow/templates/project-instructions.md (historical source, retired)
+- agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md (historical source, retired)
 - [tools/validate_workflows.py](../../tools/validate_workflows.py)
 
 ## Shared Task Packet

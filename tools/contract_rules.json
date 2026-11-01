@@ -57,5 +57,27 @@
     "active release waits for confirmed stop and reconciliation": "(?:active writer|active[- ]writer|active work).{0,260}(?:stop|finish).{0,220}(?:last(?:[- ]|\\s+)write|write\\s+state).{0,180}(?:then|after.{0,80}(?:confirm|reconcil)).{0,120}(?:release|reassign)",
     "last-write reconciliation": "last(?:[- ]|\\s+)write(?:\\s+state)?.{0,30}reconcil",
     "stale results are never integrated": "never\\s+integrat.{0,80}(?:stale|obsolete|invalidat)|(?:stale|obsolete|invalidat).{0,80}never\\s+integrat"
+  },
+  "workflow-core": {
+    "approval": "explicit.{0,100}approv",
+    "plan-revision": "plan revision",
+    "in-progress": "In Progress",
+    "risk-floor": "High.{0,100}Full",
+    "routes": "Direct.{0,150}Lite.{0,150}Standard.{0,150}Full",
+    "sequential": "Sequential",
+    "parallel": "Parallel",
+    "traceability": "acceptance.{0,80}criteri",
+    "confidence": "Low confidence",
+    "review": "Reviewer",
+    "testing": "Tester",
+    "leases": "exclusive.{0,100}lease",
+    "budgets": "reserve",
+    "circuit-breakers": "circuit breaker",
+    "cancellation": "cancel",
+    "metrics-opt-in": "Off.{0,150}default|default.{0,150}Off",
+    "state-preservation": "preserve.{0,100}memory",
+    "authority": "source.of.truth",
+    "permissions": "permission",
+    "security": "security"
   }
 }

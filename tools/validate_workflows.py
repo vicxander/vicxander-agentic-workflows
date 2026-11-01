@@ -27,6 +27,36 @@ def validate(root=ROOT):
         for p in (root/folder).rglob('*.md'):
             if b'\r' in p.read_bytes(): errors.append('Non-LF text: '+str(p.relative_to(root)))
     return errors
+def validate_profile(profile, destination, source):
+    """Validate supplied evidence metadata and output containment; never writes files."""
+    errors=[]
+    destination=Path(destination).resolve()
+    source=Path(source).resolve()
+    if destination == source or source in destination.parents or destination in source.parents:
+        errors.append('Source and destination overlap')
+    for field in ('tool','environment','verified_on','evidence','capabilities','outputs'):
+        if not profile.get(field): errors.append('Missing profile field: '+field)
+    from datetime import date
+    try:
+        verified=date.fromisoformat(profile.get('verified_on',''))
+        if verified > date.today(): errors.append('Evidence date is in the future')
+    except (ValueError,TypeError): errors.append('Invalid verification date')
+    for item in profile.get('evidence',[]):
+        if not isinstance(item,dict) or not all(item.get(k) for k in ('location','scope','status')):
+            errors.append('Incomplete evidence')
+        elif item['status'] != 'verified': errors.append('Evidence not verified')
+    for capability in profile.get('capabilities',[]):
+        if capability.get('required') and capability.get('status') != 'verified':
+            errors.append('Required capability unavailable')
+        if not capability.get('required') and capability.get('status') != 'verified' and not capability.get('fallback'):
+            errors.append('Optional capability needs fallback')
+    for name in profile.get('outputs',[]):
+        path=Path(name)
+        resolved=(destination/path).resolve()
+        if path.is_absolute() or resolved == destination or destination not in resolved.parents:
+            errors.append('Output escapes destination: '+str(name))
+    return errors
+
 def main():
     errors=validate()
     for error in errors: print(error)

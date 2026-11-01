@@ -1,6 +1,6 @@
-# target tool Project Instructions
+# Workflow Principles
 
-Project-wide instructions for target tool working on `target tool-agentic-workflow`.
+Durable project-wide behavior for any verified destination runtime.
 
 ## Project Status
 
@@ -163,8 +163,9 @@ recorded reason.
 
 - `docs/`: `requirements/` for user-approved intent, `implementation-plans/` for Architect plans,
   and `user-findings/` for user-supplied evidence
-- `workflow/state/`: `agents/` and `skills/` for role and skill definitions, `agent-memory/<role>/MEMORY.md`
-  for durable role memory, `session-notes.md`, `worklog.md`, `todo.md`, and `workflow-metrics.md`
+- `workflow/roles/` defines roles; `templates/skills/` holds skill templates.
+- `workflow/memory/<role>/MEMORY.md` holds durable role-memory templates.
+- `workflow/state/` holds `session-notes.md`, `worklog.md`, `todo.md`, and `workflow-metrics.md`
   for active state, completed events, short-lived tasks, and optional metadata-only records, and
   `workflow-conformance.md` for the behavioral scenarios that validate this contract
 
@@ -194,7 +195,7 @@ Blocked validation means the Definition of Done is blocked.
 
 Markdown cannot change the model, effort, or extended-thinking settings.
 
-- Agent profiles use `model: inherit` and omit `effort`, so session effort is inherited.
+- Agent profiles use inherited user model settings and omit `effort`, so session effort is inherited.
 - Explicit user and session settings win.
 - Do not silently downgrade a role when the user selected higher rigor for the workflow.
 - If capability routing is unavailable, continue with inherited settings and record the limitation;
@@ -213,3 +214,8 @@ To be documented once the project defines commands and gates.
 - At closeout, update memory only when future sessions genuinely benefit. Include provenance,
   last-confirmed revision or date, and an invalidation or expiry condition; stale entries become
   hypotheses rather than trusted facts.
+
+## Installation Preservation
+
+Preserve existing memory, project instructions, custom skills, active plans and configuration
+during upgrades. Never replace user state with empty templates. Follow bootstrap/UPDATE.md.

@@ -1,6 +1,6 @@
-# target tool Project Skills
+# Skill Templates
 
-target tool discovers project skills in this shape:
+The source stores skill templates in this shape; native discovery requires verified mapping:
 
 ```text
 templates/skills/
@@ -9,10 +9,10 @@ templates/skills/
     optional-scripts-or-references
 ```
 
-Each `SKILL.md` uses YAML frontmatter and Markdown instructions. The directory name becomes the
-slash command. A clear `description` helps target tool decide when the skill applies.
+Each `SKILL.md` uses YAML frontmatter and Markdown instructions. Native command naming and frontmatter must be verified before generation. A clear description
+helps identify when a skill applies.
 
-This sample includes the active `/agentic-workflow` skill. To add another skill, copy
+This source includes a workflow skill template; native activation is not assumed. To add another skill, copy
 `SKILL-TEMPLATE.md` into a new lowercase kebab-case directory as `SKILL.md`, then replace every
 placeholder.
 
