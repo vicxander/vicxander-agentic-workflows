@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "If you use VicXander Agentic Workflows, please cite Victor Alexander Daud using these metadata."
 title: "VicXander Agentic Workflows"
-abstract: "Reusable, adaptive, approval-gated agentic workflow definitions with verified destination-specific generation."
+abstract: "Reusable, adaptive, approval-gated agentic workflow definitions for Codex, GitHub Copilot, and Claude Code."
 type: software
-version: "3.0.0"
-date-released: 2026-11-01
+version: "2.6.0"
+date-released: 2026-07-26
 authors:
   - family-names: "Daud"
     given-names: "Victor Alexander"
@@ -12,5 +12,8 @@ license: MIT
 keywords:
   - "agentic workflows"
   - "AI-assisted software development"
+  - "Codex"
+  - "GitHub Copilot"
+  - "Claude Code"
   - "multi-agent coordination"
   - "implementation planning"
