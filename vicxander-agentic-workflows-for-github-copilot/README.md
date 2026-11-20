@@ -1,4 +1,4 @@
-# GitHub Copilot Agentic Workflow
+# VicXander Agentic Workflows for GitHub Copilot
 
 This sample provides an adaptive workflow using GitHub Copilot's native repository instructions,
 custom agents, and project skills. Planned routes remain explicitly approval-gated.
@@ -44,7 +44,7 @@ examples, or user-provided public references.
 ## Install Into A Project
 
 Install the workflow at the target repository or supported workspace root. GitHub Copilot does not
-register a nested `github-copilot-agentic-workflow/.github/agents/` directory as the parent
+register a nested `vicxander-agentic-workflows-for-github-copilot/.github/agents/` directory as the parent
 repository's custom agents.
 
 This workflow is MIT-licensed. When copying all or a substantial portion into another project,

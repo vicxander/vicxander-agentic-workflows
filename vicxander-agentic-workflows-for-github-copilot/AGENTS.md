@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Project-wide instructions for AI agents working on `github-copilot-agentic-workflow`.
+Project-wide instructions for AI agents working on `vicxander-agentic-workflows-for-github-copilot`.
 
 ## Project Status
 

@@ -63,7 +63,7 @@ class RegressionDetectionTests(unittest.TestCase):
     def test_present_clause_is_not_reported(self) -> None:
         identifier = "untrusted-content:embedded directive refusal"
         carrier = validator.read_text(
-            validator.ROOT / "claude-agentic-workflow" / "CLAUDE.md"
+            validator.ROOT / "vicxander-agentic-workflows-for-claude" / "CLAUDE.md"
         )
         with mock.patch.object(coverage, "surfaces", return_value={"fake.md": carrier}):
             self.assertEqual(coverage.verify({identifier: ["fake.md"]}), [])
@@ -177,9 +177,9 @@ class SurfaceSelectionTests(unittest.TestCase):
     def test_pattern_matches_instances_but_not_templates(self) -> None:
         search = coverage.PLAN_INSTANCE_PATTERN.search
         self.assertTrue(search("docs/implementation-plans/IP-0001-title.md"))
-        self.assertTrue(search("claude-agentic-workflow/docs/implementation-plans/IP-0007-x.md"))
-        self.assertIsNone(search("codex-agentic-workflow/docs/implementation-plans/IP-TEMPLATE.md"))
-        self.assertIsNone(search("codex-agentic-workflow/docs/implementation-plans/INDEX.md"))
+        self.assertTrue(search("vicxander-agentic-workflows-for-claude/docs/implementation-plans/IP-0007-x.md"))
+        self.assertIsNone(search("vicxander-agentic-workflows-for-codex/docs/implementation-plans/IP-TEMPLATE.md"))
+        self.assertIsNone(search("vicxander-agentic-workflows-for-codex/docs/implementation-plans/INDEX.md"))
 
 
 if __name__ == "__main__":
