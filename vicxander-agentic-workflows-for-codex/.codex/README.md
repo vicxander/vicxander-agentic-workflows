@@ -1,6 +1,6 @@
 # Codex Workspace
 
-This folder stores lightweight Codex-specific working memory for `codex-agentic-workflow`.
+This folder stores lightweight Codex-specific working memory for `vicxander-agentic-workflows-for-codex`.
 
 ## Scope
 

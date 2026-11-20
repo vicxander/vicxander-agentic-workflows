@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Project-wide instructions for AI agents working on `codex-agentic-workflow`.
+Project-wide instructions for AI agents working on `vicxander-agentic-workflows-for-codex`.
 
 For the detailed active workflow contract, read `.codex/agents/README.md`.
 

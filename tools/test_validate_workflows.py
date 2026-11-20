@@ -69,7 +69,7 @@ class WorkflowValidatorTests(unittest.TestCase):
     def test_plan_defaults_reject_parallel_and_duplicate_defaults(self) -> None:
         source = (
             validator.ROOT
-            / "codex-agentic-workflow/docs/implementation-plans/IP-TEMPLATE.md"
+            / "vicxander-agentic-workflows-for-codex/docs/implementation-plans/IP-TEMPLATE.md"
         ).read_text(encoding="utf-8")
         mutated = source.replace("\nSequential\n", "\nParallel\n", 1)
         mutated += "\n- Token budget: Auto\n"
@@ -284,7 +284,7 @@ class WorkflowValidatorTests(unittest.TestCase):
     def test_blank_base_scenario_is_detected_in_its_own_section(self) -> None:
         path = (
             validator.ROOT
-            / "codex-agentic-workflow/.codex/workflow-conformance.md"
+            / "vicxander-agentic-workflows-for-codex/.codex/workflow-conformance.md"
         )
         source = path.read_text(encoding="utf-8")
         headings, sections = validator.scenario_sections(source)
@@ -342,7 +342,7 @@ class WorkflowValidatorTests(unittest.TestCase):
     def test_metrics_policy_rejects_affirmative_content_and_unsafe_retention(self) -> None:
         source = (
             validator.ROOT
-            / "codex-agentic-workflow/.codex/workflow-metrics.md"
+            / "vicxander-agentic-workflows-for-codex/.codex/workflow-metrics.md"
         ).read_text(encoding="utf-8")
         affirmative = source.replace(
             "Never record prompts, source code, file contents, secrets, credentials, "
@@ -364,7 +364,7 @@ class WorkflowValidatorTests(unittest.TestCase):
     def test_failure_class_declarations_reject_extra_missing_and_duplicate(self) -> None:
         source = (
             validator.ROOT
-            / "codex-agentic-workflow/.codex/agents/README.md"
+            / "vicxander-agentic-workflows-for-codex/.codex/agents/README.md"
         ).read_text(encoding="utf-8")
         mutations = {
             "extra": source.replace(
@@ -394,7 +394,7 @@ class WorkflowValidatorTests(unittest.TestCase):
         validator.errors.clear()
         scenario = (
             validator.ROOT
-            / "codex-agentic-workflow/.codex/workflow-conformance.md"
+            / "vicxander-agentic-workflows-for-codex/.codex/workflow-conformance.md"
         ).read_text(encoding="utf-8")
         _, sections = validator.scenario_sections(scenario)
         validator.check_exact_failure_classes(
@@ -406,7 +406,7 @@ class WorkflowValidatorTests(unittest.TestCase):
     def test_plan_default_relocation_to_decoy_section_is_rejected(self) -> None:
         source = (
             validator.ROOT
-            / "codex-agentic-workflow/docs/implementation-plans/IP-TEMPLATE.md"
+            / "vicxander-agentic-workflows-for-codex/docs/implementation-plans/IP-TEMPLATE.md"
         ).read_text(encoding="utf-8")
         mutated = source.replace("- Token budget: Auto\n", "", 1)
         mutated += "\n## Decoy\n\n- Token budget: Auto\n"

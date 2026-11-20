@@ -238,7 +238,7 @@ class SecurityContractValidatorTests(unittest.TestCase):
     def test_external_tool_scenario_is_semantic_not_count_only(self) -> None:
         path = (
             validator.ROOT
-            / "codex-agentic-workflow"
+            / "vicxander-agentic-workflows-for-codex"
             / ".codex"
             / "workflow-conformance.md"
         )
@@ -293,7 +293,7 @@ class SecurityContractValidatorTests(unittest.TestCase):
     def test_claude_coverage_map_must_enumerate_every_scenario(self) -> None:
         path = (
             validator.ROOT
-            / "claude-agentic-workflow"
+            / "vicxander-agentic-workflows-for-claude"
             / ".claude"
             / "workflow-conformance.md"
         )

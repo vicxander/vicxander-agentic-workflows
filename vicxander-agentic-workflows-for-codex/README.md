@@ -1,4 +1,4 @@
-# Codex Agentic Workflow
+# VicXander Agentic Workflows for Codex
 
 This sample provides an adaptive workflow using Codex's native repository instructions, project
 configuration, custom agents, and skills. Planned routes remain explicitly approval-gated.
@@ -42,7 +42,7 @@ examples, or user-provided public references.
 ## Install Into A Project
 
 Install the workflow at the target repository root. Do not leave
-`codex-agentic-workflow/` nested inside the target project.
+`vicxander-agentic-workflows-for-codex/` nested inside the target project.
 
 This workflow is MIT-licensed. When copying all or a substantial portion into another project,
 retain Victor Alexander Daud's copyright and the MIT permission notice from the repository's

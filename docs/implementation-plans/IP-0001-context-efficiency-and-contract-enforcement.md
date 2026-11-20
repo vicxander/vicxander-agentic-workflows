@@ -69,13 +69,13 @@ Recheck only after a material capability change or a failure.
 
 ## Source Inputs
 
-- [claude-agentic-workflow/CLAUDE.md](../../claude-agentic-workflow/CLAUDE.md)
-- [claude-agentic-workflow/.claude/AGENTIC-WORKFLOW.md](../../claude-agentic-workflow/.claude/AGENTIC-WORKFLOW.md)
-- [claude-agentic-workflow/.claude/skills/agentic-workflow/SKILL.md](../../claude-agentic-workflow/.claude/skills/agentic-workflow/SKILL.md)
-- [claude-agentic-workflow/.claude/agents/orchestrator.md](../../claude-agentic-workflow/.claude/agents/orchestrator.md)
-- [codex-agentic-workflow/AGENTS.md](../../codex-agentic-workflow/AGENTS.md)
-- [github-copilot-agentic-workflow/AGENTS.md](../../github-copilot-agentic-workflow/AGENTS.md)
-- [github-copilot-agentic-workflow/.github/copilot-instructions.md](../../github-copilot-agentic-workflow/.github/copilot-instructions.md)
+- [vicxander-agentic-workflows-for-claude/CLAUDE.md](../../vicxander-agentic-workflows-for-claude/CLAUDE.md)
+- [vicxander-agentic-workflows-for-claude/.claude/AGENTIC-WORKFLOW.md](../../vicxander-agentic-workflows-for-claude/.claude/AGENTIC-WORKFLOW.md)
+- [vicxander-agentic-workflows-for-claude/.claude/skills/agentic-workflow/SKILL.md](../../vicxander-agentic-workflows-for-claude/.claude/skills/agentic-workflow/SKILL.md)
+- [vicxander-agentic-workflows-for-claude/.claude/agents/orchestrator.md](../../vicxander-agentic-workflows-for-claude/.claude/agents/orchestrator.md)
+- [vicxander-agentic-workflows-for-codex/AGENTS.md](../../vicxander-agentic-workflows-for-codex/AGENTS.md)
+- [vicxander-agentic-workflows-for-github-copilot/AGENTS.md](../../vicxander-agentic-workflows-for-github-copilot/AGENTS.md)
+- [vicxander-agentic-workflows-for-github-copilot/.github/copilot-instructions.md](../../vicxander-agentic-workflows-for-github-copilot/.github/copilot-instructions.md)
 - [agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md](../../agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md)
 - [tools/validate_workflows.py](../../tools/validate_workflows.py)
 
@@ -85,13 +85,13 @@ Measured baseline, taken on the clean `master` tree at commit `ad288a9`:
 
 | Surface | Bytes | Estimated tokens |
 | --- | --- | --- |
-| `claude-agentic-workflow/CLAUDE.md` | 21877 | 5469 |
+| `vicxander-agentic-workflows-for-claude/CLAUDE.md` | 21877 | 5469 |
 | `.claude/AGENTIC-WORKFLOW.md` | 33894 | 8473 |
 | `.claude/skills/agentic-workflow/SKILL.md` | 5599 | 1399 |
 | `.claude/agents/orchestrator.md` | 14879 | 3719 |
 | Claude agentic stack total | 76249 | 19062 |
-| `codex-agentic-workflow/AGENTS.md` | 24098 | 6024 |
-| `github-copilot-agentic-workflow/AGENTS.md` | 21576 | 5394 |
+| `vicxander-agentic-workflows-for-codex/AGENTS.md` | 24098 | 6024 |
+| `vicxander-agentic-workflows-for-github-copilot/AGENTS.md` | 21576 | 5394 |
 | `.github/copilot-instructions.md` | 9017 | 2254 |
 | Copilot standing context total | 30593 | 7648 |
 
@@ -194,8 +194,8 @@ Bump `WORKFLOW_CONTRACT_VERSION` and every declared version string together.
 | --- | --- |
 | N1 | `.github/workflows/`, `.pre-commit-config.yaml`, root `README.md` |
 | N2 | `tools/validate_workflows.py`, `tools/contract_coverage.py`, the coverage baseline, `tools/test_*.py` |
-| N3 | `claude-agentic-workflow/CLAUDE.md`, both `AGENTS.md`, the three workflow documents |
-| N4 | `.github/copilot-instructions.md`, `github-copilot-agentic-workflow/AGENTS.md` |
+| N3 | `vicxander-agentic-workflows-for-claude/CLAUDE.md`, both `AGENTS.md`, the three workflow documents |
+| N4 | `.github/copilot-instructions.md`, `vicxander-agentic-workflows-for-github-copilot/AGENTS.md` |
 | N5 | `.claude/skills/agentic-workflow/SKILL.md` |
 | N6 | The three workflow documents plus new route-gated reference files |
 | N7 | `agentic-bootstrap-kit/AGENTIC_FILE_TEMPLATES.md`, version strings, conformance documents |

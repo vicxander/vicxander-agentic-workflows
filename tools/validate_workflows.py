@@ -37,7 +37,7 @@ TEXT_SUFFIXES = {".cff", ".json", ".md", ".py", ".toml", ".txt", ".yaml", ".yml"
 
 PROVIDERS = {
     "codex": {
-        "root": ROOT / "codex-agentic-workflow",
+        "root": ROOT / "vicxander-agentic-workflows-for-codex",
         "readme": "README.md",
         "core": ["AGENTS.md", ".codex/README.md", ".codex/agents/README.md"],
         "conformance": ".codex/workflow-conformance.md",
@@ -81,7 +81,7 @@ PROVIDERS = {
         ],
     },
     "github-copilot": {
-        "root": ROOT / "github-copilot-agentic-workflow",
+        "root": ROOT / "vicxander-agentic-workflows-for-github-copilot",
         "readme": "README.md",
         "core": [
             "AGENTS.md",
@@ -130,7 +130,7 @@ PROVIDERS = {
         ],
     },
     "claude": {
-        "root": ROOT / "claude-agentic-workflow",
+        "root": ROOT / "vicxander-agentic-workflows-for-claude",
         "readme": "README.md",
         "core": ["CLAUDE.md", ".claude/AGENTIC-WORKFLOW.md"],
         "conformance": ".claude/workflow-conformance.md",
@@ -4206,7 +4206,7 @@ def check_codex_toml_root(
 
 def check_codex_toml() -> None:
     check_codex_toml_root(
-        ROOT / "codex-agentic-workflow",
+        ROOT / "vicxander-agentic-workflows-for-codex",
         "repository distribution",
     )
 
@@ -4293,16 +4293,16 @@ def check_claude_agent_color(label: str, color: str) -> None:
 
 def check_frontmatter_files() -> None:
     github_agents = sorted(
-        (ROOT / "github-copilot-agentic-workflow/.github/agents").glob("*.agent.md")
+        (ROOT / "vicxander-agentic-workflows-for-github-copilot/.github/agents").glob("*.agent.md")
     )
-    claude_agents = sorted((ROOT / "claude-agentic-workflow/.claude/agents").glob("*.md"))
+    claude_agents = sorted((ROOT / "vicxander-agentic-workflows-for-claude/.claude/agents").glob("*.md"))
     paths = [
         *github_agents,
-        ROOT / "github-copilot-agentic-workflow/.github/skills/SKILL-TEMPLATE.md",
+        ROOT / "vicxander-agentic-workflows-for-github-copilot/.github/skills/SKILL-TEMPLATE.md",
         *claude_agents,
-        ROOT / "claude-agentic-workflow/.claude/skills/SKILL-TEMPLATE.md",
-        ROOT / "claude-agentic-workflow/.claude/skills/agentic-workflow/SKILL.md",
-        ROOT / "codex-agentic-workflow/.agents/skills/SKILL-TEMPLATE.md",
+        ROOT / "vicxander-agentic-workflows-for-claude/.claude/skills/SKILL-TEMPLATE.md",
+        ROOT / "vicxander-agentic-workflows-for-claude/.claude/skills/agentic-workflow/SKILL.md",
+        ROOT / "vicxander-agentic-workflows-for-codex/.agents/skills/SKILL-TEMPLATE.md",
     ]
     fields_by_path: dict[Path, dict[str, str]] = {}
     for path in paths:
@@ -4328,7 +4328,7 @@ def check_frontmatter_files() -> None:
                     }
                     if path.stem == "orchestrator":
                         expected_fields.add("memory")
-                elif "claude-agentic-workflow" in path.parts:
+                elif "vicxander-agentic-workflows-for-claude" in path.parts:
                     expected_fields = {"name", "description", "argument-hint"}
                 else:
                     expected_fields = {"name", "description"}

@@ -1,4 +1,4 @@
-# Claude Code Agentic Workflow
+# VicXander Agentic Workflows for Claude Code
 
 Workflow contract version: 2.6.0
 
@@ -44,7 +44,7 @@ examples, or user-provided public references.
 ## Install Into A Project
 
 Install the workflow at the target repository root. Do not leave
-`claude-agentic-workflow/` nested inside the target project and launch Claude Code from the parent.
+`vicxander-agentic-workflows-for-claude/` nested inside the target project and launch Claude Code from the parent.
 
 This workflow is MIT-licensed. When copying all or a substantial portion into another project,
 retain Victor Alexander Daud's copyright and the MIT permission notice from the repository's

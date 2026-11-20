@@ -79,9 +79,9 @@ details, synthetic examples, and user-provided public references are preferred.
 | Directory | Purpose | Native entry point |
 | --- | --- | --- |
 | [`agentic-bootstrap-kit/`](agentic-bootstrap-kit/) | Reusable manual bootstrap guide and file templates | `CODEX_AGENTIC_BOOTSTRAP.md` |
-| [`codex-agentic-workflow/`](codex-agentic-workflow/) | Project-local workflow for Codex | `AGENTS.md`, `.codex/config.toml`, and `.codex/agents/*.toml` |
-| [`github-copilot-agentic-workflow/`](github-copilot-agentic-workflow/) | Native GitHub Copilot instructions, custom agents, and skills | `.github/copilot-instructions.md` |
-| [`claude-agentic-workflow/`](claude-agentic-workflow/) | Native Claude Code instructions, subagents, skills, and project memory | `CLAUDE.md` |
+| [`vicxander-agentic-workflows-for-codex/`](vicxander-agentic-workflows-for-codex/) | Project-local workflow for Codex | `AGENTS.md`, `.codex/config.toml`, and `.codex/agents/*.toml` |
+| [`vicxander-agentic-workflows-for-github-copilot/`](vicxander-agentic-workflows-for-github-copilot/) | Native GitHub Copilot instructions, custom agents, and skills | `.github/copilot-instructions.md` |
+| [`vicxander-agentic-workflows-for-claude/`](vicxander-agentic-workflows-for-claude/) | Native Claude Code instructions, subagents, skills, and project memory | `CLAUDE.md` |
 
 Current distributions:
 
@@ -446,12 +446,12 @@ A refresh is delta-first and must not rescan unchanged areas without a recorded 
 
 ### Codex
 
-Use [`codex-agentic-workflow/`](codex-agentic-workflow/) when Codex is the primary runtime.
+Use [`vicxander-agentic-workflows-for-codex/`](vicxander-agentic-workflows-for-codex/) when Codex is the primary runtime.
 
 Follow that distribution's installation section and copy
-`codex-agentic-workflow/AGENTS.md`, `codex-agentic-workflow/THIRD_PARTY_NOTICES.md`,
-`codex-agentic-workflow/.codex/`, `codex-agentic-workflow/.agents/`, and
-`codex-agentic-workflow/docs/` into the target repository root. Do not overwrite the target
+`vicxander-agentic-workflows-for-codex/AGENTS.md`, `vicxander-agentic-workflows-for-codex/THIRD_PARTY_NOTICES.md`,
+`vicxander-agentic-workflows-for-codex/.codex/`, `vicxander-agentic-workflows-for-codex/.agents/`, and
+`vicxander-agentic-workflows-for-codex/docs/` into the target repository root. Do not overwrite the target
 project's main `README.md`; merge existing instruction and documentation files carefully. Trust the
 project when Codex asks before loading project-local configuration. Then prompt:
 
@@ -473,13 +473,13 @@ Task: <task>
 
 ### GitHub Copilot
 
-Use [`github-copilot-agentic-workflow/`](github-copilot-agentic-workflow/) for GitHub Copilot custom
+Use [`vicxander-agentic-workflows-for-github-copilot/`](vicxander-agentic-workflows-for-github-copilot/) for GitHub Copilot custom
 agents, repository instructions, and project skills.
 
 Follow that distribution's installation section and copy
-`github-copilot-agentic-workflow/AGENTS.md`,
-`github-copilot-agentic-workflow/THIRD_PARTY_NOTICES.md`,
-`github-copilot-agentic-workflow/.github/`, and `github-copilot-agentic-workflow/docs/` into the
+`vicxander-agentic-workflows-for-github-copilot/AGENTS.md`,
+`vicxander-agentic-workflows-for-github-copilot/THIRD_PARTY_NOTICES.md`,
+`vicxander-agentic-workflows-for-github-copilot/.github/`, and `vicxander-agentic-workflows-for-github-copilot/docs/` into the
 target repository root. Do not overwrite the target project's main `README.md`; merge existing
 instructions and documentation carefully. Select the `orchestrator` custom agent and prompt:
 
@@ -505,12 +505,12 @@ review.
 
 ### Claude Code
 
-Use [`claude-agentic-workflow/`](claude-agentic-workflow/) for Claude Code project instructions,
+Use [`vicxander-agentic-workflows-for-claude/`](vicxander-agentic-workflows-for-claude/) for Claude Code project instructions,
 custom subagents, skills, and project-scoped agent memory.
 
 Follow that distribution's installation section and copy
-`claude-agentic-workflow/CLAUDE.md`, `claude-agentic-workflow/THIRD_PARTY_NOTICES.md`,
-`claude-agentic-workflow/.claude/`, and `claude-agentic-workflow/docs/` into the target repository
+`vicxander-agentic-workflows-for-claude/CLAUDE.md`, `vicxander-agentic-workflows-for-claude/THIRD_PARTY_NOTICES.md`,
+`vicxander-agentic-workflows-for-claude/.claude/`, and `vicxander-agentic-workflows-for-claude/docs/` into the target repository
 root. Do not overwrite the target project's main `README.md`; merge existing instructions and
 documentation carefully. Then start the dedicated coordinator:
 
@@ -680,8 +680,8 @@ of GitHub, Inc. and Microsoft Corporation. Codex and ChatGPT are trademarks of O
 other product and company names are the property of their respective owners.
 
 These names appear here only descriptively, to identify the third-party tools each distribution is
-written for. Directory names such as `claude-agentic-workflow/`,
-`github-copilot-agentic-workflow/`, and `codex-agentic-workflow/` describe the platform each
+written for. Directory names such as `vicxander-agentic-workflows-for-claude/`,
+`vicxander-agentic-workflows-for-github-copilot/`, and `vicxander-agentic-workflows-for-codex/` describe the platform each
 distribution targets; they do not indicate origin from, or approval by, those platforms' owners.
 
 VicXander Agentic Workflows is an independent project by Victor Alexander Daud. It is not

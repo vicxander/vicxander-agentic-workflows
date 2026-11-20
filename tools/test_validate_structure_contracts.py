@@ -224,7 +224,7 @@ Text outside Expected.
         self.assertNotIn("Appendix", sections["CF-01"])
 
     def test_first_run_adaptation_requires_the_approval_stop(self) -> None:
-        path = validator.ROOT / "codex-agentic-workflow" / "AGENTS.md"
+        path = validator.ROOT / "vicxander-agentic-workflows-for-codex" / "AGENTS.md"
         sections = validator.markdown_h2_sections(
             path.read_text(encoding="utf-8"),
             r"First-Run Repository Adaptation",

@@ -1,6 +1,6 @@
 # Claude Code Project Instructions
 
-Project-wide instructions for Claude Code working on `claude-agentic-workflow`.
+Project-wide instructions for Claude Code working on `vicxander-agentic-workflows-for-claude`.
 
 ## Project Status
 
